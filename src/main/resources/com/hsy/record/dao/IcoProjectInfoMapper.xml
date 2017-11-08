@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hsy.record.dao.IcoProjectInfoMapper">
+
+    <sql id="tableName">ico_project_info</sql>
+
+    <sql id="columns_no_id">
+        name, website,price,symbol,remark
+    </sql>
+
+    <sql id="columns">
+        id, <include refid="columns_no_id"/>
+    </sql>
+
+    <sql id="dynamicWhere">
+        <where>
+            <if test="name != null">name = #{name}</if>
+            <if test="website != null">AND website = #{website}</if>
+            <if test="price != null">AND price = #{price}</if>
+            <if test="remark != null">AND remark = #{remark}</if>
+            <if test="symbol != null">AND symbol = #{symbol}</if>
+        </where>
+    </sql>
+
+    <select id="get" resultType="IcoProjectInfo" parameterType="long">
+        SELECT <include refid="columns"/>
+        FROM <include refid="tableName"/>
+        WHERE id = #{id}
+    </select>
+
+    <select id="getByDynamicWhere" resultType="IcoProjectInfo">
+        SELECT <include refid="columns"/>
+        FROM <include refid="tableName"/>
+        <include refid="dynamicWhere"/>
+    </select>
+
+
+    <select id="getCount" resultType="int">
+        SELECT COUNT(1)
+        FROM <include refid="tableName"/>
+        <include refid="dynamicWhere"/>
+    </select>
+
+    <select id="getList" resultType="IcoProjectInfo">
+        SELECT <include refid="columns"/>
+        FROM <include refid="tableName"/>
+        <include refid="dynamicWhere"/>
+    </select>
+
+    <insert id="insert" parameterType="IcoProjectInfo" useGeneratedKeys="true"
+            keyProperty="id" >
+        INSERT IGNORE INTO <include refid="tableName"/>
+        (<include refid="columns_no_id"/>)
+        VALUES
+        (#{name}, #{website}, #{price}, #{symbol},#{remark})
+    </insert>
+
+    <update id="update" parameterType="IcoProjectInfo">
+        UPDATE <include refid="tableName"/>
+        <set>
+            <if test="name != null">name=#{name},</if>
+            <if test="website not in {null, ''}">website=#{website},</if>
+            <if test="price not in {null, ''}">price=#{price},</if>
+            <if test="remark not in {null, ''}">remark=#{remark},</if>
+            <if test="symbol != null">symbol=#{symbol},</if>
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <delete id="delete" parameterType="long">
+        DELETE FROM <include refid="tableName"/> WHERE id = #{id}
+    </delete>
+
+
+</mapper>

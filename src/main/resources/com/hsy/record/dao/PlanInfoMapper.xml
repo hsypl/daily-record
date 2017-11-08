@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hsy.record.dao.PlanInfoMapper">
+
+    <sql id="tableName">plan_info</sql>
+
+    <sql id="columns_no_id">
+        description, start_time, complete_time, remark, status
+    </sql>
+
+    <sql id="columns">
+        id, <include refid="columns_no_id"/>
+    </sql>
+
+    <sql id="dynamicWhere">
+        <where>
+            <if test="description != null">description = #{description}</if>
+            <if test="startTime != null">AND start_time = #{startTime}</if>
+            <if test="completeTime != null">AND complete_time = #{completeTime}</if>
+            <if test="remark != null">AND remark = #{remark}</if>
+            <if test="status != null">AND status = #{status}</if>
+        </where>
+    </sql>
+
+    <select id="get" resultType="PlanInfo" parameterType="long">
+        SELECT <include refid="columns"/>
+        FROM <include refid="tableName"/>
+        WHERE id = #{id}
+    </select>
+
+    <select id="getByDynamicWhere" resultType="PlanInfo">
+        SELECT <include refid="columns"/>
+        FROM <include refid="tableName"/>
+        <include refid="dynamicWhere"/>
+    </select>
+
+
+    <select id="getCount" resultType="int">
+        SELECT COUNT(1)
+        FROM <include refid="tableName"/>
+        <include refid="dynamicWhere"/>
+    </select>
+
+    <select id="getList" resultType="PlanInfo">
+        SELECT <include refid="columns"/>
+        FROM <include refid="tableName"/>
+        <include refid="dynamicWhere"/>
+    </select>
+
+    <insert id="insert" parameterType="PlanInfo" useGeneratedKeys="true"
+            keyProperty="id" >
+        INSERT IGNORE INTO <include refid="tableName"/>
+        (<include refid="columns_no_id"/>)
+        VALUES
+        (#{description}, #{startTime}, #{completeTime}, #{remark}, #{status})
+    </insert>
+
+    <update id="update" parameterType="PlanInfo">
+        UPDATE <include refid="tableName"/>
+        <set>
+            <if test="description != null">description=#{description},</if>
+            <if test="startTime not in {null, ''}">start_time=#{startTime},</if>
+            <if test="completeTime not in {null, ''}">complete_time=#{completeTime},</if>
+            <if test="remark not in {null, ''}">remark=#{remark},</if>
+            <if test="status != null">status=#{status},</if>
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <delete id="delete" parameterType="long">
+        DELETE FROM <include refid="tableName"/> WHERE id = #{id}
+    </delete>
+
+
+</mapper>
