@@ -5,8 +5,14 @@ import com.hsy.core.service.LongPKBaseService;
 import com.hsy.record.dao.IcoProjectInfoMapper;
 import com.hsy.record.model.IcoProjectInfo;
 import com.hsy.record.model.PlanInfo;
+import com.sungness.core.service.Pagination;
+import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by developer2 on 2017/7/11.
@@ -29,6 +35,16 @@ public class IcoProjectInfoService extends LongPKBaseService<IcoProjectInfo> {
             return icoProjectInfo;
         }
         return new IcoProjectInfo();
+    }
+
+    public List<IcoProjectInfo> getListLeftJoin(Pagination pagination, Map<String,Object> params){
+        pagination.setTotalCount(getCount(params));
+        if (pagination.getTotalCount() <= 0) {
+            return new ArrayList<>();
+        }
+        RowBounds rowBounds =
+                new RowBounds(pagination.getOffset(), pagination.getPageSize());
+        return icoProjectInfoMapper.getListLeftJoin(rowBounds, params);
     }
 
 }

@@ -15,6 +15,8 @@ public class IcoProjectInfo {
 
     private String symbol;
 
+    private Double number;
+
     private String remark;
 
     public Long getId() {
@@ -63,5 +65,13 @@ public class IcoProjectInfo {
 
     public void setRemark(String remark) {
         this.remark = remark;
+    }
+
+    public Double getNumber() {
+        return number;
+    }
+
+    public void setNumber(Double number) {
+        this.number = number;
     }
 }

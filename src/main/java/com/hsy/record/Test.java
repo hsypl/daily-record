@@ -17,20 +17,6 @@ import java.util.List;
  */
 public class Test {
 
-    public void getAll() throws IOException {
-        List<String> nameList = new ArrayList<>();
-        Connection conn = Jsoup.connect("https://coinmarketcap.com/all/views/all/");
-        conn.userAgent(ClientUserAgent.getChromeUserAgent());
-        Connection.Response response = conn.execute();
-        Document document = Jsoup.parse(response.body());
-        Elements tr = document.select("tbody").select("tr");
-        for (int i = 0;i<tr.size();i++){
-            Element element = tr.get(i);
-            nameList.add(element.attr("id").substring(3));
-        }
-        System.out.println("name = " + nameList);
-    }
-
     public static void main(String[] args) throws IOException {
     }
 }

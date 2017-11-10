@@ -22,7 +22,7 @@
 
             $("#add").click(function () {
                 var name = $('#coin_name').val();
-                $("#ul").append("<li><h3><span class='label label-primary' >"+name + "<span class='glyphicon glyphicon-remove'></span></span></h3></li>")
+                $("#ul").append("<li><h3><span class='label label-primary' >"+name + " <span class='glyphicon glyphicon-remove'></span></span></h3></li>")
                 $(".glyphicon").click(function () {
                     $(this).parent().parent().remove();
                 });
@@ -59,11 +59,12 @@
 </div>
     <div class="content" style="width: 600px">
         <ul id="ul" class="list-inline" style="margin-left: 5px">
-        <li>
-        <h3><span class="label label-primary" >dash <span class="glyphicon glyphicon-remove"></span></span></h3>
-        </li>
-        <li><h3><span class="label label-primary" >lisk <span class="glyphicon glyphicon-remove"></span></span></h3></li>
-        </ul>
+            <c:forEach items="${currentList}" varStatus="status">
+                <c:set var="current" value="${status.current}"/>
+                <li>
+                    <h3><span class="label label-primary" >${current.name} <span class="glyphicon glyphicon-remove"></span></span></h3>
+                </li>
+            </c:forEach>
     </div>
     <form id ="submit" action="${indexUrl}">
         <input type="text" name="coin_names" id="coin_names" style="display: none">
@@ -82,8 +83,8 @@
             <c:set var="info" value="${status.current}"/>
             <tr>
                 <td>${info.name}</td>
-                <td>${info.USAPrice}</td>
-                <td>${info.CNYPrice}</td>
+                <td>${info.usdPrice}</td>
+                <td>${info.cnyPrice}</td>
             </tr>
         </c:forEach>
         </tbody>

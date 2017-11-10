@@ -52,6 +52,12 @@
         </div>
     </div>
     <div class="form-group">
+        <label for="ico-number" class="col-sm-1 control-label">代币数量</label>
+        <div class="col-sm-10">
+            <form:input path="number" class="form-control" style="width: 10%" id="ico-number" placeholder="代币数量" />
+        </div>
+    </div>
+    <div class="form-group">
         <label for="ico-remark" class="col-sm-1 control-label">备注</label>
         <div class="col-sm-10">
             <form:input path="remark" class="form-control" style="width: 10%" id="ico-remark" placeholder="备注" />

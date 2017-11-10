@@ -46,9 +46,24 @@ CREATE TABLE IF NOT EXISTS ico_project_info(
   website VARCHAR (128) NOT NULL COMMENT '网址',
   price VARCHAR (128) NOT NULL COMMENT '金额',
   symbol VARCHAR (12) NOT NULL COMMENT '代币符号',
+  number DOUBLE NOT NULL COMMENT '数量',
   remark VARCHAR (128)NOT NULL COMMENT '备注',
   PRIMARY KEY(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin COMMENT 'ICO项目记录';
+
+
+-- 1.0 currency_info
+-- 创建时间：2017年7月11日
+-- -----------------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS currency_info(
+  id   BIGINT NOT NULL AUTO_INCREMENT COMMENT 'id',
+  name VARCHAR (24) NOT NULL COMMENT '币种名称',
+  usd_price  VARCHAR (10) NOT NULL COMMENT '美元价格',
+  cny_price  VARCHAR (10) NOT NULL COMMENT '人民币价格',
+  status INT NOT NULL COMMENT '状态',
+  PRIMARY KEY(id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin COMMENT '币种记录表';
+
 
 
 

@@ -1,20 +1,15 @@
 package com.hsy.record.controller.currency;
 
 import com.hsy.core.service.ServiceProcessException;
-import com.hsy.core.web.QueryFilter;
-import com.hsy.record.model.IcoProjectInfo;
 import com.hsy.record.model.currency.CurrencyInfo;
-import com.hsy.record.service.IcoProjectInfoService;
-import com.hsy.record.service.currency.PriceService;
-import com.sungness.core.util.GsonUtils;
-import com.sungness.core.util.tools.LongTools;
+import com.hsy.record.model.enu.CurrencyStateEnum;
+import com.hsy.record.service.currency.CurrencyInfoService;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -35,10 +30,7 @@ public class PriceController {
     public final static String URL_PREFIX = "/daily/currency/price";
 
     @Autowired
-    private IcoProjectInfoService icoProjectInfoService;
-
-    @Autowired
-    private PriceService priceService;
+    private CurrencyInfoService currencyInfoService;
 
     @RequestMapping("/index")
     public void index(@RequestParam(required = false) String coin_names, Model model,
@@ -47,11 +39,17 @@ public class PriceController {
         List<CurrencyInfo> infoList = null;
         try {
             if(StringUtils.isNotBlank(coin_names)){
-                infoList = priceService.getPrice(coin_names);
+                infoList = currencyInfoService.getPrice(coin_names);
+            }else {
+                infoList = currencyInfoService.getByStatus(CurrencyStateEnum.YES.getValue());
             }
         } catch (IOException e) {
             e.printStackTrace();
+        } catch (ServiceProcessException e) {
+            e.printStackTrace();
         }
+        List<CurrencyInfo>  currentList = currencyInfoService.getByStatus(CurrencyStateEnum.YES.getValue());
+        model.addAttribute("currentList",currentList);
         model.addAttribute("infoList",infoList);
     }
 }

@@ -38,7 +38,7 @@
             <th>网站地址</th>
             <th>投入金额</th>
             <th>代币符号</th>
-            <th>备注</th>
+            <th>数量</th>
             <th>备注</th>
         </tr>
         </thead>
@@ -69,6 +69,7 @@
                 <td>${icoProjectInfo.website}</td>
                 <td>${icoProjectInfo.price}</td>
                 <td>${icoProjectInfo.symbol}</td>
+                <td>${icoProjectInfo.number}</td>
                 <td>${icoProjectInfo.remark}</td>
                 <td>
                     <a class="btn btn-primary" href="${editUrl}?id=${icoProjectInfo.id}" role="button">编辑</a>

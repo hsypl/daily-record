@@ -5,7 +5,7 @@
     <sql id="tableName">ico_project_info</sql>
 
     <sql id="columns_no_id">
-        name, website,price,symbol,remark
+        name, website,price,symbol,number,remark
     </sql>
 
     <sql id="columns">
@@ -17,8 +17,9 @@
             <if test="name != null">name = #{name}</if>
             <if test="website != null">AND website = #{website}</if>
             <if test="price != null">AND price = #{price}</if>
-            <if test="remark != null">AND remark = #{remark}</if>
             <if test="symbol != null">AND symbol = #{symbol}</if>
+            <if test="number != null">AND number = #{number}</if>
+            <if test="remark != null">AND remark = #{remark}</if>
         </where>
     </sql>
 
@@ -47,12 +48,19 @@
         <include refid="dynamicWhere"/>
     </select>
 
+    <select id="getListLeftJoin" resultType="IcoProjectInfo">
+        SELECT <include refid="columns"/>
+        FROM <include refid="tableName"/> a
+        LEFT JOIN currency_info b ON a.symbol = b.name
+        <include refid="dynamicWhere"/>
+    </select>
+
     <insert id="insert" parameterType="IcoProjectInfo" useGeneratedKeys="true"
             keyProperty="id" >
         INSERT IGNORE INTO <include refid="tableName"/>
         (<include refid="columns_no_id"/>)
         VALUES
-        (#{name}, #{website}, #{price}, #{symbol},#{remark})
+        (#{name}, #{website}, #{price}, #{symbol},#{number},#{remark})
     </insert>
 
     <update id="update" parameterType="IcoProjectInfo">
@@ -61,8 +69,8 @@
             <if test="name != null">name=#{name},</if>
             <if test="website not in {null, ''}">website=#{website},</if>
             <if test="price not in {null, ''}">price=#{price},</if>
+            <if test="number != null">number=#{number},</if>
             <if test="remark not in {null, ''}">remark=#{remark},</if>
-            <if test="symbol != null">symbol=#{symbol},</if>
         </set>
         WHERE id = #{id}
     </update>

@@ -1,15 +1,32 @@
 package com.hsy.record.model.currency;
 
+import java.io.Serializable;
+
 /**
- * Created by developer2 on 2017/11/7.
- */
-public class CurrencyInfo {
+* 币种记录 Bean
+*
+* Created by huangshuoying on 11/8/17.
+*/
+public class CurrencyInfo implements Serializable {
 
+    /** id */
+    private Long id;
+    /** 币种名称 */
     private String name;
+    /** 美元价格 */
+    private String usdPrice;
+    /** 人民币价格 */
+    private String cnyPrice;
+    /** 状态 */
+    private Integer status;
 
-    private String USAPrice;
+    public Long getId() {
+        return id;
+    }
 
-    private String CNYPrice;
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;
@@ -19,19 +36,28 @@ public class CurrencyInfo {
         this.name = name;
     }
 
-    public String getUSAPrice() {
-        return USAPrice;
+    public String getUsdPrice() {
+        return usdPrice;
     }
 
-    public void setUSAPrice(String USAPrice) {
-        this.USAPrice = USAPrice;
+    public void setUsdPrice(String usdPrice) {
+        this.usdPrice = usdPrice;
     }
 
-    public String getCNYPrice() {
-        return CNYPrice;
+    public String getCnyPrice() {
+        return cnyPrice;
     }
 
-    public void setCNYPrice(String CNYPrice) {
-        this.CNYPrice = CNYPrice;
+    public void setCnyPrice(String cnyPrice) {
+        this.cnyPrice = cnyPrice;
     }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
+
 }
