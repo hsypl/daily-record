@@ -14,4 +14,8 @@ import java.util.Map;
 public interface IcoProjectInfoMapper extends LongPKBaseMapper<IcoProjectInfo> {
 
     List<IcoProjectInfo> getListLeftJoin(RowBounds rowBounds, Map<String,Object> params);
+
+    Integer getSum();
+
+    Integer getInSum();
 }

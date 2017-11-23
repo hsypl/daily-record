@@ -6,6 +6,7 @@
 <s:url value="/daily/currency/ico/index" var="icoIndex"/>
 <s:url value="/daily/currency/price/index" var="priceIndex"/>
 <s:url value="/daily/plan/index" var="planIndex"/>
+<s:url value="/daily/user/index" var="userIndex"/>
 <nav class="navbar navbar-default" role="navigation">
     <div class="container-fluid">
         <div class="navbar-header">
@@ -15,6 +16,7 @@
             <ul class="nav navbar-nav">
                 <li id="readerIndex"><a href=${readerIndex}>阅读</a></li>
                 <li id="planIndex"> <a href="${planIndex}">任务</a></li>
+                <li id="userIndex"> <a href="${userIndex}">用戶中心</a></li>
                 <li class="dropdown" id="currencyIndex">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                         数字货币

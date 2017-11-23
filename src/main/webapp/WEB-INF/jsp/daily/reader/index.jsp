@@ -23,7 +23,7 @@
             border: 1px sienna;
             background-color: #1b6d85;
             float: left;
-            margin: 10px;
+            margin: 50px;
         }
     </style>
 </head>

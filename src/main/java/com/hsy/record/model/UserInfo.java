@@ -5,7 +5,7 @@ package com.hsy.record.model;
  */
 public class UserInfo {
 
-    private Long id ;
+    private String uid ;
 
     private String username;
 
@@ -13,12 +13,12 @@ public class UserInfo {
 
     private String name;
 
-    public Long getId() {
-        return id;
+    public String getUid() {
+        return uid;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setUid(String uid) {
+        this.uid = uid;
     }
 
     public String getUsername() {

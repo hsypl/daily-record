@@ -2,10 +2,10 @@ package com.hsy.record.service;
 
 import com.hsy.core.dao.GenericMapper;
 import com.hsy.core.service.LongPKBaseService;
+import com.hsy.core.web.Pagination;
 import com.hsy.record.dao.IcoProjectInfoMapper;
 import com.hsy.record.model.IcoProjectInfo;
 import com.hsy.record.model.PlanInfo;
-import com.sungness.core.service.Pagination;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -45,6 +45,14 @@ public class IcoProjectInfoService extends LongPKBaseService<IcoProjectInfo> {
         RowBounds rowBounds =
                 new RowBounds(pagination.getOffset(), pagination.getPageSize());
         return icoProjectInfoMapper.getListLeftJoin(rowBounds, params);
+    }
+
+    public Integer getSum(){
+        return icoProjectInfoMapper.getSum();
+    }
+
+    public Integer getInSum(){
+        return icoProjectInfoMapper.getInSum();
     }
 
 }

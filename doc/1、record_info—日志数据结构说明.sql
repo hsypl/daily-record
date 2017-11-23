@@ -12,13 +12,13 @@ USE ilearning_log;
 
 
 CREATE TABLE IF NOT EXISTS user_info (
-  id BIGINT NOT NULL AUTO_INCREMENT COMMENT '用户id',
+  uid VARCHAR (64) NOT NULL  COMMENT '用户id',
   username VARCHAR(128) NOT NULL COMMENT '系统用户名（邮箱）',
   password VARCHAR(128) NOT NULL COMMENT '登录密码',
   name VARCHAR(128) NOT NULL COMMENT '姓名',
-  PRIMARY KEY (id),
+  PRIMARY KEY (uid),
   UNIQUE(username),
-  INDEX(name),
+  INDEX(name)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin COMMENT '用户信息表';
 
 
@@ -42,10 +42,10 @@ CREATE TABLE IF NOT EXISTS plan_info(
 -- -----------------------------------------------------------------------------
 CREATE TABLE IF NOT EXISTS ico_project_info(
   id   BIGINT NOT NULL AUTO_INCREMENT COMMENT 'id',
-  name VARCHAR (24) NOT NULL COMMENT '项目名称',
+  name VARCHAR (48) NOT NULL COMMENT '项目名称',
   website VARCHAR (128) NOT NULL COMMENT '网址',
   price VARCHAR (128) NOT NULL COMMENT '金额',
-  symbol VARCHAR (12) NOT NULL COMMENT '代币符号',
+  symbol VARCHAR (24) NOT NULL COMMENT '代币符号',
   number DOUBLE NOT NULL COMMENT '数量',
   remark VARCHAR (128)NOT NULL COMMENT '备注',
   PRIMARY KEY(id)

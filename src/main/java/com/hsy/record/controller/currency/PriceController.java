@@ -49,6 +49,7 @@ public class PriceController {
             e.printStackTrace();
         }
         List<CurrencyInfo>  currentList = currencyInfoService.getByStatus(CurrencyStateEnum.YES.getValue());
+        model.addAttribute("allList",currencyInfoService.getList());
         model.addAttribute("currentList",currentList);
         model.addAttribute("infoList",infoList);
     }

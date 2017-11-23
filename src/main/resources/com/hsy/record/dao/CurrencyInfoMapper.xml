@@ -48,6 +48,12 @@
         <include refid="dynamicWhere"/>
     </select>
 
+    <select id="getNameList" resultType="String">
+        SELECT DISTINCT a.name
+        FROM <include refid="tableName"/> a
+        <include refid="dynamicWhere"/>
+    </select>
+
     <select id="getList" resultType="CurrencyInfo">
         SELECT <include refid="columns_join"/>
         FROM <include refid="tableName"/> a

@@ -9,15 +9,16 @@
 
     <beans:import resource="security-service.xml"/>
 
-    <http pattern="/index" security="none"/>
+    <http pattern="/loginIndex" security="none"/>
     <http pattern="/media/**" security="none"/>
 
     <http authentication-manager-ref="manageAuthenticationManager" >
-        <!--<intercept-url pattern="/daily/*" access="ROLE_SERVICE"/>-->
-        <intercept-url pattern="/**" />
-        <intercept-url pattern="/daily/reader/index" access="hasRole('ROLE_PLATFORMADMIN')"/>
-        <form-login login-page="/index" authentication-failure-url="/index"
-                        default-target-url="/daily/plan/index"/>
+        <intercept-url pattern="/**" access="isAuthenticated()"/>
+        <form-login login-page="/loginIndex"
+                    authentication-success-handler-ref="authenticationSuccessHandler"
+                    authentication-failure-url="/loginFailed" default-target-url="/daily/plan/index"/>
+        <logout logout-url="/logout" delete-cookies="JSESSIONID"
+                logout-success-url="/loginIndex"/>
         <csrf disabled="true" />
     </http>
 

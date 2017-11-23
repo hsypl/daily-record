@@ -3,7 +3,11 @@ package com.hsy.record.controller.currency;
 import com.hsy.core.service.ServiceProcessException;
 import com.hsy.core.web.QueryFilter;
 import com.hsy.record.model.IcoProjectInfo;
+import com.hsy.record.model.currency.CurrencyInfo;
+import com.hsy.record.model.enu.CurrencyStateEnum;
 import com.hsy.record.service.IcoProjectInfoService;
+import com.hsy.record.service.currency.CurrencyInfoService;
+import com.sungness.core.enu.StatusEnum;
 import com.sungness.core.util.GsonUtils;
 import com.sungness.core.util.tools.LongTools;
 import org.slf4j.Logger;
@@ -13,8 +17,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 import java.util.List;
 
 
@@ -32,20 +38,38 @@ public class IcoController {
     @Autowired
     private IcoProjectInfoService icoProjectInfoService;
 
+    @Autowired
+    private CurrencyInfoService currencyInfoService;
+
     @RequestMapping("/index")
     public void index(@ModelAttribute("queryFilter") QueryFilter queryFilter,
                       Model model,
                       HttpServletRequest request){
         queryFilter.init(request);
-        List<IcoProjectInfo> icoProjectInfoList = icoProjectInfoService.getList(queryFilter);
-        log.debug(GsonUtils.toJson(queryFilter.getPagination()));
+        List<IcoProjectInfo> icoProjectInfoList = icoProjectInfoService.getListLeftJoin(queryFilter.getPagination(),null);
+        log.debug(GsonUtils.toJson(icoProjectInfoList));
+        model.addAttribute("count",icoProjectInfoService.getSum());
+        model.addAttribute("inSum",icoProjectInfoService.getInSum());
         model.addAttribute("icoProjectInfoList",icoProjectInfoList);
     }
+
+//    @RequestMapping("/update")
+//    public String update(){
+//
+//    }
 
     @RequestMapping("/edit")
     public void edit(Long id, Model model){
         IcoProjectInfo icoProjectInfo = icoProjectInfoService.getSafe(id);
         model.addAttribute("icoProjectInfo",icoProjectInfo);
+    }
+
+    @RequestMapping("/update")
+    public String update() throws IOException, ServiceProcessException {
+        List<String> nameList =currencyInfoService.
+                getNameListByStatus(CurrencyStateEnum.YES.getValue());
+        currencyInfoService.updatePrice(nameList);
+        return "redirect:/daily/currency/ico/index";
     }
 
     @RequestMapping("/save")

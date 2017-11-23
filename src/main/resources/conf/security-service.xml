@@ -17,9 +17,17 @@
     </bean>
 
 
+    <bean id="authenticationSuccessHandler"
+          class="com.hsy.core.security.AuthenticationSuccessHandler"/>
+
+    <bean id="authenticationFailureHandler"
+          class="com.hsy.core.security.AuthenticationFailureHandler"/>
+
     <bean id="daoAuthenticationProvider"
           class="org.springframework.security.authentication.dao.DaoAuthenticationProvider">
         <property name="userDetailsService" ref="userDetailsService"/>
         <property name="passwordEncoder" ref="bcryptEncoder"/>
     </bean>
+
+
 </beans>

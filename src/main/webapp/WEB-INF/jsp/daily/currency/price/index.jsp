@@ -11,6 +11,8 @@
     <script src="/media/js/responsive-nav.js"></script>
     <script src="/media/js/jquery-3.2.1.min.js"></script>
     <script src="/media/js/bootstrap.min.js"></script>
+    <script src="/media/js/select2.min.js"></script>
+    <link rel="stylesheet" href="/media/css/select2.min.css">
     <link rel="stylesheet" href="/media/css/responsive-nav.css">
     <link rel="stylesheet" href="/media/css/bootstrap.min.css">
 
@@ -20,8 +22,12 @@
             var active = $("#currencyIndex");
             active.addClass("active");
 
+            $('.js-example-basic-single').select2({
+                placeholder: 'Select an option'
+            });
+
             $("#add").click(function () {
-                var name = $('#coin_name').val();
+                var name = $('#selectValue').val();
                 $("#ul").append("<li><h3><span class='label label-primary' >"+name + " <span class='glyphicon glyphicon-remove'></span></span></h3></li>")
                 $(".glyphicon").click(function () {
                     $(this).parent().parent().remove();
@@ -38,23 +44,34 @@
             })
         });
     </script>
+    <style>
+        .select2-container--default .select2-selection--single {
+            height: 34px;
+            font-size: large;
+        }
+    </style>
 </head>
 <body>
 <div class="main" style="width: 600px;height: 50px" >
-    <div class="col-lg-1" style="width: 200px">
+    <div class="col-lg-1" style="width: 350px">
         <div class="input-group">
-            <input type="text" id="coin_name" class="form-control">
+            <select class="js-example-basic-single" id="selectValue">
+                <c:forEach items="${allList}"  varStatus="status">
+                    <c:set var="all" value="${status.current}"/>
+                    <option value="${all.name}"> ${all.name}</option>
+                </c:forEach>
+            </select>
             <span class="input-group-btn">
 						<button id="add" class="btn btn-default" type="button">
 							添加
 						</button>
 					</span>
+            <div class="main-left" style="margin-left: 5px" >
+                <button id="select" class="btn btn-default" type="button" >
+                    查询
+                </button>
+            </div>
         </div><!-- /input-group -->
-    </div>
-    <div class="main-left">
-        <button id="select" class="btn btn-default" type="button" >
-            查询
-        </button>
     </div>
 </div>
     <div class="content" style="width: 600px">

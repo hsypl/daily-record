@@ -19,6 +19,9 @@ public class IcoProjectInfo {
 
     private String remark;
 
+    //关联
+    private String count;
+
     public Long getId() {
         return id;
     }
@@ -73,5 +76,13 @@ public class IcoProjectInfo {
 
     public void setNumber(Double number) {
         this.number = number;
+    }
+
+    public String getCount() {
+        return count;
+    }
+
+    public void setCount(String count) {
+        this.count = count;
     }
 }

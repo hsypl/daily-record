@@ -3,6 +3,7 @@
 <%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
 <%@ page isELIgnored="false" %>
 <s:url value="/daily/currency/ico/edit" var="editUrl"/>
+<s:url value="/daily/currency/ico/update" var="updateUrl"/>
 <s:url value="/daily/currency/ico/delete" var="deleteUrl"/>
 <s:url value="/daily/currency/ico/index" var="listUrl"/>
 
@@ -30,7 +31,10 @@
 <%@ include file="/WEB-INF/jsp/include/buttonHead.jsp" %>
 <form:form commandName="queryFilter"  id ="listForm"  action="${listUrl}">
     <table class="table">
-        <h3>ICO项目记录</h3>
+        <h3>ICO项目记录    ---- 投入总额 ${inSum}  ---  现总额 ${count}</h3>
+        <a href="${updateUrl}" class="btn btn-default" >
+            更新
+        </a>
         <thead>
         <tr>
             <th>id</th>
@@ -39,6 +43,7 @@
             <th>投入金额</th>
             <th>代币符号</th>
             <th>数量</th>
+            <th>总额</th>
             <th>备注</th>
         </tr>
         </thead>
@@ -70,6 +75,7 @@
                 <td>${icoProjectInfo.price}</td>
                 <td>${icoProjectInfo.symbol}</td>
                 <td>${icoProjectInfo.number}</td>
+                <td>${icoProjectInfo.count}</td>
                 <td>${icoProjectInfo.remark}</td>
                 <td>
                     <a class="btn btn-primary" href="${editUrl}?id=${icoProjectInfo.id}" role="button">编辑</a>

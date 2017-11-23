@@ -28,6 +28,10 @@ public class MyUserDetail implements UserDetails {
         return auths;
     }
 
+    public UserInfo getUserInfo(){
+        return userInfo;
+    }
+
     @Override
     public String getPassword() {
         return userInfo.getPassword();
@@ -35,7 +39,7 @@ public class MyUserDetail implements UserDetails {
 
     @Override
     public String getUsername() {
-        return null;
+        return userInfo.getUsername();
     }
 
     @Override

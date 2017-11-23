@@ -12,6 +12,11 @@
         id, <include refid="columns_no_id"/>
     </sql>
 
+    <sql id="columns_join">
+        a.id,  a.name, a.website,a.price,a.symbol,a.number,a.remark
+    </sql>
+
+
     <sql id="dynamicWhere">
         <where>
             <if test="name != null">name = #{name}</if>
@@ -42,6 +47,18 @@
         <include refid="dynamicWhere"/>
     </select>
 
+    <select id="getSum" resultType="int">
+        SELECT sum(a.cny_price*b.number)
+        FROM currency_info a,
+        ico_project_info b
+        WHERE a.name =b.symbol
+    </select>
+
+    <select id="getInSum" resultType="int">
+        SELECT sum(price)
+        FROM ico_project_info
+    </select>
+
     <select id="getList" resultType="IcoProjectInfo">
         SELECT <include refid="columns"/>
         FROM <include refid="tableName"/>
@@ -49,7 +66,7 @@
     </select>
 
     <select id="getListLeftJoin" resultType="IcoProjectInfo">
-        SELECT <include refid="columns"/>
+        SELECT <include refid="columns_join"/>,truncate(a.number*b.cny_price,0) AS count
         FROM <include refid="tableName"/> a
         LEFT JOIN currency_info b ON a.symbol = b.name
         <include refid="dynamicWhere"/>
