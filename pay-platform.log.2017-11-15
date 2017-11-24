@@ -1,0 +1,42 @@
+2017-11-15 15:20:21,200 DEBUG [org.jsoup.helper.HttpConnection$Response-802] - Httpconnection header:Date,Wed, 15 Nov 2017 07:20:20 GMT
+2017-11-15 15:20:21,209 DEBUG [org.jsoup.helper.HttpConnection$Response-802] - Httpconnection header:Content-Type,text/html; charset=utf-8
+2017-11-15 15:20:21,210 DEBUG [org.jsoup.helper.HttpConnection$Response-802] - Httpconnection header:Transfer-Encoding,chunked
+2017-11-15 15:20:21,210 DEBUG [org.jsoup.helper.HttpConnection$Response-802] - Httpconnection header:Connection,keep-alive
+2017-11-15 15:20:21,211 DEBUG [org.jsoup.helper.HttpConnection$Response-802] - Httpconnection header:Set-Cookie,__cfduid=d5cef83659bc83ee369a6749ec455cb2f1510730420; expires=Thu, 15-Nov-18 07:20:20 GMT; path=/; domain=.coinmarketcap.com; HttpOnly; Secure
+2017-11-15 15:20:21,212 DEBUG [org.jsoup.helper.HttpConnection$Response-802] - Httpconnection header:Last-Modified,Wed, 15 Nov 2017 07:15:15 GMT
+2017-11-15 15:20:21,212 DEBUG [org.jsoup.helper.HttpConnection$Response-802] - Httpconnection header:Cache-Control,max-age=0
+2017-11-15 15:20:21,213 DEBUG [org.jsoup.helper.HttpConnection$Response-802] - Httpconnection header:Expires,Wed, 15 Nov 2017 19:19:50 GMT
+2017-11-15 15:20:21,214 DEBUG [org.jsoup.helper.HttpConnection$Response-802] - Httpconnection header:ETag,W/"flask-1510730115.68-2842990-2168727517"
+2017-11-15 15:20:21,214 DEBUG [org.jsoup.helper.HttpConnection$Response-802] - Httpconnection header:Content-Encoding,gzip
+2017-11-15 15:20:21,214 DEBUG [org.jsoup.helper.HttpConnection$Response-802] - Httpconnection header:CF-Cache-Status,EXPIRED
+2017-11-15 15:20:21,214 DEBUG [org.jsoup.helper.HttpConnection$Response-802] - Httpconnection header:Vary,Accept-Encoding
+2017-11-15 15:20:21,215 DEBUG [org.jsoup.helper.HttpConnection$Response-802] - Httpconnection header:Server,cloudflare-nginx
+2017-11-15 15:20:21,215 DEBUG [org.jsoup.helper.HttpConnection$Response-802] - Httpconnection header:CF-RAY,3be07289489f987d-LAX
+2017-11-15 15:20:58,948 DEBUG [org.jsoup.helper.HttpConnection$Response-802] - Httpconnection header:Date,Wed, 15 Nov 2017 07:20:58 GMT
+2017-11-15 15:20:58,955 DEBUG [org.jsoup.helper.HttpConnection$Response-802] - Httpconnection header:Content-Type,text/html; charset=utf-8
+2017-11-15 15:20:58,956 DEBUG [org.jsoup.helper.HttpConnection$Response-802] - Httpconnection header:Transfer-Encoding,chunked
+2017-11-15 15:20:58,957 DEBUG [org.jsoup.helper.HttpConnection$Response-802] - Httpconnection header:Connection,keep-alive
+2017-11-15 15:20:58,958 DEBUG [org.jsoup.helper.HttpConnection$Response-802] - Httpconnection header:Set-Cookie,__cfduid=d4946cf043154b310f4f611689d330abc1510730458; expires=Thu, 15-Nov-18 07:20:58 GMT; path=/; domain=.coinmarketcap.com; HttpOnly; Secure
+2017-11-15 15:20:58,959 DEBUG [org.jsoup.helper.HttpConnection$Response-802] - Httpconnection header:Last-Modified,Wed, 15 Nov 2017 07:20:16 GMT
+2017-11-15 15:20:58,959 DEBUG [org.jsoup.helper.HttpConnection$Response-802] - Httpconnection header:Cache-Control,max-age=0
+2017-11-15 15:20:58,960 DEBUG [org.jsoup.helper.HttpConnection$Response-802] - Httpconnection header:Expires,Wed, 15 Nov 2017 19:20:26 GMT
+2017-11-15 15:20:58,961 DEBUG [org.jsoup.helper.HttpConnection$Response-802] - Httpconnection header:ETag,W/"flask-1510730416.44-2842990-2168727517"
+2017-11-15 15:20:58,961 DEBUG [org.jsoup.helper.HttpConnection$Response-802] - Httpconnection header:Content-Encoding,gzip
+2017-11-15 15:20:58,962 DEBUG [org.jsoup.helper.HttpConnection$Response-802] - Httpconnection header:CF-Cache-Status,HIT
+2017-11-15 15:20:58,964 DEBUG [org.jsoup.helper.HttpConnection$Response-802] - Httpconnection header:Vary,Accept-Encoding
+2017-11-15 15:20:58,965 DEBUG [org.jsoup.helper.HttpConnection$Response-802] - Httpconnection header:Server,cloudflare-nginx
+2017-11-15 15:20:58,966 DEBUG [org.jsoup.helper.HttpConnection$Response-802] - Httpconnection header:CF-RAY,3be073785ad17850-LAX
+2017-11-15 15:22:12,635 DEBUG [org.jsoup.helper.HttpConnection$Response-802] - Httpconnection header:Date,Wed, 15 Nov 2017 07:22:12 GMT
+2017-11-15 15:22:12,639 DEBUG [org.jsoup.helper.HttpConnection$Response-802] - Httpconnection header:Content-Type,text/html; charset=utf-8
+2017-11-15 15:22:12,639 DEBUG [org.jsoup.helper.HttpConnection$Response-802] - Httpconnection header:Transfer-Encoding,chunked
+2017-11-15 15:22:12,640 DEBUG [org.jsoup.helper.HttpConnection$Response-802] - Httpconnection header:Connection,keep-alive
+2017-11-15 15:22:12,640 DEBUG [org.jsoup.helper.HttpConnection$Response-802] - Httpconnection header:Set-Cookie,__cfduid=d829d76f5d096c5ff121ba7f2ad9d0d581510730532; expires=Thu, 15-Nov-18 07:22:12 GMT; path=/; domain=.coinmarketcap.com; HttpOnly; Secure
+2017-11-15 15:22:12,640 DEBUG [org.jsoup.helper.HttpConnection$Response-802] - Httpconnection header:Last-Modified,Wed, 15 Nov 2017 07:20:16 GMT
+2017-11-15 15:22:12,641 DEBUG [org.jsoup.helper.HttpConnection$Response-802] - Httpconnection header:Cache-Control,max-age=0
+2017-11-15 15:22:12,642 DEBUG [org.jsoup.helper.HttpConnection$Response-802] - Httpconnection header:Expires,Wed, 15 Nov 2017 19:21:39 GMT
+2017-11-15 15:22:12,642 DEBUG [org.jsoup.helper.HttpConnection$Response-802] - Httpconnection header:ETag,W/"flask-1510730416.44-2842990-2168727517"
+2017-11-15 15:22:12,643 DEBUG [org.jsoup.helper.HttpConnection$Response-802] - Httpconnection header:Content-Encoding,gzip
+2017-11-15 15:22:12,643 DEBUG [org.jsoup.helper.HttpConnection$Response-802] - Httpconnection header:CF-Cache-Status,HIT
+2017-11-15 15:22:12,643 DEBUG [org.jsoup.helper.HttpConnection$Response-802] - Httpconnection header:Vary,Accept-Encoding
+2017-11-15 15:22:12,644 DEBUG [org.jsoup.helper.HttpConnection$Response-802] - Httpconnection header:Server,cloudflare-nginx
+2017-11-15 15:22:12,645 DEBUG [org.jsoup.helper.HttpConnection$Response-802] - Httpconnection header:CF-RAY,3be075451aba7930-LAX

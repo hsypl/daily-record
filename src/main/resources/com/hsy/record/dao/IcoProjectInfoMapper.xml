@@ -5,7 +5,7 @@
     <sql id="tableName">ico_project_info</sql>
 
     <sql id="columns_no_id">
-        name, website,price,symbol,number,remark
+        uid,name, website,price,symbol,number,remark
     </sql>
 
     <sql id="columns">
@@ -13,13 +13,14 @@
     </sql>
 
     <sql id="columns_join">
-        a.id,  a.name, a.website,a.price,a.symbol,a.number,a.remark
+        a.id,  a.uid,a.name, a.website,a.price,a.symbol,a.number,a.remark
     </sql>
 
 
     <sql id="dynamicWhere">
         <where>
-            <if test="name != null">name = #{name}</if>
+            <if test="uid != null">uid = #{uid}</if>
+            <if test="name != null">AND name = #{name}</if>
             <if test="website != null">AND website = #{website}</if>
             <if test="price != null">AND price = #{price}</if>
             <if test="symbol != null">AND symbol = #{symbol}</if>
@@ -77,12 +78,13 @@
         INSERT IGNORE INTO <include refid="tableName"/>
         (<include refid="columns_no_id"/>)
         VALUES
-        (#{name}, #{website}, #{price}, #{symbol},#{number},#{remark})
+        (#{uid},#{name}, #{website}, #{price}, #{symbol},#{number},#{remark})
     </insert>
 
     <update id="update" parameterType="IcoProjectInfo">
         UPDATE <include refid="tableName"/>
         <set>
+            <if test="uid != null">uid=#{uid},</if>
             <if test="name != null">name=#{name},</if>
             <if test="website not in {null, ''}">website=#{website},</if>
             <if test="price not in {null, ''}">price=#{price},</if>

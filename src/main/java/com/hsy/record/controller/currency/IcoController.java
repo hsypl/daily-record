@@ -3,6 +3,7 @@ package com.hsy.record.controller.currency;
 import com.hsy.core.service.ServiceProcessException;
 import com.hsy.core.web.QueryFilter;
 import com.hsy.record.model.IcoProjectInfo;
+import com.hsy.record.model.UserInfo;
 import com.hsy.record.model.currency.CurrencyInfo;
 import com.hsy.record.model.enu.CurrencyStateEnum;
 import com.hsy.record.service.IcoProjectInfoService;
@@ -16,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -42,11 +44,13 @@ public class IcoController {
     private CurrencyInfoService currencyInfoService;
 
     @RequestMapping("/index")
-    public void index(@ModelAttribute("queryFilter") QueryFilter queryFilter,
+    public void index(@RequestAttribute UserInfo userInfo,
+                      @ModelAttribute("queryFilter") QueryFilter queryFilter,
                       Model model,
                       HttpServletRequest request){
+        log.debug(GsonUtils.toJson(userInfo));
         queryFilter.init(request);
-        List<IcoProjectInfo> icoProjectInfoList = icoProjectInfoService.getListLeftJoin(queryFilter.getPagination(),null);
+        List<IcoProjectInfo> icoProjectInfoList = icoProjectInfoService.getListLeftJoinByUid(queryFilter.getPagination(),userInfo.getUid());
         log.debug(GsonUtils.toJson(icoProjectInfoList));
         model.addAttribute("count",icoProjectInfoService.getSum());
         model.addAttribute("inSum",icoProjectInfoService.getInSum());
@@ -73,7 +77,8 @@ public class IcoController {
     }
 
     @RequestMapping("/save")
-    public String save(IcoProjectInfo icoProjectInfo) throws ServiceProcessException {
+    public String save(@RequestAttribute UserInfo userInfo,
+                       IcoProjectInfo icoProjectInfo) throws ServiceProcessException {
         log.debug(GsonUtils.toJson(icoProjectInfo));
         if(LongTools.lessEqualZero(icoProjectInfo.getId())){
             icoProjectInfoService.insert(icoProjectInfo);

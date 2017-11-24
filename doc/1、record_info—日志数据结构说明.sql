@@ -42,6 +42,7 @@ CREATE TABLE IF NOT EXISTS plan_info(
 -- -----------------------------------------------------------------------------
 CREATE TABLE IF NOT EXISTS ico_project_info(
   id   BIGINT NOT NULL AUTO_INCREMENT COMMENT 'id',
+  uid  VARCHAR (24) NOT NULL COMMENT '用户id',
   name VARCHAR (48) NOT NULL COMMENT '项目名称',
   website VARCHAR (128) NOT NULL COMMENT '网址',
   price VARCHAR (128) NOT NULL COMMENT '金额',
@@ -63,6 +64,19 @@ CREATE TABLE IF NOT EXISTS currency_info(
   status INT NOT NULL COMMENT '状态',
   PRIMARY KEY(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin COMMENT '币种记录表';
+
+-- 1.0 assets_history
+-- 创建时间：2017年7月11日
+-- -----------------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS assets_history(
+  id   BIGINT NOT NULL AUTO_INCREMENT COMMENT 'id',
+  amount  BIGINT NOT NULL COMMENT '总资产',
+  create_time BIGINT NOT NULL COMMENT '统计日期',
+  PRIMARY KEY(id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin COMMENT '资产历史记录';
+
+
+
 
 
 

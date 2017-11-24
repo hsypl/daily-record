@@ -7,6 +7,8 @@ public class IcoProjectInfo {
 
     private Long id;
 
+    private String uid;
+
     private String name;
 
     private String website;
@@ -84,5 +86,13 @@ public class IcoProjectInfo {
 
     public void setCount(String count) {
         this.count = count;
+    }
+
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
     }
 }

@@ -7,6 +7,15 @@
 <s:url value="/daily/currency/price/index" var="priceIndex"/>
 <s:url value="/daily/plan/index" var="planIndex"/>
 <s:url value="/daily/user/index" var="userIndex"/>
+<s:url value="/daily/currency/index" var="currencyIndex"/>
+<link href="<s:url value="/media/css/font-awesome.min.css"/>" rel="stylesheet" type="text/css"/>
+<style>
+    .personal{
+        float: left;
+        margin-left: 200px;
+        color: #2b669a;
+    }
+</style>
 <nav class="navbar navbar-default" role="navigation">
     <div class="container-fluid">
         <div class="navbar-header">
@@ -25,7 +34,7 @@
                     <ul class="dropdown-menu">
                         <li><a href="${icoIndex}">Ico join</a></li>
                         <li class="divider"></li>
-                        <li><a href="#">currency</a></li>
+                        <li><a href="${currencyIndex}">currency</a></li>
                         <li class="divider"></li>
                         <li><a href="${priceIndex}">price</a></li>
                         <li class="divider"></li>
@@ -35,6 +44,14 @@
                     </ul>
                 </li>
             </ul>
+        </div>
+        <div class="personal" style="width: 300px">
+                <i class="fa fa-user-circle fa-3x" aria-hidden="true" ></i>
+                <span style="font-size: 20px;">${userInfo.name}</span>
+            <a href="/logout">
+                <i class="fa fa-stop fa-2x" aria-hidden="true" style="margin-left:30px"></i>
+                <span style="font-size: 20px;">退出</span>
+            </a>
         </div>
     </div>
 </nav>

@@ -15,6 +15,8 @@ public interface IcoProjectInfoMapper extends LongPKBaseMapper<IcoProjectInfo> {
 
     List<IcoProjectInfo> getListLeftJoin(RowBounds rowBounds, Map<String,Object> params);
 
+    List<IcoProjectInfo> getListLeftJoin(Map<String,Object> params);
+
     Integer getSum();
 
     Integer getInSum();

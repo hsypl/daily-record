@@ -62,7 +62,9 @@
         <div class="col-sm-10">
             <form:input path="remark" class="form-control" style="width: 10%" id="ico-remark" placeholder="备注" />
         </div>
+        <form:hidden path="uid" value="${userInfo.uid}"/>
     </div>
+
 </form:form>
 </body>
 </html>
