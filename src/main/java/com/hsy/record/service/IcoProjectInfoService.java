@@ -5,6 +5,10 @@ import com.hsy.core.service.LongPKBaseService;
 import com.hsy.core.web.Pagination;
 import com.hsy.record.dao.IcoProjectInfoMapper;
 import com.hsy.record.model.IcoProjectInfo;
+import com.hsy.record.model.currency.CoinMarketCap;
+import com.hsy.record.model.enu.CurrencyStateEnum;
+import com.hsy.record.service.currency.CoinMarketCapService;
+import com.sun.deploy.net.proxy.pac.PACFunctions;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +28,8 @@ public class IcoProjectInfoService extends LongPKBaseService<IcoProjectInfo> {
     @Autowired
     private IcoProjectInfoMapper icoProjectInfoMapper;
 
+    @Autowired
+    private CoinMarketCapService coinMarketCapService;
 
     @Override
     protected GenericMapper<IcoProjectInfo, Long> getMapper() {
@@ -36,6 +42,12 @@ public class IcoProjectInfoService extends LongPKBaseService<IcoProjectInfo> {
             return icoProjectInfo;
         }
         return new IcoProjectInfo();
+    }
+
+    public List<IcoProjectInfo> getListByUid(String uid){
+        Map<String,Object> params = new HashMap<>();
+        params.put("uid",uid);
+        return getList(params);
     }
 
     public List<IcoProjectInfo> getListLeftJoin(Pagination pagination, Map<String,Object> params){
@@ -80,13 +92,19 @@ public class IcoProjectInfoService extends LongPKBaseService<IcoProjectInfo> {
         return buffer.toString().substring(0,buffer.length()-1);
     }
 
-    public Integer getSum(){
-        return icoProjectInfoMapper.getSum();
+
+    public Integer getSum(String uid){
+        Map<String,Object> params = new HashMap<>();
+        params.put("uid",uid);
+        return icoProjectInfoMapper.getSum(params);
     }
 
-    public Integer getInSum(){
-        return icoProjectInfoMapper.getInSum();
+    public Integer getInSum(String uid){
+        Map<String,Object> params = new HashMap<>();
+        params.put("uid",uid);
+        return icoProjectInfoMapper.getInSum(params);
     }
+
 
     public static void main(String[] args){
         List<IcoProjectInfo> list = new ArrayList<>();

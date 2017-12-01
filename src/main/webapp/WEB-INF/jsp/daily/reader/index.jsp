@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script src="/media/js/responsive-nav.js"></script>
     <script src="/media/js/jquery-3.2.1.min.js"></script>
-    <script src="/media/js/bootstrap.min.js"></script>
+    <script src="/media/js/cropper/cropper.min.js"></script>
     <link rel="stylesheet" href="/media/css/responsive-nav.css">
     <link rel="stylesheet" href="/media/css/bootstrap.min.css">
     <%@ include file="/WEB-INF/jsp/include/header.jsp"%>
@@ -14,6 +14,7 @@
         $(function () {
             var active = $("#readerIndex");
             active.addClass("active");
+
         })
     </script>
     <style>
@@ -25,19 +26,22 @@
             float: left;
             margin: 50px;
         }
+        img {
+            max-width: 100%; /* This rule is very important, please do not ignore this! */
+        }
     </style>
 </head>
 <body>
 <div class="container">
-    <div class="book">
-
-    </div>
-    <div class="book">
-
-    </div>
-    <div class="book">
-
-    </div>
+    <img src="/media/image/friend.png">
 </div>
 </body>
+<script>
+    $('.container > img').cropper({
+        aspectRatio: 16 / 9,
+        crop: function(data) {
+            // Output the result data for cropping image.
+        }
+    });
+</script>
 </html>

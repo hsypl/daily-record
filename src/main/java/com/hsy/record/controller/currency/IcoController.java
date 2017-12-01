@@ -4,11 +4,14 @@ import com.hsy.core.service.ServiceProcessException;
 import com.hsy.core.web.QueryFilter;
 import com.hsy.record.model.IcoProjectInfo;
 import com.hsy.record.model.UserInfo;
+import com.hsy.record.model.currency.CoinMarketCap;
 import com.hsy.record.model.currency.CurrencyInfo;
 import com.hsy.record.model.enu.CurrencyStateEnum;
 import com.hsy.record.service.IcoProjectInfoService;
+import com.hsy.record.service.currency.CoinMarketCapService;
 import com.hsy.record.service.currency.CurrencyInfoService;
 import com.sungness.core.enu.StatusEnum;
+import com.sungness.core.httpclient.HttpClientException;
 import com.sungness.core.util.GsonUtils;
 import com.sungness.core.util.tools.LongTools;
 import org.slf4j.Logger;
@@ -37,11 +40,17 @@ public class IcoController {
 
     public final static String URL_PREFIX = "/daily/currency/ico";
 
+    public final static String INDEX_URL = "/daily/currency/ico/index";
+
     @Autowired
     private IcoProjectInfoService icoProjectInfoService;
 
     @Autowired
     private CurrencyInfoService currencyInfoService;
+
+    @Autowired
+    private CoinMarketCapService coinMarketCapService;
+
 
     @RequestMapping("/index")
     public void index(@RequestAttribute UserInfo userInfo,
@@ -52,8 +61,8 @@ public class IcoController {
         queryFilter.init(request);
         List<IcoProjectInfo> icoProjectInfoList = icoProjectInfoService.getListLeftJoinByUid(queryFilter.getPagination(),userInfo.getUid());
         log.debug(GsonUtils.toJson(icoProjectInfoList));
-        model.addAttribute("count",icoProjectInfoService.getSum());
-        model.addAttribute("inSum",icoProjectInfoService.getInSum());
+        model.addAttribute("count",icoProjectInfoService.getSum(userInfo.getUid()));
+        model.addAttribute("inSum",icoProjectInfoService.getInSum(userInfo.getUid()));
         model.addAttribute("icoProjectInfoList",icoProjectInfoList);
     }
 
@@ -69,11 +78,9 @@ public class IcoController {
     }
 
     @RequestMapping("/update")
-    public String update() throws IOException, ServiceProcessException {
-        List<String> nameList =currencyInfoService.
-                getNameListByStatus(CurrencyStateEnum.YES.getValue());
-        currencyInfoService.updatePrice(nameList);
-        return "redirect:/daily/currency/ico/index";
+    public String update() throws IOException, ServiceProcessException, HttpClientException {
+        coinMarketCapService.update();
+        return "redirect:"+INDEX_URL;
     }
 
     @RequestMapping("/save")
@@ -85,12 +92,20 @@ public class IcoController {
         }else {
             icoProjectInfoService.update(icoProjectInfo);
         }
-        return "redirect:/daily/currency/ico/index";
+        return "redirect:"+INDEX_URL;
     }
 
     @RequestMapping("/delete")
     public String delete(Long id) throws ServiceProcessException {
         icoProjectInfoService.delete(id);
-        return "redirect:/daily/currency/ico/index";
+        return "redirect:"+INDEX_URL;
+    }
+
+    @RequestMapping("/sync")
+    public String sync(@RequestAttribute UserInfo userInfo) throws ServiceProcessException {
+        List<IcoProjectInfo> icoProjectInfoList
+                = icoProjectInfoService.getListByUid(userInfo.getUid());
+        coinMarketCapService.sync(icoProjectInfoList);
+        return "redirect:"+INDEX_URL;
     }
 }

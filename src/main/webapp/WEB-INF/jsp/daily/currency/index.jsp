@@ -16,22 +16,87 @@
     <%@ include file="/WEB-INF/jsp/include/header.jsp"%>
 
     <script type="application/javascript">
-        $(function () {
-            var active = $("#currencyIndex");
-            active.addClass("active");
-        })
     </script>
 
 </head>
 <body>
 <div>
     <div id="main" style="width: 800px;height:600px;float: left"></div>
+    <div style="width: 1000px;float: left">
+        <div style="float: left;margin-left: 95px">
+            <div class="dropdown">
+                <button type="button" class="btn dropdown-toggle" id="dropdownMenu1"
+                        data-toggle="dropdown">
+                    选择月份
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+                    <li role="presentation" >
+                        <a role="menuitem" tabindex="-1" name="month" value="-01-01" >1月份</a>
+                    </li>
+                    <li role="presentation" >
+                        <a role="menuitem" tabindex="-1" name="month" value="-02-01" >2月份</a>
+                    </li>
+                    <li role="presentation" >
+                        <a role="menuitem" tabindex="-1" name="month" value="-03-01" >3月份</a>
+                    </li>
+                    <li role="presentation" >
+                        <a role="menuitem" tabindex="-1" name="month" value="-04-01" >4月份</a>
+                    </li>
+                    <li role="presentation" >
+                        <a role="menuitem" tabindex="-1" name="month" value="-05-01" >5月份</a>
+                    </li>
+                    <li role="presentation" >
+                        <a role="menuitem" tabindex="-1" name="month" value="-06-01" >6月份</a>
+                    </li>
+                    <li role="presentation" >
+                        <a role="menuitem" tabindex="-1" name="month" value="-07-01" >7月份</a>
+                    </li>
+                    <li role="presentation" >
+                        <a role="menuitem" tabindex="-1" name="month" value="-08-01" >8月份</a>
+                    </li>
+                    <li role="presentation" >
+                        <a role="menuitem" tabindex="-1" name="month" value="-09-01" >9月份</a>
+                    </li>
+                    <li role="presentation" >
+                        <a role="menuitem" tabindex="-1" name="month" value="-10-01" >10月份</a>
+                    </li>
+                    <li role="presentation" >
+                        <a role="menuitem" tabindex="-1" name="month" value="-11-01" >11月份</a>
+                    </li>
+                    <li role="presentation" >
+                        <a role="menuitem" tabindex="-1" name="month" value="-12-01" >12月份</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
     <div id="main1" style="width: 1000px;height:600px;float: left"></div>
+    </div>
 </div>
 <script type="text/javascript">
+    var myPoint = echarts.init(document.getElementById('main1'));
+    // 使用刚指定的配置项和数据显示图表。
+    $(function () {
+        var active = $("#currencyIndex");
+        active.addClass("active");
+        $("a[name='month']").bind("click",function () {
+            $.get("/daily/currency/update?month="+$(this).attr("value"),function(data,status){
+                if(data.month != undefined){
+                    daily.xAxis[0].data = data.month;
+                    daily.series[0].data =data.value;
+                }else {
+                    daily.xAxis[0].data = "0";
+                    daily.series[0].data[0] = "0";
+                }
+                var myPoint = echarts.init(document.getElementById('main1'));
+                myPoint.setOption(daily);
+            });
+        });
+    });
+
     // 基于准备好的dom，初始化echarts实例
     // 指定图表的配置项和数据
-    var option = {
+    option = {
         title : {
             text: '占比统计',
 //            subtext: '纯属虚构',
@@ -79,58 +144,30 @@
 
 
     var data = [
-        [1, 4862.4],
-        [2, 5294.7],
-        [3, 5934.5],
-        [4, 7171.0],
-        [5, 8964.4],
-        [6, 10202.2],
-        [7, 11962.5],
-        [8, 14928.3],
-        [9, 16909.2],
-        [10, 18547.9],
-        [11, 21617.8],
-        [12, 26638.1],
-        [13, 34634.4],
-        [14, 46759.4],
-        [15, 58478.1],
-        [16, 67884.6],
-        [17, 74462.6],
-        [18, 79395.7],
-        [1, 4862.4],
-        [2, 5294.7],
-        [3, 5934.5],
-        [4, 7171.0],
-        [5, 8964.4],
-        [6, 10202.2],
-        [7, 11962.5],
-        [8, 14928.3],
-        [9, 16909.2],
-        [10, 18547.9],
-        [11, 21617.8],
-        [12, 26638.1],
-        [13, 34634.4],
-        [14, 46759.4],
-        [15, 58478.1],
-        [16, 67884.6],
-        [17, 74462.6],
-        [18, 79395.7]
+        <c:forEach items="${assetsMap}" varStatus="status">
+        <c:set var="assets" value="${status.current}"/>
+        <c:if test="${!status.last}">
+        ['${assets.key}', ${assets.value}],
+        </c:if>
+        <c:if test="${status.last}">
+        ['${assets.key}', ${assets.value}]
+                </c:if>
+                </c:forEach>
+
     ];
 
     // See https://github.com/ecomfe/echarts-stat
-    var myRegression = ecStat.regression('exponential', data);
-
-    myRegression.points.sort(function(a, b) {
-        return a[0] - b[0];
-    });
+//    var myRegression = ecStat.regression('exponential', data);
+//
+//    myRegression.points.sort(function(a, b) {
+//        return a[0] - b[0];
+//    });
 
 
 
     var daily = {
         title: {
-            text: '1981 - 1998 gross domestic product GDP (trillion yuan)',
-            subtext: 'By ecStat.regression',
-            sublink: 'https://github.com/ecomfe/echarts-stat',
+            text: '资产日报',
             left: 'center'
         },
         tooltip: {
@@ -139,69 +176,100 @@
                 type: 'cross'
             }
         },
-        xAxis: {
-            type: 'value',
-            splitLine: {
-                lineStyle: {
-                    type: 'dashed'
-                }
-            },
-            splitNumber: 30
-        },
-        yAxis: {
-            type: 'value',
-            splitLine: {
-                lineStyle: {
-                    type: 'dashed'
-                }
+        toolbox: {
+            feature: {
+                dataView: {show: true, readOnly: false},
+                restore: {show: true},
+                saveAsImage: {show: true}
             }
         },
-        series: [{
-            name: 'scatter',
-            type: 'scatter',
-            label: {
-                emphasis: {
-                    show: true,
-                    position: 'left',
-                    textStyle: {
-                        color: 'blue',
-                        fontSize: 16
-                    }
+        xAxis: [
+            {
+                type: 'category',
+                name: '日期',
+                axisTick: {
+                    alignWithLabel: true
+                },
+                data: [<c:forEach items="${assetsMap}" varStatus="status">
+                    <c:set var="assets" value="${status.current}"/>
+                    <c:if test="${!status.last}">
+                    ['${assets.key}'],
+                    </c:if>
+                    <c:if test="${status.last}">
+                    ['${assets.key}']
+                    </c:if>
+                    </c:forEach>]
+            }
+        ],
+        yAxis: [
+            {
+                type: 'value',
+                name: '金額',
+                position: 'left',
+                //            type: 'value',
+                axisLabel: {
+                    formatter: '{value} ￥'
                 }
             },
-            data: data
-        }, {
-            name: 'line',
-            type: 'line',
-            showSymbol: false,
-            smooth: true,
-            data: myRegression.points,
-            markPoint: {
-                itemStyle: {
-                    normal: {
-                        color: 'transparent'
-                    }
-                },
-                label: {
-                    normal: {
-                        show: true,
-                        position: 'left',
-                        formatter: myRegression.expression,
-                        textStyle: {
-                            color: '#333',
-                            fontSize: 14
-                        }
-                    }
-                },
-                data: [{
-                    coord: myRegression.points[myRegression.points.length - 1]
-                }]
-            }
-        }]
+        ],
+        series: [
+            {
+                name:'金额',
+                type:'line',
+                data:[<c:forEach items="${assetsMap}" varStatus="status">
+                    <c:set var="assets" value="${status.current}"/>
+                    <c:if test="${!status.last}">
+                    ${assets.value},
+                    </c:if>
+                    <c:if test="${status.last}">
+                    ${assets.value}
+                    </c:if>
+                    </c:forEach>]
+            },
+        ]
     };
-    var myPoint = echarts.init(document.getElementById('main1'));
-    // 使用刚指定的配置项和数据显示图表。
     myPoint.setOption(daily);
 </script>
+
+<table class="table">
+    <h3>代价数据</h3>
+    <a href="${updateUrl}" class="btn btn-default" >
+        更新
+    </a>
+    <thead>
+    <tr>
+        <th>名称</th>
+        <th>排名</th>
+        <th>价格（CNY）</th>
+        <th>价格（USD）</th>
+        <th>价格（BTC）</th>
+        <th>24小时涨幅</th>
+        <th>一星期涨幅</th>
+        <th>24小时交易量</th>
+        <th>最后更新时间</th>
+        <th>备注</th>
+    </tr>
+    </thead>
+    <tbody>
+    <c:forEach items="${coinMarketCapList}" varStatus="status">
+        <c:set var="icoProjectInfo" value="${status.current}"/>
+        <tr>
+            <td>${icoProjectInfo.name}</td>
+            <td>${icoProjectInfo.rank}</td>
+            <td>${icoProjectInfo.priceCny}</td>
+            <td>${icoProjectInfo.priceUsd}</td>
+            <td>${icoProjectInfo.priceBtc}</td>
+            <td>${icoProjectInfo.percentChange24h}</td>
+            <td>${icoProjectInfo.percentChange7d}</td>
+            <td>${icoProjectInfo.percentChange7d}</td>
+            <td>${icoProjectInfo.remark}</td>
+            <td>
+                <a class="btn btn-primary" href="${editUrl}?id=${icoProjectInfo.id}" role="button">编辑</a>
+                <a class="btn btn-primary" href="${deleteUrl}?id=${icoProjectInfo.id}" role="button">删除</a>
+            </td>
+        </tr>
+    </c:forEach>
+    </tbody>
+</table>
 </body>
 </html>

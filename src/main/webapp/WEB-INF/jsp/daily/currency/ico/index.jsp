@@ -4,6 +4,7 @@
 <%@ page isELIgnored="false" %>
 <s:url value="/daily/currency/ico/edit" var="editUrl"/>
 <s:url value="/daily/currency/ico/update" var="updateUrl"/>
+<s:url value="/daily/currency/ico/update" var="syncUrl"/>
 <s:url value="/daily/currency/ico/delete" var="deleteUrl"/>
 <s:url value="/daily/currency/ico/index" var="listUrl"/>
 
@@ -34,6 +35,9 @@
         <h3>ICO项目记录    ---- 投入总额 ${inSum}  ---  现总额 ${count}</h3>
         <a href="${updateUrl}" class="btn btn-default" >
             更新
+        </a>
+        <a href="${syncUrl}" class="btn btn-default" style="margin-left: 10px">
+            一键同步
         </a>
         <thead>
         <tr>

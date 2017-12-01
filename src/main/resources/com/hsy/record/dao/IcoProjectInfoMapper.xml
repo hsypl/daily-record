@@ -53,11 +53,13 @@
         FROM currency_info a,
         ico_project_info b
         WHERE a.name =b.symbol
+       <if test="uid != null"> AND b.uid = #{uid}</if>
     </select>
 
     <select id="getInSum" resultType="int">
         SELECT sum(price)
         FROM ico_project_info
+        <if test="uid != null">WHERE uid = #{uid}</if>
     </select>
 
     <select id="getList" resultType="IcoProjectInfo">
@@ -67,9 +69,9 @@
     </select>
 
     <select id="getListLeftJoin" resultType="IcoProjectInfo">
-        SELECT <include refid="columns_join"/>,truncate(a.number*b.cny_price,0) AS count
+        SELECT <include refid="columns_join"/>,truncate(a.number*b.price_cny,0) AS count
         FROM <include refid="tableName"/> a
-        LEFT JOIN currency_info b ON a.symbol = b.name
+        LEFT JOIN coin_market_cap b ON a.symbol = b.id
         <include refid="dynamicWhere"/>
     </select>
 

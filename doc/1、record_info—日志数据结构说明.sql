@@ -76,6 +76,25 @@ CREATE TABLE IF NOT EXISTS assets_history(
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin COMMENT '资产历史记录';
 
 
+CREATE TABLE IF NOT EXISTS coin_market_cap(
+  id  VARCHAR (64) NOT NULL COMMENT 'id',
+  name  VARCHAR (64) NOT NULL COMMENT '名称',
+  symbol VARCHAR (24) NOT NULL COMMENT '代币符号',
+  rank  INT NOT NULL COMMENT '排名',
+  price_usd  DOUBLE NOT NULL COMMENT '美元',
+  price_btc  DOUBLE NOT NULL COMMENT 'BTC价格',
+  volume_usd_24h  DOUBLE NOT NULL COMMENT '24小时交易量',
+  market_cap_usd DOUBLE NOT NULL COMMENT '市值',
+  percent_change_24h DOUBLE NOT NULL COMMENT '24小时涨幅',
+  percent_change_7d DOUBLE NOT NULL COMMENT '一星期涨幅',
+  price_cny DOUBLE NOT NULL COMMENT '人民币',
+  volume_cny_24h DOUBLE NOT NULL COMMENT '24小时交易量',
+  market_cap_cny DOUBLE NOT NULL COMMENT '市值',
+  last_updated BIGINT NOT NULL COMMENT '更新时间',
+  status INT NOT NULL COMMENT '状态',
+  PRIMARY KEY(id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin COMMENT '市值信息记录表';
+
 
 
 

@@ -10,6 +10,8 @@ import com.hsy.record.model.IcoProjectInfo;
 import com.hsy.record.model.currency.CurrencyInfo;
 import com.hsy.record.model.enu.CurrencyStateEnum;
 import com.sungness.core.crawler.ClientUserAgent;
+import com.sungness.core.httpclient.HttpClientException;
+import com.sungness.core.httpclient.HttpClientUtils;
 import com.sungness.core.util.tools.DoubleTools;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
@@ -39,7 +41,8 @@ public class CurrencyInfoService extends LongPKBaseService<CurrencyInfo> {
 
     private static final Logger log = LoggerFactory.getLogger(CurrencyInfoService.class);
 
-    private static final String CNY = "6.6399";
+    private static final String CNY = "6.6";
+
 
     @Override
     protected GenericMapper<CurrencyInfo, Long> getMapper() {
@@ -84,14 +87,6 @@ public class CurrencyInfoService extends LongPKBaseService<CurrencyInfo> {
 
     @Transactional(timeout = 1000)
     public List<CurrencyInfo> updatePrice(List<String> nameList) throws IOException, ServiceProcessException {
-        Connection conn = Jsoup.connect("https://coinmarketcap.com/all/views/all/");
-        conn.userAgent(ClientUserAgent.getChromeUserAgent());
-        conn.maxBodySize(0);
-        Connection.Response response = conn.execute();
-        log.debug("statusCode =" + response.body());
-        if(response.statusCode() == response.statusCode()){
-            return parseResult(response.body(),nameList);
-        }
         return null;
     }
 

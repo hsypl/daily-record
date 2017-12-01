@@ -23,6 +23,12 @@
         <where>
             <if test="amount not in {null, ''}">a.amount = #{amount}</if>
             <if test="createTime not in {null, ''}">AND a.create_time = #{createTime}</if>
+            <if test="startTime not in {null, ''}">
+                AND <![CDATA[create_time >= #{startTime}]]>
+            </if>
+            <if test="endTime not in {null, ''}">
+                AND <![CDATA[create_time <= #{endTime}]]>
+            </if>
             <include refid="likeWhere"/>
         </where>
     </sql>

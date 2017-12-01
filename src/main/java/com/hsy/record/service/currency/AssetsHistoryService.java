@@ -2,12 +2,16 @@ package com.hsy.record.service.currency;
 
 import com.hsy.core.dao.GenericMapper;
 import com.hsy.core.service.LongPKBaseService;
+import com.hsy.core.util.DateUtilExt;
 import com.hsy.record.dao.AssetsHistoryMapper;
 import com.hsy.record.model.currency.AssetsHistory;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.*;
 
 /**
 * 资产历史记录 业务处理类
@@ -43,5 +47,35 @@ public class AssetsHistoryService
             assetsHistory = new AssetsHistory();
         }
         return assetsHistory;
+    }
+
+    public List<AssetsHistory> getMonthList(Long startTime,Long endTime){
+        Map<String,Object> params = new HashMap<>();
+        params.put("startTime",startTime);
+        params.put("endTime",endTime);
+        return getList(params);
+    }
+
+        public Map<String,Long> getMonthMap(String day){
+            Long startTime;
+            Long endTime;
+            if(StringUtils.isBlank(day)){
+                startTime = DateUtilExt.getLongOfFirstDayOfMonth();
+                endTime = DateUtilExt.getLongOfFirstDayOfNextMonth();
+            }else {
+                String data = DateUtilExt.formatYear(DateUtilExt.getTimestamp())+day;
+                startTime = DateUtilExt.atZoneGetLong(DateUtilExt.parseLocalDate(data));
+                endTime = DateUtilExt.getLongPlusMonths(startTime,1L);
+            }
+            return getMonthMap(startTime,endTime);
+        }
+
+    public Map<String,Long> getMonthMap(Long startTime,Long endTime){
+        List<AssetsHistory> assetsHistories = getMonthList(startTime,endTime);
+        SortedMap<String,Long> valueByDay = new TreeMap<>();
+        for(AssetsHistory assetsHistory : assetsHistories){
+            valueByDay.put(DateUtilExt.formatDay(assetsHistory.getCreateTime()),assetsHistory.getAmount());
+        }
+        return valueByDay;
     }
 }

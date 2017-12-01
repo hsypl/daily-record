@@ -29,7 +29,7 @@ public class CurrencyCache {
     private CurrencyInfoService currencyInfoService;
 
     public void init() throws IOException, ServiceProcessException {
-        currencyList = getAll();
+//        currencyList = getAll();
     }
 
     public List<String> getAll() {
