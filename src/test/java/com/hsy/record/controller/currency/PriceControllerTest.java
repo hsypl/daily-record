@@ -3,9 +3,11 @@ package com.hsy.record.controller.currency;
 import com.hsy.core.service.ServiceProcessException;
 import com.hsy.record.model.IcoProjectInfo;
 import com.hsy.record.model.currency.AssetsHistory;
+import com.hsy.record.model.currency.CoinHistory;
 import com.hsy.record.model.currency.CoinMarketCap;
 import com.hsy.record.service.IcoProjectInfoService;
 import com.hsy.record.service.currency.AssetsHistoryService;
+import com.hsy.record.service.currency.CoinHistoryService;
 import com.hsy.record.service.currency.CoinMarketCapService;
 import com.sungness.core.httpclient.HttpClientException;
 import org.junit.Test;
@@ -15,6 +17,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
+import java.text.ParseException;
 import java.util.List;
 
 /**
@@ -31,6 +34,8 @@ public class PriceControllerTest {
     private AssetsHistoryService assetsHistoryService;
     @Autowired
     private CoinMarketCapService coinMarketCapService;
+    @Autowired
+    private CoinHistoryService coinHistoryService;
 
     @Test
     public void test() throws ServiceProcessException {
@@ -59,5 +64,15 @@ public class PriceControllerTest {
     public void test2() throws ServiceProcessException, HttpClientException {
         coinMarketCapService.update();
     }
+
+    @Test
+    public void test3() throws HttpClientException, ServiceProcessException, ParseException {
+        List<IcoProjectInfo> list = icoProjectInfoService.getList();
+        for (IcoProjectInfo icoProjectInfo : list) {
+            coinHistoryService.updateData(icoProjectInfo.getSymbol(),1488384000L,1512144000L);
+
+        }
+    }
+
 
 }

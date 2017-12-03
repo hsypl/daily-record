@@ -1,5 +1,7 @@
 package com.hsy.record.model.currency;
 
+import com.sungness.core.util.DateUtil;
+
 import java.io.Serializable;
 
 /**
@@ -158,5 +160,9 @@ public class CoinMarketCap implements Serializable {
 
     public void setStatus(int status) {
         this.status = status;
+    }
+
+    public String getFormatCreateTime(){
+        return DateUtil.fullFormat(lastUpdated);
     }
 }

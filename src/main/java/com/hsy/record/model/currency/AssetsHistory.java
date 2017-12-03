@@ -1,5 +1,7 @@
 package com.hsy.record.model.currency;
 
+import com.sungness.core.util.DateUtil;
+
 import java.io.Serializable;
 
 /**
@@ -38,6 +40,10 @@ public class AssetsHistory implements Serializable {
 
     public void setCreateTime(Long createTime) {
         this.createTime = createTime;
+    }
+
+    public String getFormatCreateTime(){
+        return DateUtil.fullFormat(createTime);
     }
 
 }

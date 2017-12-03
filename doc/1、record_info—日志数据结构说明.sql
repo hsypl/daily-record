@@ -95,7 +95,17 @@ CREATE TABLE IF NOT EXISTS coin_market_cap(
   PRIMARY KEY(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin COMMENT '市值信息记录表';
 
-
+-- 1.0 coin_history
+-- 创建时间：2017年7月11日
+-- -----------------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS coin_history(
+  id   BIGINT NOT NULL AUTO_INCREMENT COMMENT 'id',
+  symbol VARCHAR (64) NOT NULL COMMENT '代币符号',
+  price  DOUBLE NOT NULL COMMENT '价格',
+  volume DOUBLE NOT NULL COMMENT '交易量',
+  create_time BIGINT NOT NULL COMMENT '日期',
+  PRIMARY KEY(id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin COMMENT '资产历史记录';
 
 
 

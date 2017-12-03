@@ -18,6 +18,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.lang.reflect.Type;
 import java.util.HashMap;
@@ -77,6 +78,7 @@ public class CoinMarketCapService
         return resultList;
     }
 
+    @Transactional(timeout = 1000)
     public void update() throws HttpClientException, ServiceProcessException {
         String result = HttpClientUtils.getString(GET_URL);
         List<Map<String,String>> resultList = getListByJson(result);

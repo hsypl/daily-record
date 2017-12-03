@@ -4,14 +4,14 @@
 <%@ page isELIgnored="false" %>
 <s:url value="/daily/currency/ico/edit" var="editUrl"/>
 <s:url value="/daily/currency/ico/update" var="updateUrl"/>
-<s:url value="/daily/currency/ico/update" var="syncUrl"/>
+<s:url value="/daily/currency/ico/sync" var="syncUrl"/>
 <s:url value="/daily/currency/ico/delete" var="deleteUrl"/>
 <s:url value="/daily/currency/ico/index" var="listUrl"/>
 
 <html>
 <head>
     <title>Title</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
     <script src="/media/js/responsive-nav.js"></script>
     <script src="/media/js/jquery-3.2.1.min.js"></script>
     <script src="/media/js/bootstrap.min.js"></script>

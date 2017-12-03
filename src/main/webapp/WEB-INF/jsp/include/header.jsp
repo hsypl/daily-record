@@ -8,6 +8,7 @@
 <s:url value="/daily/plan/index" var="planIndex"/>
 <s:url value="/daily/user/index" var="userIndex"/>
 <s:url value="/daily/currency/index" var="currencyIndex"/>
+<s:url value="/daily/currency/history/index" var="historyIndex"/>
 <link href="<s:url value="/media/css/font-awesome.min.css"/>" rel="stylesheet" type="text/css"/>
 <style>
     .personal{
@@ -38,7 +39,7 @@
                         <li class="divider"></li>
                         <li><a href="${priceIndex}">price</a></li>
                         <li class="divider"></li>
-                        <li><a href="#">Ico href</a></li>
+                        <li><a href="${historyIndex}">Ico href</a></li>
                         <li class="divider"></li>
                         <li><a href="#">另一个分离的链接</a></li>
                     </ul>

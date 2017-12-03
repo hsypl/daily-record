@@ -49,10 +49,10 @@
     </select>
 
     <select id="getSum" resultType="int">
-        SELECT sum(a.cny_price*b.number)
-        FROM currency_info a,
+        SELECT sum(a.price_cny*b.number)
+        FROM coin_market_cap a,
         ico_project_info b
-        WHERE a.name =b.symbol
+        WHERE a.id =b.symbol
        <if test="uid != null"> AND b.uid = #{uid}</if>
     </select>
 
