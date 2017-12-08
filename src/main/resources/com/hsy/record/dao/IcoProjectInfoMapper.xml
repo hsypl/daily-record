@@ -69,7 +69,9 @@
     </select>
 
     <select id="getListLeftJoin" resultType="IcoProjectInfo">
-        SELECT <include refid="columns_join"/>,truncate(a.number*b.price_cny,0) AS count
+        SELECT <include refid="columns_join"/>,b.price_cny AS nowPrice,
+        truncate(a.number*b.price_cny,0) AS count,
+        ((a.number*b.price_cny-a.price)/a.price)*100 AS percent
         FROM <include refid="tableName"/> a
         LEFT JOIN coin_market_cap b ON a.symbol = b.id
         <include refid="dynamicWhere"/>
@@ -89,6 +91,7 @@
             <if test="uid != null">uid=#{uid},</if>
             <if test="name != null">name=#{name},</if>
             <if test="website not in {null, ''}">website=#{website},</if>
+            <if test="symbol not in {null, ''}">symbol=#{symbol},</if>
             <if test="price not in {null, ''}">price=#{price},</if>
             <if test="number != null">number=#{number},</if>
             <if test="remark not in {null, ''}">remark=#{remark},</if>

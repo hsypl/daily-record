@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ page isELIgnored="false" %>
 <s:url value="/daily/currency/ico/edit" var="editUrl"/>
 <s:url value="/daily/currency/ico/update" var="updateUrl"/>
@@ -41,13 +42,13 @@
         </a>
         <thead>
         <tr>
-            <th>id</th>
             <th>项目名称</th>
-            <th>网站地址</th>
             <th>投入金额</th>
             <th>代币符号</th>
             <th>数量</th>
+            <th>现价</th>
             <th>总额</th>
+            <th>收益</th>
             <th>备注</th>
         </tr>
         </thead>
@@ -73,13 +74,13 @@
         <c:forEach items="${icoProjectInfoList}" varStatus="status">
             <c:set var="icoProjectInfo" value="${status.current}"/>
             <tr>
-                <td>${icoProjectInfo.id}</td>
                 <td>${icoProjectInfo.name}</td>
-                <td>${icoProjectInfo.website}</td>
                 <td>${icoProjectInfo.price}</td>
                 <td>${icoProjectInfo.symbol}</td>
                 <td>${icoProjectInfo.number}</td>
+                <td><fmt:formatNumber value="${icoProjectInfo.nowPrice}" minFractionDigits="3"/></td>
                 <td>${icoProjectInfo.count}</td>
+                <td><fmt:formatNumber value="${icoProjectInfo.percent}" minFractionDigits="0"/></td>
                 <td>${icoProjectInfo.remark}</td>
                 <td>
                     <a class="btn btn-primary" href="${editUrl}?id=${icoProjectInfo.id}" role="button">编辑</a>

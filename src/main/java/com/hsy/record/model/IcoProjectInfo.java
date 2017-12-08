@@ -24,6 +24,10 @@ public class IcoProjectInfo {
     //关联
     private String count;
 
+    private Double nowPrice;
+
+    private Double percent;
+
     public Long getId() {
         return id;
     }
@@ -94,5 +98,21 @@ public class IcoProjectInfo {
 
     public void setUid(String uid) {
         this.uid = uid;
+    }
+
+    public Double getNowPrice() {
+        return nowPrice;
+    }
+
+    public void setNowPrice(Double nowPrice) {
+        this.nowPrice = nowPrice;
+    }
+
+    public Double getPercent() {
+        return percent;
+    }
+
+    public void setPercent(Double percent) {
+        this.percent = percent;
     }
 }
