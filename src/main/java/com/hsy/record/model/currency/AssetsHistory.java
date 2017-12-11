@@ -13,6 +13,7 @@ public class AssetsHistory implements Serializable {
 
     /** id */
     private Long id;
+    private String uid;
     /** 总资产 */
     private Long amount;
     /** 统计日期 */
@@ -25,6 +26,15 @@ public class AssetsHistory implements Serializable {
     public void setId(Long id) {
         this.id = id;
     }
+
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
+    }
+
 
     public Long getAmount() {
         return amount;

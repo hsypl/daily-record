@@ -2,9 +2,16 @@ package com.hsy.record.service.currency;
 
 import com.hsy.core.dao.GenericMapper;
 import com.hsy.core.service.LongPKBaseService;
+import com.hsy.core.service.ServiceProcessException;
 import com.hsy.core.util.DateUtilExt;
 import com.hsy.record.dao.AssetsHistoryMapper;
+import com.hsy.record.model.IcoProjectInfo;
+import com.hsy.record.model.UserInfo;
 import com.hsy.record.model.currency.AssetsHistory;
+import com.hsy.record.service.IcoProjectInfoService;
+import com.hsy.record.service.UserInfoService;
+import com.sungness.core.httpclient.HttpClientException;
+import com.sungness.core.util.tools.LongTools;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,6 +32,15 @@ public class AssetsHistoryService
 
     @Autowired
     private AssetsHistoryMapper assetsHistoryMapper;
+
+    @Autowired
+    private IcoProjectInfoService icoProjectInfoService;
+
+    @Autowired
+    private UserInfoService userInfoService;
+
+    @Autowired
+    private CoinMarketCapService coinMarketCapService;
 
     /**
     * 获取数据层mapper接口对象，子类必须实现该方法
@@ -77,5 +93,18 @@ public class AssetsHistoryService
             valueByDay.put(DateUtilExt.formatDay(assetsHistory.getCreateTime()),assetsHistory.getAmount());
         }
         return valueByDay;
+    }
+
+    public void count() throws HttpClientException, ServiceProcessException {
+        coinMarketCapService.update();
+        List<UserInfo> userInfoList = userInfoService.getList();
+        for(UserInfo userInfo : userInfoList){
+            Integer sum = icoProjectInfoService.getSum(userInfo.getUid());
+            AssetsHistory history = new AssetsHistory();
+            history.setUid(userInfo.getUid());
+            history.setAmount(LongTools.parse(sum.toString()));
+            history.setCreateTime(DateUtilExt.getTimestamp());
+            insert(history);
+        }
     }
 }

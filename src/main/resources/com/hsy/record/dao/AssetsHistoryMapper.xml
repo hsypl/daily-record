@@ -5,7 +5,7 @@
     <sql id="tableName">assets_history</sql>
 
     <sql id="columns_no_id">
-        amount, create_time
+        uid,amount, create_time
     </sql>
 
     <sql id="columns">
@@ -13,7 +13,7 @@
     </sql>
 
     <sql id="columns_join">
-        a.id, a.amount, a.create_time
+        a.id, a.uid,a.amount, a.create_time
     </sql>
 
     <sql id="likeWhere" databaseId="mysql">
@@ -22,6 +22,7 @@
     <sql id="dynamicWhere">
         <where>
             <if test="amount not in {null, ''}">a.amount = #{amount}</if>
+            <if test="uid not in {null, ''}">AND a.uid = #{uid}</if>
             <if test="createTime not in {null, ''}">AND a.create_time = #{createTime}</if>
             <if test="startTime not in {null, ''}">
                 AND <![CDATA[create_time >= #{startTime}]]>
@@ -66,13 +67,14 @@
         (<include refid="columns_no_id"/>)
         VALUES
         (
-        #{amount}, #{createTime}
+        #{uid},#{amount}, #{createTime}
         )
     </insert>
 
     <update id="update" parameterType="AssetsHistory">
         UPDATE <include refid="tableName"/>
         <set>
+            <if test="uid not in {null, ''}">uid=#{uid}, </if>
             <if test="amount not in {null, ''}">amount=#{amount}, </if>
             <if test="createTime not in {null, ''}">create_time=#{createTime}</if>
         </set>
