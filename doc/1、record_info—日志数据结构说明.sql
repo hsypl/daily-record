@@ -70,6 +70,7 @@ CREATE TABLE IF NOT EXISTS currency_info(
 -- -----------------------------------------------------------------------------
 CREATE TABLE IF NOT EXISTS assets_history(
   id   BIGINT NOT NULL AUTO_INCREMENT COMMENT 'id',
+  uid  VARCHAR (24) NOT NULL COMMENT '用户id',
   amount  BIGINT NOT NULL COMMENT '总资产',
   create_time BIGINT NOT NULL COMMENT '统计日期',
   PRIMARY KEY(id)

@@ -69,7 +69,7 @@ public class PriceControllerTest {
     public void test3() throws HttpClientException, ServiceProcessException, ParseException {
         List<IcoProjectInfo> list = icoProjectInfoService.getList();
         for (IcoProjectInfo icoProjectInfo : list) {
-            coinHistoryService.updateData(icoProjectInfo.getSymbol(),1509465600L,1512436781L);
+            coinHistoryService.updateData(icoProjectInfo.getSymbol(),1511798400L,1513008000L);
 
         }
     }

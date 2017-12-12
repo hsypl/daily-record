@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:task="http://www.springframework.org/schema/task"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/task
+		http://www.springframework.org/schema/task/spring-task.xsd">
+
+    <import resource="spring-threadpool-config.xml" />
+    <task:annotation-driven executor="annotationExecutor" scheduler="annotationScheduler"/>
+    <!-- 支持 @Async 注解 -->
+    <task:executor id="annotationExecutor" pool-size="20"/>
+    <!-- 支持 @Scheduled 注解 -->
+    <task:scheduler id="annotationScheduler" pool-size="30"/>
+
+    <task:scheduled-tasks scheduler="annotationScheduler">
+        <task:scheduled ref="dailyCountSchedule" method="start"
+                        cron="0 0 1 * * ?"/>
+
+        <task:scheduled ref="dailyHistorySchedule" method="start"
+                        cron="0 0 7 * * ?"/>
+        <!--<task:scheduled ref="authorizerTokenRefresh" method="run"
+                        fixed-delay="7200" initial-delay="10"/>
+        <task:scheduled ref="componentTokenRefresh" method="run"
+                        fixed-delay="7200" initial-delay="10"/>-->
+        <!-- 定时从数据库里取tonken到内存 -->
+
+        <!--<task:scheduled ref="authorizerTokenService" method="initTokenFacade"
+                        fixed-delay="600000" initial-delay="10000"/>-->
+    </task:scheduled-tasks>
+</beans>
