@@ -317,6 +317,7 @@ public class DateUtilExt {
 
     }*/
 
+
     public static void main(String arg[]) throws ParseException {
         System.out.print(DateUtilExt.atZoneGetLong(parseLocalDate("2017-08-01")));
     }

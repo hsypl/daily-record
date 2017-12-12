@@ -7,6 +7,7 @@ import com.hsy.record.model.IcoProjectInfo;
 import com.hsy.record.model.UserInfo;
 import com.hsy.record.model.currency.CoinHistory;
 import com.hsy.record.model.currency.CoinMarketCap;
+import com.hsy.record.model.enu.WeekEnum;
 import com.hsy.record.service.IcoProjectInfoService;
 import com.sungness.core.crawler.ClientUserAgent;
 import com.sungness.core.httpclient.HttpClientException;
@@ -14,6 +15,7 @@ import com.sungness.core.httpclient.HttpClientUtils;
 import com.sungness.core.util.DateUtil;
 import com.sungness.core.util.GsonUtils;
 import com.sungness.core.util.tools.DoubleTools;
+import com.sungness.core.util.tools.IntegerTools;
 import org.apache.commons.lang3.time.DateUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -40,6 +42,15 @@ import java.util.*;
  */
 public class Test {
 
+    public static final int MONDAY = 1<<0;
+    public static final int TUESDAY = 1<<1;
+    public static final int WEDNESDAY = 1<<2;
+    public static final int THURSDAY = 1<<3;
+    public static final int FRIDAY = 1<<4;
+    public static final int SATURDAY = 1<<5;
+    public static final int SUNDAY = 1<<6;
+
+
     public static List<String> parseList(String params){
         List<String> idList = new ArrayList<>();
         String idArray[] = params.split(" ");
@@ -60,29 +71,17 @@ public class Test {
         return DateUtils.parseDate(dateStr, "yyyy年MM月dd日");
     }
 
-
+    public static Integer getBinary(String whatDay){
+        Integer binary = 0;
+        for (int i = 0;i<whatDay.length();i++) {
+            Integer day = IntegerTools.parse(whatDay.substring(i, i + 1));
+            binary = binary | WeekEnum.valueOfCode(day).getBinary();
+        }
+        return binary;
+    }
 
     public static void main(String[] args) throws HttpClientException, IOException, ParseException {
-        String result = HttpClientUtils.getString("https://coinmarketcap.com/zh/currencies/dash/historical-data/?start=20170902&end=20171202");
-//        System.out.println(result);
-        Document document = Jsoup.parse(result);
-        Elements table = document.select(".table-responsive tbody");
-        Elements tr = table.select("tr");
-        Elements td = tr.get(0).select("td");
-        CoinHistory coinHistory = new CoinHistory();
-        coinHistory.setId("dash");
-        coinHistory.setCreateTime((Test.parseDate(td.get(0).text()).getTime())/1000);
-        coinHistory.setPrice(DoubleTools.parseDouble(td.get(3).text()));
-        coinHistory.setVolume((DoubleTools.parseDouble(td.get(5).text())));
-        String price = td.get(5).text();
-        String[] a = price.split(",");
-        StringBuilder volume = new StringBuilder();
-        for (String b : a){
-            volume.append(b);
-        }
-        System.out.println(volume);
-
-        System.out.println((DoubleTools.parseDouble(td.get(5).text())));
-        System.out.print(GsonUtils.toJson(coinHistory));
+        System.out.println(THURSDAY|SUNDAY);
+        System.out.print(Test.getBinary("1234560"));
     }
 }
