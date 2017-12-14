@@ -87,8 +87,7 @@
         SELECT <include refid="columns_join"/>
         FROM <include refid="tableName"/> a
         LEFT JOIN user_coin_relation b ON a.id = b.symbol
-        <include refid="dynamicWhere"/>
-        AND b.uid = #{uid}
+        WHERE b.uid = #{uid}
         ORDER BY b.priority
     </select>
 

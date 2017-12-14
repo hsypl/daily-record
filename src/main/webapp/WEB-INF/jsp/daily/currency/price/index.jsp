@@ -31,11 +31,10 @@
                 var symbol = $("#selectValue").val();
                 window.location.href="/daily/currency/price/index?coinNames="+symbol;
             })
-            $("#add").click(function () {
-                var symbol = $("#selectValue").val();
-                window.location.href="/daily/currency/price/add?coinNames="+symbol;
-            })
         });
+        function add(symbol) {
+            window.location.href="/daily/currency/price/add?symbol="+symbol;
+        }
     </script>
     <style>
         .select2-container--default .select2-selection--single {
@@ -46,7 +45,7 @@
 </head>
 <body>
 <div class="main" style="width: 600px;height: 50px" >
-    <div class="col-lg-1" style="width: 350px">
+    <div class="col-lg-1" style="width: 450px">
         <div class="input-group">
             <select class="js-example-basic-single" id="selectValue">
                 <c:forEach items="${idList}"  varStatus="status">
@@ -54,24 +53,26 @@
                     <option value="${id}"> ${id}</option>
                 </c:forEach>
             </select>
-            <span class="input-group-btn">
-						<button id="add" class="btn btn-default" type="button">
-							添加
-						</button>
-            </span>
-            <div class="main-left" style="margin-left: 5px" >
+            <span>
                 <button id="select" class="btn btn-default" type="button" >
-                    查询
+                            查询
                 </button>
-            </div>
+                <a href="/daily/currency/price/update" class="btn btn-default" type="button" >
+                            刷新
+                </a>
+            </span>
         </div><!-- /input-group -->
     </div>
 </div>
 <!-- div select begin-->
-<c:if test="${coinMarketCap != null}">
+<c:if test="${currentCoin != null}">
 <div class="price-select" id ="price-select">
     <div class="price-child-title">
-        <span style="font-size: 20px;">${currentCoin.symbol}</span>
+        <span style="font-size: 20px;">${currentCoin.symbol}
+            <button onclick="add('${currentCoin.id}')" class="btn btn-default" type="button">
+                            添加
+            </button>
+        </span>
         <br>
         <span style="font-size: 18px;">
             <fmt:formatNumber value="${currentCoin.priceCny}" minFractionDigits="4"/>CNY
@@ -93,13 +94,13 @@
 <!-- div select end-->
 
 <div class="content-price">
-    <c:forEach items="coinMarketCapList" varStatus="status">
-        <c:set var="coinMarket" value="${status.current}"/>
+    <c:forEach items="${coinMarketCapList}" varStatus="status">
+        <c:set var="coinMarketCap" value="${status.current}"/>
         <div class="price">
             <div class="price-child">
                 <div class="price-child-title">
-                    <span style="font-size: 20px;">${coinMarketCap.symbol}</span>
-                    <span>ss</span>
+                    <span style="font-size: 20px;">${coinMarketCap.symbol}
+                    </span>
                     <br>
                     <span style="font-size: 18px;">
                         <fmt:formatNumber value="${coinMarketCap.priceCny}" minFractionDigits="4"/>CNY
@@ -160,11 +161,14 @@
     .price-child-title{
         margin-left: 10px;
         float:left;
-        width:67%;
+        width:95%;
         border: 0 solid #000;
         text-align:left;
         padding:5px 0;
         line-height:25px;
+    }
+    .price-child-title button{
+        float: right;
     }
     .glyphicon {
         left: 4px;top: 3px

@@ -4,6 +4,7 @@ import com.hsy.core.service.ServiceProcessException;
 import com.hsy.record.model.UserInfo;
 import com.hsy.record.model.currency.CoinMarketCap;
 import com.hsy.record.model.currency.CurrencyInfo;
+import com.hsy.record.model.currency.UserCoinRelation;
 import com.hsy.record.model.enu.CurrencyStateEnum;
 import com.hsy.record.service.currency.CoinMarketCapService;
 import com.hsy.record.service.currency.CurrencyInfoService;
@@ -44,10 +45,11 @@ public class PriceController {
     @Autowired
     private UserCoinRelationService userCoinRelationService;
 
+
     @RequestMapping("/index")
     public void index(@RequestAttribute UserInfo userInfo,
                       @RequestParam(required = false) String coinNames, Model model,
-                      HttpServletRequest request) throws HttpClientException {
+                      HttpServletRequest request) throws HttpClientException, ServiceProcessException {
         log.debug(coinNames);
         if(StringUtils.isNotBlank(coinNames)){
             CoinMarketCap coinMarketCap = coinMarketCapService.getPrice(coinNames);
@@ -60,8 +62,15 @@ public class PriceController {
     }
 
     @RequestMapping("/add")
-    public String add(@RequestAttribute UserInfo userInfo,String symbol) throws ServiceProcessException {
+    public String add(@RequestAttribute UserInfo userInfo,@RequestParam String symbol) throws ServiceProcessException {
         userCoinRelationService.save(userInfo.getUid(),symbol);
-        return "redirect:"+URL_PREFIX;
+        return "redirect:"+URL_PREFIX+"/index";
+    }
+
+    @RequestMapping("/update")
+    public String update(@RequestAttribute UserInfo userInfo) throws HttpClientException, ServiceProcessException {
+        List<UserCoinRelation> userCoinRelationList = userCoinRelationService.getListByUid(userInfo.getUid());
+        coinMarketCapService.update(userCoinRelationList);
+        return "redirect:"+URL_PREFIX+"/index";
     }
 }

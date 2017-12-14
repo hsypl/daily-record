@@ -7,6 +7,7 @@ import com.hsy.core.service.StringPKBaseService;
 import com.hsy.record.dao.CoinMarketCapMapper;
 import com.hsy.record.model.IcoProjectInfo;
 import com.hsy.record.model.currency.CoinMarketCap;
+import com.hsy.record.model.currency.UserCoinRelation;
 import com.hsy.record.model.enu.CurrencyStateEnum;
 import com.sungness.core.httpclient.HttpClientException;
 import com.sungness.core.httpclient.HttpClientUtils;
@@ -95,18 +96,19 @@ public class CoinMarketCapService
         String result = HttpClientUtils.getString(GET_URL);
         List<Map<String,String>> resultList = getListByJson(result);
         for(Map<String,String> data : resultList){
-            CoinMarketCap coinMarketCap = getSafety(data.get("id"));
-            coinMarketCap = parseData(data,coinMarketCap);
-            if(StringUtils.isBlank(coinMarketCap.getId())){
-                coinMarketCap.setId(data.get("id"));
-                insert(coinMarketCap);
-            }else {
-                update(coinMarketCap);
-            }
+           parseData(data);
         }
     }
 
-    public CoinMarketCap parseData(Map<String,String> data,CoinMarketCap coinMarketCap){
+    public void update(List<UserCoinRelation> relationList) throws ServiceProcessException, HttpClientException {
+        for (UserCoinRelation relation : relationList){
+            getPrice(relation.getSymbol());
+        }
+    }
+
+    public CoinMarketCap parseData(Map<String,String> data) throws ServiceProcessException {
+        CoinMarketCap coinMarketCap = getSafety(data.get("id"));
+        coinMarketCap.setId(data.get("id"));
         coinMarketCap.setName(data.get("name"));
         coinMarketCap.setSymbol(data.get("symbol"));
         coinMarketCap.setRank(Integer.parseInt(data.get("rank")));
@@ -120,15 +122,18 @@ public class CoinMarketCapService
         coinMarketCap.setPriceCny(DoubleTools.parseDouble(data.get("price_cny")));
         coinMarketCap.setVolumeCny24H(DoubleTools.parseDouble(data.get("24h_volume_cny")));
         coinMarketCap.setMarketCapCny(DoubleTools.parseDouble(data.get("market_cap_cny")));
+        if(StringUtils.isBlank(coinMarketCap.getId())){
+            insert(coinMarketCap);
+        }else {
+            update(coinMarketCap);
+        }
         return coinMarketCap;
     }
 
-    public CoinMarketCap getPrice(String symbol) throws HttpClientException {
+    public CoinMarketCap getPrice(String symbol) throws HttpClientException, ServiceProcessException {
         String result = HttpClientUtils.getString(ONE_URL+symbol+"?convert=CNY");
-        CoinMarketCap coinMarketCap = new CoinMarketCap();
         List<Map<String,String>> resultList = getListByJson(result);
-        coinMarketCap = parseData(resultList.get(0),coinMarketCap);
-        return coinMarketCap;
+        return parseData(resultList.get(0));
     }
 
     public void sync(List<IcoProjectInfo> icoProjectInfoList) throws ServiceProcessException {
@@ -143,6 +148,5 @@ public class CoinMarketCapService
 
     public static void main(String[] args) throws HttpClientException {
         CoinMarketCapService coinMarketCapService = new CoinMarketCapService();
-        log.debug(GsonUtils.toJson(coinMarketCapService.getPrice("dash")));
     }
 }

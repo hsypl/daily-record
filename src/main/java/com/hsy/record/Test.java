@@ -83,6 +83,5 @@ public class Test {
 
     public static void main(String[] args) throws HttpClientException, IOException, ParseException {
         CoinMarketCapService coinMarketCapService = new CoinMarketCapService();
-        System.out.println("aa"+GsonUtils.toJson(coinMarketCapService.getPrice("dash")));
     }
 }

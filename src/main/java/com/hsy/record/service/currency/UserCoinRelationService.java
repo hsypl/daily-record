@@ -10,6 +10,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 /**
 * 资产历史记录 业务处理类
 *
@@ -44,6 +48,12 @@ public class UserCoinRelationService
             userCoinRelation = new UserCoinRelation();
         }
         return userCoinRelation;
+    }
+
+    public List<UserCoinRelation> getListByUid(String uid){
+        Map<String,Object> params = new HashMap<>();
+        params.put("uid",uid);
+        return getList(params);
     }
 
     public void save(String uid,String symbol) throws ServiceProcessException {
