@@ -38,7 +38,6 @@ public class DailyHistorySchedule {
             List<IcoProjectInfo> list = icoProjectInfoService.getList();
             for (IcoProjectInfo icoProjectInfo : list) {
                 coinHistoryService.updateData(icoProjectInfo.getSymbol(),DateUtilExt.getLongPlusDays(endTime,-1L), endTime);
-
             }
         } catch (ServiceProcessException | ParseException e) {
             e.printStackTrace();

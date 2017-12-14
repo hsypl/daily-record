@@ -2,9 +2,13 @@ package com.hsy.record.controller.currency;
 
 import com.hsy.core.service.ServiceProcessException;
 import com.hsy.record.model.UserInfo;
+import com.hsy.record.model.currency.CoinMarketCap;
 import com.hsy.record.model.currency.CurrencyInfo;
 import com.hsy.record.model.enu.CurrencyStateEnum;
+import com.hsy.record.service.currency.CoinMarketCapService;
 import com.hsy.record.service.currency.CurrencyInfoService;
+import com.hsy.record.service.currency.UserCoinRelationService;
+import com.sungness.core.httpclient.HttpClientException;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,26 +38,30 @@ public class PriceController {
     @Autowired
     private CurrencyInfoService currencyInfoService;
 
+    @Autowired
+    private CoinMarketCapService coinMarketCapService;
+
+    @Autowired
+    private UserCoinRelationService userCoinRelationService;
+
     @RequestMapping("/index")
     public void index(@RequestAttribute UserInfo userInfo,
-                      @RequestParam(required = false) String coin_names, Model model,
-                      HttpServletRequest request){
-        log.debug(coin_names);
-        List<CurrencyInfo> infoList = null;
-        try {
-            if(StringUtils.isNotBlank(coin_names)){
-                infoList = currencyInfoService.getPrice(coin_names);
-            }else {
-                infoList = currencyInfoService.getByStatus(CurrencyStateEnum.YES.getValue());
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ServiceProcessException e) {
-            e.printStackTrace();
+                      @RequestParam(required = false) String coinNames, Model model,
+                      HttpServletRequest request) throws HttpClientException {
+        log.debug(coinNames);
+        if(StringUtils.isNotBlank(coinNames)){
+            CoinMarketCap coinMarketCap = coinMarketCapService.getPrice(coinNames);
+            model.addAttribute("currentCoin",coinMarketCap);
         }
-        List<CurrencyInfo>  currentList = currencyInfoService.getByStatus(CurrencyStateEnum.YES.getValue());
-        model.addAttribute("allList",currencyInfoService.getList());
-        model.addAttribute("currentList",currentList);
-        model.addAttribute("infoList",infoList);
+        List<CoinMarketCap> coinMarketCapList
+                = coinMarketCapService.getListLeftJoinByUid(userInfo.getUid());
+        model.addAttribute("coinMarketCapList",coinMarketCapList);
+        model.addAttribute("idList",coinMarketCapService.getIdList());
+    }
+
+    @RequestMapping("/add")
+    public String add(@RequestAttribute UserInfo userInfo,String symbol) throws ServiceProcessException {
+        userCoinRelationService.save(userInfo.getUid(),symbol);
+        return "redirect:"+URL_PREFIX;
     }
 }

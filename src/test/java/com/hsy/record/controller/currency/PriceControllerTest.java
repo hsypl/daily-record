@@ -1,6 +1,7 @@
 package com.hsy.record.controller.currency;
 
 import com.hsy.core.service.ServiceProcessException;
+import com.hsy.core.util.DateUtilExt;
 import com.hsy.record.model.IcoProjectInfo;
 import com.hsy.record.model.currency.AssetsHistory;
 import com.hsy.record.model.currency.CoinHistory;
@@ -67,10 +68,10 @@ public class PriceControllerTest {
 
     @Test
     public void test3() throws HttpClientException, ServiceProcessException, ParseException {
+        Long endTime = DateUtilExt.getLongOfToday();
         List<IcoProjectInfo> list = icoProjectInfoService.getList();
         for (IcoProjectInfo icoProjectInfo : list) {
-            coinHistoryService.updateData(icoProjectInfo.getSymbol(),1511798400L,1513008000L);
-
+            coinHistoryService.updateData(icoProjectInfo.getSymbol(),DateUtilExt.getLongPlusDays(endTime,-1L), endTime);
         }
     }
 

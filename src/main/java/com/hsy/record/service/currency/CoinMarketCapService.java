@@ -40,6 +40,8 @@ public class CoinMarketCapService
 
     private static final String GET_URL = "https://api.coinmarketcap.com/v1/ticker/?convert=CNY&limit=600";
 
+    private static final String ONE_URL = "https://api.coinmarketcap.com/v1/ticker/";
+
     /**
     * 获取数据层mapper接口对象，子类必须实现该方法
     *
@@ -63,6 +65,16 @@ public class CoinMarketCapService
         return coinMarketCap;
     }
 
+    public List<String> getIdList(){
+        return coinMarketCapMapper.getIdList();
+    }
+
+    public List<CoinMarketCap> getListLeftJoinByUid(String uid){
+        Map<String,Object> params= new HashMap<>();
+        params.put("uid",uid);
+        return coinMarketCapMapper.getListLeftJoinByUid(params);
+    }
+
     public List<CoinMarketCap> getListByStatus(Integer status){
         Map<String,Object> params = new HashMap<>();
         params.put("status",status);
@@ -84,19 +96,7 @@ public class CoinMarketCapService
         List<Map<String,String>> resultList = getListByJson(result);
         for(Map<String,String> data : resultList){
             CoinMarketCap coinMarketCap = getSafety(data.get("id"));
-            coinMarketCap.setName(data.get("name"));
-            coinMarketCap.setSymbol(data.get("symbol"));
-            coinMarketCap.setRank(Integer.parseInt(data.get("rank")));
-            coinMarketCap.setPriceUsd(DoubleTools.parseDouble(data.get("price_usd")));
-            coinMarketCap.setPriceBtc(DoubleTools.parseDouble(data.get("price_btc")));
-            coinMarketCap.setVolumeUsd24H(DoubleTools.parseDouble(data.get("24h_volume_usd")));
-            coinMarketCap.setMarketCapUsd(DoubleTools.parseDouble(data.get("market_cap_usd")));
-            coinMarketCap.setPercentChange24H(DoubleTools.parseDouble(data.get("percent_change_24h")));
-            coinMarketCap.setPercentChange7D(DoubleTools.parseDouble(data.get("percent_change_7d")));
-            coinMarketCap.setLastUpdated((LongTools.parse(data.get("last_updated"))));
-            coinMarketCap.setPriceCny(DoubleTools.parseDouble(data.get("price_cny")));
-            coinMarketCap.setVolumeCny24H(DoubleTools.parseDouble(data.get("24h_volume_cny")));
-            coinMarketCap.setMarketCapCny(DoubleTools.parseDouble(data.get("market_cap_cny")));
+            coinMarketCap = parseData(data,coinMarketCap);
             if(StringUtils.isBlank(coinMarketCap.getId())){
                 coinMarketCap.setId(data.get("id"));
                 insert(coinMarketCap);
@@ -104,6 +104,31 @@ public class CoinMarketCapService
                 update(coinMarketCap);
             }
         }
+    }
+
+    public CoinMarketCap parseData(Map<String,String> data,CoinMarketCap coinMarketCap){
+        coinMarketCap.setName(data.get("name"));
+        coinMarketCap.setSymbol(data.get("symbol"));
+        coinMarketCap.setRank(Integer.parseInt(data.get("rank")));
+        coinMarketCap.setPriceUsd(DoubleTools.parseDouble(data.get("price_usd")));
+        coinMarketCap.setPriceBtc(DoubleTools.parseDouble(data.get("price_btc")));
+        coinMarketCap.setVolumeUsd24H(DoubleTools.parseDouble(data.get("24h_volume_usd")));
+        coinMarketCap.setMarketCapUsd(DoubleTools.parseDouble(data.get("market_cap_usd")));
+        coinMarketCap.setPercentChange24H(DoubleTools.parseDouble(data.get("percent_change_24h")));
+        coinMarketCap.setPercentChange7D(DoubleTools.parseDouble(data.get("percent_change_7d")));
+        coinMarketCap.setLastUpdated((LongTools.parse(data.get("last_updated"))));
+        coinMarketCap.setPriceCny(DoubleTools.parseDouble(data.get("price_cny")));
+        coinMarketCap.setVolumeCny24H(DoubleTools.parseDouble(data.get("24h_volume_cny")));
+        coinMarketCap.setMarketCapCny(DoubleTools.parseDouble(data.get("market_cap_cny")));
+        return coinMarketCap;
+    }
+
+    public CoinMarketCap getPrice(String symbol) throws HttpClientException {
+        String result = HttpClientUtils.getString(ONE_URL+symbol+"?convert=CNY");
+        CoinMarketCap coinMarketCap = new CoinMarketCap();
+        List<Map<String,String>> resultList = getListByJson(result);
+        coinMarketCap = parseData(resultList.get(0),coinMarketCap);
+        return coinMarketCap;
     }
 
     public void sync(List<IcoProjectInfo> icoProjectInfoList) throws ServiceProcessException {
@@ -114,5 +139,10 @@ public class CoinMarketCapService
                 update(coinMarketCap);
             }
         }
+    }
+
+    public static void main(String[] args) throws HttpClientException {
+        CoinMarketCapService coinMarketCapService = new CoinMarketCapService();
+        log.debug(GsonUtils.toJson(coinMarketCapService.getPrice("dash")));
     }
 }

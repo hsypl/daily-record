@@ -9,6 +9,7 @@ import com.hsy.record.model.currency.CoinHistory;
 import com.hsy.record.model.currency.CoinMarketCap;
 import com.hsy.record.model.enu.WeekEnum;
 import com.hsy.record.service.IcoProjectInfoService;
+import com.hsy.record.service.currency.CoinMarketCapService;
 import com.sungness.core.crawler.ClientUserAgent;
 import com.sungness.core.httpclient.HttpClientException;
 import com.sungness.core.httpclient.HttpClientUtils;
@@ -81,7 +82,7 @@ public class Test {
     }
 
     public static void main(String[] args) throws HttpClientException, IOException, ParseException {
-        System.out.println(THURSDAY|SUNDAY);
-        System.out.print(Test.getBinary("1234560"));
+        CoinMarketCapService coinMarketCapService = new CoinMarketCapService();
+        System.out.println("aa"+GsonUtils.toJson(coinMarketCapService.getPrice("dash")));
     }
 }

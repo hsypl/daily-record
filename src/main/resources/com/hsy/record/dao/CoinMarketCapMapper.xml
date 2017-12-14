@@ -68,6 +68,12 @@
         <include refid="dynamicWhere"/>
     </select>
 
+    <select id="getIdList" resultType="String">
+        SELECT a.id
+        FROM <include refid="tableName"/> a
+        <include refid="dynamicWhere"/>
+    </select>
+
     <select id="getList" resultType="CoinMarketCap">
         SELECT <include refid="columns_join"/>
         FROM <include refid="tableName"/> a
@@ -75,6 +81,15 @@
         <if test="fullordering not in {null, ''}">
             ORDER BY ${fullordering}
         </if>
+    </select>
+
+    <select id="getListLeftJoinByUid" resultType="CoinMarketCap">
+        SELECT <include refid="columns_join"/>
+        FROM <include refid="tableName"/> a
+        LEFT JOIN user_coin_relation b ON a.id = b.symbol
+        <include refid="dynamicWhere"/>
+        AND b.uid = #{uid}
+        ORDER BY b.priority
     </select>
 
     <insert id="insert" parameterType="CoinMarketCap" useGeneratedKeys="true"
