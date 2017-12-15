@@ -4,6 +4,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ page isELIgnored="false" %>
 <s:url value="/daily/currency/price/index" var="indexUrl"/>
+<s:url value="/daily/currency/history/index" var="historyUrl"/>
 
 <html>
 <head>
@@ -16,6 +17,7 @@
     <link rel="stylesheet" href="/media/css/select2.min.css">
     <link rel="stylesheet" href="/media/css/responsive-nav.css">
     <link rel="stylesheet" href="/media/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/media/css/font-awesome.min.css">
 
     <%@ include file="/WEB-INF/jsp/include/header.jsp" %>
     <script type="text/javascript">
@@ -30,16 +32,82 @@
             $("#select").click(function () {
                 var symbol = $("#selectValue").val();
                 window.location.href="/daily/currency/price/index?coinNames="+symbol;
-            })
+            });
         });
         function add(symbol) {
             window.location.href="/daily/currency/price/add?symbol="+symbol;
+        }
+        function cancel(relationId) {
+            window.location.href="/daily/currency/price/remove?relationId="+relationId;
+        }
+        function rise(symbol) {
+            window.location.href="/daily/currency/price/rise?symbol="+symbol;
         }
     </script>
     <style>
         .select2-container--default .select2-selection--single {
             height: 34px;
             font-size: large;
+        }
+        .price{
+            float: left;
+            margin-left: 10px;
+            width: 350px;
+            height: 220px;
+            padding: 5px;
+        }
+        .detail-child{
+            text-align: center;
+            float: left;
+            width: 50%;
+            font-size: 15px;
+            padding: 24px 0;
+            border-right: 1px solid #5e5e5e;
+            line-height: 1.25em;
+        }
+        .price-child-detail{
+            border-top: 1px solid #5e5e5e;clear:both;
+        }
+        .price-child{
+            width: 336px;
+            height: 193px;
+            border:2px solid #5e5e5e;
+            border-radius:10px;
+        }
+        .price-select{
+            margin-left: 15px;
+            width: 336px;
+            height: 193px;
+            border:2px solid #5e5e5e;
+            border-radius:10px;
+        }
+        .price-child-title{
+            margin-left: 10px;
+            float:left;
+            width:95%;
+            border: 0 solid #000;
+            text-align:left;
+            padding:5px 0;
+            line-height:25px;
+        }
+        .price-child-title .icon-arr{
+            float: right;
+        }
+        .price-child-title .fa-plus{
+            float: right;
+            color:#178AEB;
+        }
+        .price-child-title .fa-heart-o{
+            color:#ac2925;
+        }
+        .price-child-title a{
+            text-decoration:none;
+        }
+        .glyphicon {
+            left: 4px;top: 3px
+        }
+        span.glyphicon:hover{
+            color: red;
         }
     </style>
 </head>
@@ -64,14 +132,13 @@
         </div><!-- /input-group -->
     </div>
 </div>
+
 <!-- div select begin-->
 <c:if test="${currentCoin != null}">
 <div class="price-select" id ="price-select">
     <div class="price-child-title">
         <span style="font-size: 20px;">${currentCoin.symbol}
-            <button onclick="add('${currentCoin.id}')" class="btn btn-default" type="button">
-                            添加
-            </button>
+            <i class="fa fa-plus" onclick="add('${currentCoin.id}')" aria-hidden="true"></i>
         </span>
         <br>
         <span style="font-size: 18px;">
@@ -100,6 +167,11 @@
             <div class="price-child">
                 <div class="price-child-title">
                     <span style="font-size: 20px;">${coinMarketCap.symbol}
+                        <div class="icon-arr">
+                        <a href="${historyUrl}?id=${coinMarketCap.id}" class="fa fa-eye" data-toggle="modal" data-target="#myModal"></a>
+                        <i class="fa fa-heart-o" onclick="rise('${coinMarketCap.id}')" aria-hidden="true"></i>
+                        <i class="fa fa-times" onclick="cancel('${coinMarketCap.relationId}')" aria-hidden="true"></i>
+                        </div>
                     </span>
                     <br>
                     <span style="font-size: 18px;">
@@ -124,57 +196,19 @@
         </div>
     </c:forEach>
 </div>
+<!-- 模态框（Modal） -->
+<div class="modal fade in"
+     id="myModal"
+     tabindex="-1"
+     role="dialog"
+     aria-labelledby="myModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" style="width: 80%;">
+        <div class="modal-content">
+            <div class="modal-body">
+            </div>
+        </div>
+    </div>
+</div>
 </body>
-<style>
-    .price{
-        float: left;
-        margin-left: 10px;
-        width: 350px;
-        height: 220px;
-        padding: 5px;
-    }
-    .detail-child{
-        text-align: center;
-        float: left;
-        width: 50%;
-        font-size: 15px;
-        padding: 24px 0;
-        border-right: 1px solid #5e5e5e;
-        line-height: 1.25em;
-    }
-    .price-child-detail{
-        border-top: 1px solid #5e5e5e;clear:both;
-    }
-    .price-child{
-        width: 336px;
-        height: 193px;
-        border:2px solid #5e5e5e;
-        border-radius:10px;
-    }
-    .price-select{
-        margin-left: 10px;
-        width: 336px;
-        height: 193px;
-        border:2px solid #5e5e5e;
-        border-radius:10px;
-    }
-    .price-child-title{
-        margin-left: 10px;
-        float:left;
-        width:95%;
-        border: 0 solid #000;
-        text-align:left;
-        padding:5px 0;
-        line-height:25px;
-    }
-    .price-child-title button{
-        float: right;
-    }
-    .glyphicon {
-        left: 4px;top: 3px
-    }
-    span.glyphicon:hover{
-        color: red;
-    }
-</style>
 </html>

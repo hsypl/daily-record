@@ -53,11 +53,6 @@ public class CurrencyController {
             model.addAttribute("nameData",nameData);
         }
         Map<String,Long> assetsMap = assetsHistoryService.getMonthMap(month);
-        List<CoinMarketCap> coinMarketCapList
-                = coinMarketCapService.getListByStatus(CurrencyStateEnum.YES.getValue());
-
-          log.debug(GsonUtils.toJson(assetsMap));
-        model.addAttribute("coinMarketCapList",coinMarketCapList);
         model.addAttribute("assetsMap",assetsMap);
         model.addAttribute("days",assetsMap.size());
         model.addAttribute("infoList",icoProjectInfoList);

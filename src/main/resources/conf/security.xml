@@ -17,7 +17,8 @@
         <custom-filter ref="commandAccessDecisionFilter" after="LAST"/>
         <form-login login-page="/loginIndex"
                     authentication-success-handler-ref="authenticationSuccessHandler"
-                    authentication-failure-url="/loginFailed" default-target-url="/daily/plan/index"/>
+                    authentication-failure-url="/loginFailed"
+                    default-target-url="/daily/currency/ico/index"/>
         <logout logout-url="/logout" delete-cookies="JSESSIONID"
                 logout-success-url="/loginIndex"/>
         <csrf disabled="true" />

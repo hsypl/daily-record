@@ -14,79 +14,82 @@
     <script src="/media/js/echat/echarts.min.js"></script>
     <link rel="stylesheet" href="/media/css/responsive-nav.css">
     <link rel="stylesheet" href="/media/css/bootstrap.min.css">
-    <%@ include file="/WEB-INF/jsp/include/header.jsp" %>
 </head>
 <body>
 <div style="text-align: center"><span style="font-size: 40px">${id}</span></div>
 <div id="main" style="width: 80%;height:600px;margin:0 auto;text-align: center"></div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+</div>
 <script>
-
-    option = {
-        tooltip: {
-            trigger: 'axis',
-            axisPointer: {
-                type: 'cross',
-                crossStyle: {
-                    color: '#999'
-                }
-            }
-        },
-        toolbox: {
-            feature: {
-                dataView: {show: true, readOnly: false},
-                magicType: {show: true, type: ['line', 'bar']},
-                restore: {show: true},
-                saveAsImage: {show: true}
-            }
-        },
-        legend: {
-            data:['价格','交易量']
-        },
-        xAxis: [
-            {
-                type: 'category',
-                data: ${dayList},
+    $(function () {
+        option = {
+            tooltip: {
+                trigger: 'axis',
                 axisPointer: {
-                    type: 'shadow'
-                }
-            }
-        ],
-        yAxis: [
-            {
-                type: 'value',
-                name: '价格',
-                axisLabel: {
-                    formatter: '{value} $'
+                    type: 'cross',
+                    crossStyle: {
+                        color: '#999'
+                    }
                 }
             },
-            {
-                type: 'value',
-                left: 'right',
-                name: '交易量',
-                axisLabel: {
-                    formatter: '{value} $'
+            toolbox: {
+                feature: {
+                    dataView: {show: true, readOnly: false},
+                    magicType: {show: true, type: ['line', 'bar']},
+                    restore: {show: true},
+                    saveAsImage: {show: true}
                 }
-            }
-        ],
-        series: [
-            {
-                name:'交易量',
-                type:'bar',
-                yAxisIndex: 1,
-                data:${volumeList}
             },
-            {
-                name:'价格',
-                type:'line',
-                yAxisIndex: 0,
-                data:${priceList}
-            }
-        ]
-    };
+            legend: {
+                data:['价格','交易量']
+            },
+            xAxis: [
+                {
+                    type: 'category',
+                    data: ${dayList},
+                    axisPointer: {
+                        type: 'shadow'
+                    }
+                }
+            ],
+            yAxis: [
+                {
+                    type: 'value',
+                    name: '价格',
+                    axisLabel: {
+                        formatter: '{value} $'
+                    }
+                },
+                {
+                    type: 'value',
+                    left: 'right',
+                    name: '交易量',
+                    axisLabel: {
+                        formatter: '{value} $'
+                    }
+                }
+            ],
+            series: [
+                {
+                    name:'交易量',
+                    type:'bar',
+                    yAxisIndex: 1,
+                    data:${volumeList}
+                },
+                {
+                    name:'价格',
+                    type:'line',
+                    yAxisIndex: 0,
+                    data:${priceList}
+                }
+            ]
+        };
 
-    var myChart = echarts.init(document.getElementById('main'));
-    // 使用刚指定的配置项和数据显示图表。
-    myChart.setOption(option);
+        var myChart = echarts.init(document.getElementById('main'));
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
+    });
 </script>
 </body>
 </html>

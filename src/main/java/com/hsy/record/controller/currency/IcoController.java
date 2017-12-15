@@ -10,6 +10,7 @@ import com.hsy.record.model.enu.CurrencyStateEnum;
 import com.hsy.record.service.IcoProjectInfoService;
 import com.hsy.record.service.currency.CoinMarketCapService;
 import com.hsy.record.service.currency.CurrencyInfoService;
+import com.sun.org.apache.xpath.internal.operations.Mod;
 import com.sungness.core.enu.StatusEnum;
 import com.sungness.core.httpclient.HttpClientException;
 import com.sungness.core.util.GsonUtils;
@@ -107,5 +108,13 @@ public class IcoController {
                 = icoProjectInfoService.getListByUid(userInfo.getUid());
         coinMarketCapService.sync(icoProjectInfoList);
         return "redirect:"+INDEX_URL;
+    }
+
+    @RequestMapping("/detail")
+    public String detail(Model model){
+        List<CoinMarketCap> coinMarketCapList
+                = coinMarketCapService.getListByStatus(CurrencyStateEnum.YES.getValue());
+        model.addAttribute("coinMarketCapList",coinMarketCapList);
+        return URL_PREFIX+"/detail";
     }
 }

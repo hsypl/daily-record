@@ -84,11 +84,11 @@
     </select>
 
     <select id="getListLeftJoinByUid" resultType="CoinMarketCap">
-        SELECT <include refid="columns_join"/>
+        SELECT <include refid="columns_join"/>,b.id AS relationId
         FROM <include refid="tableName"/> a
         LEFT JOIN user_coin_relation b ON a.id = b.symbol
         WHERE b.uid = #{uid}
-        ORDER BY b.priority
+        ORDER BY b.priority DESC
     </select>
 
     <insert id="insert" parameterType="CoinMarketCap" useGeneratedKeys="true"

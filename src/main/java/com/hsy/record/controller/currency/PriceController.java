@@ -1,11 +1,14 @@
 package com.hsy.record.controller.currency;
 
 import com.hsy.core.service.ServiceProcessException;
+import com.hsy.core.util.DateUtilExt;
 import com.hsy.record.model.UserInfo;
+import com.hsy.record.model.currency.CoinHistory;
 import com.hsy.record.model.currency.CoinMarketCap;
 import com.hsy.record.model.currency.CurrencyInfo;
 import com.hsy.record.model.currency.UserCoinRelation;
 import com.hsy.record.model.enu.CurrencyStateEnum;
+import com.hsy.record.service.currency.CoinHistoryService;
 import com.hsy.record.service.currency.CoinMarketCapService;
 import com.hsy.record.service.currency.CurrencyInfoService;
 import com.hsy.record.service.currency.UserCoinRelationService;
@@ -22,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -36,6 +40,8 @@ public class PriceController {
 
     public final static String URL_PREFIX = "/daily/currency/price";
 
+    public final static String URL_INDEX = "/daily/currency/price/index";
+
     @Autowired
     private CurrencyInfoService currencyInfoService;
 
@@ -44,6 +50,9 @@ public class PriceController {
 
     @Autowired
     private UserCoinRelationService userCoinRelationService;
+
+    @Autowired
+    private CoinHistoryService coinHistoryService;
 
 
     @RequestMapping("/index")
@@ -64,13 +73,26 @@ public class PriceController {
     @RequestMapping("/add")
     public String add(@RequestAttribute UserInfo userInfo,@RequestParam String symbol) throws ServiceProcessException {
         userCoinRelationService.save(userInfo.getUid(),symbol);
-        return "redirect:"+URL_PREFIX+"/index";
+        return "redirect:"+URL_INDEX;
     }
 
     @RequestMapping("/update")
     public String update(@RequestAttribute UserInfo userInfo) throws HttpClientException, ServiceProcessException {
         List<UserCoinRelation> userCoinRelationList = userCoinRelationService.getListByUid(userInfo.getUid());
         coinMarketCapService.update(userCoinRelationList);
-        return "redirect:"+URL_PREFIX+"/index";
+        return "redirect:"+URL_INDEX;
+    }
+
+    @RequestMapping("/remove")
+    public String remove(@RequestParam Long relationId) throws ServiceProcessException {
+        userCoinRelationService.delete(relationId);
+        return "redirect:"+URL_INDEX;
+    }
+
+    @RequestMapping("/rise")
+    public String rise(@RequestAttribute UserInfo userInfo,
+                       @RequestParam String symbol) throws ServiceProcessException {
+        userCoinRelationService.risePriority(userInfo.getUid(),symbol);
+        return "redirect:"+URL_INDEX;
     }
 }

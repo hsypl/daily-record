@@ -42,6 +42,10 @@ public class CoinMarketCap implements Serializable {
 
     private int status;
 
+
+    /**关联*/
+    private Long relationId;
+
     public String getId() {
         return id;
     }
@@ -164,5 +168,13 @@ public class CoinMarketCap implements Serializable {
 
     public String getFormatCreateTime(){
         return DateUtil.fullFormat(lastUpdated);
+    }
+
+    public Long getRelationId() {
+        return relationId;
+    }
+
+    public void setRelationId(Long relationId) {
+        this.relationId = relationId;
     }
 }

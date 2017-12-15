@@ -1,8 +1,8 @@
 package com.hsy.record.dao;
-
-
 import com.hsy.core.dao.LongPKBaseMapper;
 import com.hsy.record.model.currency.UserCoinRelation;
+
+import java.util.Map;
 
 /**
 * 资产历史记录 MyBatis 映射接口类
@@ -11,4 +11,6 @@ import com.hsy.record.model.currency.UserCoinRelation;
 */
 public interface UserCoinRelationMapper
         extends LongPKBaseMapper<UserCoinRelation> {
+
+    UserCoinRelation getPriority(Map<String,Object> params);
 }

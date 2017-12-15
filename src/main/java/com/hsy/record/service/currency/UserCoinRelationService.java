@@ -56,6 +56,26 @@ public class UserCoinRelationService
         return getList(params);
     }
 
+    public UserCoinRelation getByUidAndSymbol(String uid,String symbol){
+        Map<String,Object> params = new HashMap<>();
+        params.put("uid",uid);
+        params.put("symbol",symbol);
+        return getByDynamicWhere(params);
+    }
+
+    public void risePriority(String uid,String symbol) throws ServiceProcessException {
+        UserCoinRelation userCoinRelation = getByUidAndSymbol(uid,symbol);
+        UserCoinRelation lastRelation = getPriority(uid);
+        userCoinRelation.setPriority(lastRelation.getPriority()+1);
+        update(userCoinRelation);
+    }
+
+    public UserCoinRelation getPriority(String uid){
+        Map<String,Object> params = new HashMap<>();
+        params.put("uid",uid);
+        return userCoinRelationMapper.getPriority(params);
+    }
+
     public void save(String uid,String symbol) throws ServiceProcessException {
         UserCoinRelation userCoinRelation = new UserCoinRelation();
         userCoinRelation.setUid(uid);

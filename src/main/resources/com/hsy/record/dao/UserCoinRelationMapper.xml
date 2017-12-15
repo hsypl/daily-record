@@ -55,6 +55,14 @@
         </if>
     </select>
 
+    <select id="getPriority" resultType="UserCoinRelation">
+        SELECT <include refid="columns_join"/>
+        FROM <include refid="tableName"/> a
+        <include refid="dynamicWhere"/>
+        ORDER BY priority DESC
+        LIMIT 0,1
+    </select>
+
     <insert id="insert" parameterType="UserCoinRelation" useGeneratedKeys="true"
             keyProperty="id" >
         INSERT IGNORE INTO <include refid="tableName"/>

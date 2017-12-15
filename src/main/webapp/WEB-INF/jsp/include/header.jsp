@@ -4,6 +4,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <s:url value="/daily/reader/index" var="readerIndex"/>
 <s:url value="/daily/currency/ico/index" var="icoIndex"/>
+<s:url value="/daily/currency/ico/detail" var="icoDetailIndex"/>
 <s:url value="/daily/currency/price/index" var="priceIndex"/>
 <s:url value="/daily/plan/index" var="planIndex"/>
 <s:url value="/daily/user/index" var="userIndex"/>
@@ -35,13 +36,11 @@
                     <ul class="dropdown-menu">
                         <li><a href="${icoIndex}">Ico join</a></li>
                         <li class="divider"></li>
+                        <li><a href="${icoDetailIndex}">Ico price</a></li>
+                        <li class="divider"></li>
                         <li><a href="${currencyIndex}">currency</a></li>
                         <li class="divider"></li>
                         <li><a href="${priceIndex}">price</a></li>
-                        <li class="divider"></li>
-                        <li><a href="${historyIndex}">Ico href</a></li>
-                        <li class="divider"></li>
-                        <li><a href="#">另一个分离的链接</a></li>
                     </ul>
                 </li>
             </ul>
