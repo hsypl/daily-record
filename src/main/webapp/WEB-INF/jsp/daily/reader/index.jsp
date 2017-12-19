@@ -6,7 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script src="/media/js/responsive-nav.js"></script>
     <script src="/media/js/jquery-3.2.1.min.js"></script>
-    <script src="/media/js/cropper/cropper.min.js"></script>
+    <script src="/media/js/bootstrap.min.js"></script>
+    <script src="/media/js/echat/echarts.min.js"></script>
+    <script src="/media/js/echat/ecStat.min.js"></script>
     <link rel="stylesheet" href="/media/css/responsive-nav.css">
     <link rel="stylesheet" href="/media/css/bootstrap.min.css">
     <%@ include file="/WEB-INF/jsp/include/header.jsp"%>

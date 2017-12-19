@@ -103,12 +103,6 @@
         .price-child-title a{
             text-decoration:none;
         }
-        .glyphicon {
-            left: 4px;top: 3px
-        }
-        span.glyphicon:hover{
-            color: red;
-        }
     </style>
 </head>
 <body>

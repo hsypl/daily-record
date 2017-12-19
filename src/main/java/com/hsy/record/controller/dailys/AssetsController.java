@@ -1,4 +1,4 @@
-package com.hsy.record.controller;
+package com.hsy.record.controller.dailys;
 
 import com.hsy.record.service.currency.AssetsHistoryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,10 +12,10 @@ import java.util.Map;
  * Created by developer2 on 2017/7/10.
  */
 @Controller
-@RequestMapping(ReaderController.URL_PREFIX)
-public class ReaderController {
+@RequestMapping(AssetsController.URL_PREFIX)
+public class AssetsController {
 
-    public final static String URL_PREFIX = "/daily/reader";
+    public final static String URL_PREFIX = "/dailys/assets";
 
     @Autowired
     private AssetsHistoryService assetsHistoryService;
