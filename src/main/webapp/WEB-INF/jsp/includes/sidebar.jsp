@@ -4,6 +4,9 @@
 <%@ page isELIgnored="false" %>
 <s:url value="/dailys/assets/index" var="assetsUrl"/>
 <s:url value="/dailys/token/index" var="tokenUrl"/>
+<s:url value="/dailys/stats/index" var="statsUrl"/>
+<s:url value="/dailys/query/index" var="queryUrl"/>
+<s:url value="/dailys/user/index" var="userUrl"/>
 <div class="sidebar" data-color="blue" data-image="/media/assets/img/sidebar-1.jpg">
     <div class="logo">
         <a href="http://www.creative-tim.com" class="simple-text">
@@ -18,8 +21,8 @@
                     <p>Assets</p>
                 </a>
             </li>
-            <li>
-                <a href="./user.html">
+            <li id="user">
+                <a href="${userUrl}">
                     <i class="material-icons">person</i>
                     <p>User Profile</p>
                 </a>
@@ -30,20 +33,20 @@
                     <p>ico token</p>
                 </a>
             </li>
-            <li>
-                <a href="./typography.html">
+            <li id="stats">
+                <a href="${statsUrl}">
                     <i class="material-icons">library_books</i>
-                    <p>Typography</p>
+                    <p>stats</p>
                 </a>
             </li>
-            <li>
-                <a href="./icons.html">
+            <li id="query">
+                <a href="${queryUrl}">
                     <i class="material-icons">bubble_chart</i>
                     <p>Icons</p>
                 </a>
             </li>
-            <li>
-                <a href="./maps.html">
+            <li >
+                <a href="${userUrl}">
                     <i class="material-icons">location_on</i>
                     <p>Maps</p>
                 </a>

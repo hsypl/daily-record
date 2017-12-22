@@ -60,7 +60,8 @@ public class IcoController {
                       HttpServletRequest request){
         log.debug(GsonUtils.toJson(userInfo));
         queryFilter.init(request);
-        List<IcoProjectInfo> icoProjectInfoList = icoProjectInfoService.getListLeftJoinByUid(queryFilter.getPagination(),userInfo.getUid());
+        List<IcoProjectInfo> icoProjectInfoList = icoProjectInfoService.getListLeftJoinByUid(
+                queryFilter.getPagination(),userInfo.getUid());
         log.debug(GsonUtils.toJson(icoProjectInfoList));
         model.addAttribute("count",icoProjectInfoService.getSum(userInfo.getUid()));
         model.addAttribute("inSum",icoProjectInfoService.getInSum(userInfo.getUid()));

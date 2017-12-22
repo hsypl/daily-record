@@ -32,7 +32,7 @@ public class AuthenticationSuccessHandler
                 (MyUserDetail) authentication.getPrincipal();
         String targetUrl = "/loginIndex";
         if(clientUserDetails != null){
-            targetUrl = "/daily/currency/ico/index";
+            targetUrl = "/dailys/assets/index";
         }
 //        SavedRequest savedRequest = requestCache.getRequest(request, response);
 //        String saveUrl = savedRequest.getRedirectUrl();

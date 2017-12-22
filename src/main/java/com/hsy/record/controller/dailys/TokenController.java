@@ -20,6 +20,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
@@ -37,13 +38,10 @@ public class TokenController {
 
     public final static String URL_PREFIX = "/dailys/token";
 
-    public final static String INDEX_URL = "/dailys/currency/ico/index";
+    public final static String INDEX_URL = "/dailys/token/index";
 
     @Autowired
     private IcoProjectInfoService icoProjectInfoService;
-
-    @Autowired
-    private CurrencyInfoService currencyInfoService;
 
     @Autowired
     private CoinMarketCapService coinMarketCapService;
@@ -69,22 +67,18 @@ public class TokenController {
 //    }
 
     @RequestMapping("/edit")
-    public void edit(Long id, Model model){
+    public void edit(@RequestParam(required = false) Long id, Model model){
         IcoProjectInfo icoProjectInfo = icoProjectInfoService.getSafe(id);
         model.addAttribute("icoProjectInfo",icoProjectInfo);
     }
 
-    @RequestMapping("/update")
-    public String update() throws IOException, ServiceProcessException, HttpClientException {
-        coinMarketCapService.update();
-        return "redirect:"+INDEX_URL;
-    }
 
     @RequestMapping("/save")
     public String save(@RequestAttribute UserInfo userInfo,
                        IcoProjectInfo icoProjectInfo) throws ServiceProcessException {
         log.debug(GsonUtils.toJson(icoProjectInfo));
         if(LongTools.lessEqualZero(icoProjectInfo.getId())){
+            icoProjectInfo.setUid(userInfo.getUid());
             icoProjectInfoService.insert(icoProjectInfo);
         }else {
             icoProjectInfoService.update(icoProjectInfo);

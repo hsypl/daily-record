@@ -18,7 +18,7 @@
         <form-login login-page="/loginIndex"
                     authentication-success-handler-ref="authenticationSuccessHandler"
                     authentication-failure-url="/loginFailed"
-                    default-target-url="/daily/currency/ico/index"/>
+                    default-target-url="/dailys/assets/index"/>
         <logout logout-url="/logout" delete-cookies="JSESSIONID"
                 logout-success-url="/loginIndex"/>
         <csrf disabled="true" />

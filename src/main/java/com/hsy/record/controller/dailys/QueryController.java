@@ -1,7 +1,9 @@
-package com.hsy.record.controller.currency;
+package com.hsy.record.controller.dailys;
 
 import com.hsy.core.service.ServiceProcessException;
+import com.hsy.core.util.DateUtilExt;
 import com.hsy.record.model.UserInfo;
+import com.hsy.record.model.currency.CoinHistory;
 import com.hsy.record.model.currency.CoinMarketCap;
 import com.hsy.record.model.currency.UserCoinRelation;
 import com.hsy.record.service.currency.CoinHistoryService;
@@ -20,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -27,17 +30,14 @@ import java.util.List;
  * Created by developer2 on 2017/7/10.
  */
 @Controller
-@RequestMapping(PriceController.URL_PREFIX)
-public class PriceController {
+@RequestMapping(QueryController.URL_PREFIX)
+public class QueryController {
 
-    private static final Logger log = LoggerFactory.getLogger(PriceController.class);
+    private static final Logger log = LoggerFactory.getLogger(QueryController.class);
 
-    public final static String URL_PREFIX = "/daily/currency/price";
+    public final static String URL_PREFIX = "/dailys/query";
 
-    public final static String URL_INDEX = "/daily/currency/price/index";
-
-    @Autowired
-    private CurrencyInfoService currencyInfoService;
+    public final static String URL_INDEX = "/dailys/query/index";
 
     @Autowired
     private CoinMarketCapService coinMarketCapService;
@@ -88,5 +88,22 @@ public class PriceController {
                        @RequestParam String symbol) throws ServiceProcessException {
         userCoinRelationService.risePriority(userInfo.getUid(),symbol);
         return "redirect:"+URL_INDEX;
+    }
+
+    @RequestMapping("/detail")
+    public void index(Model model,
+                      @RequestParam(required = true) String id){
+        Long beginTime = DateUtilExt.getLongPlusDays(DateUtilExt.getTimestamp(),-30L);
+        List<String> dayList = new ArrayList<>();
+        List<Double> priceList = new ArrayList<>();
+        List<Double> volumeList = new ArrayList<>();
+        List<CoinHistory> coinHistoryList = coinHistoryService.getListByIdAndBeginTime(id,beginTime);
+        if(coinHistoryList !=null && !coinHistoryList.isEmpty()){
+            coinHistoryService.setData(coinHistoryList,dayList,priceList,volumeList);
+        }
+        model.addAttribute("id",id);
+        model.addAttribute("dayList",dayList);
+        model.addAttribute("priceList",priceList);
+        model.addAttribute("volumeList",volumeList);
     }
 }

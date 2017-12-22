@@ -22,7 +22,7 @@
 </head>
 <body>
 <div>
-    <div id="main" style="width: 800px;height:600px;float: left"></div>
+    <div id="main" style="width: 400px;height:400px;float: left"></div>
     <div style="width: 1000px;float: left">
         <div style="float: left;margin-left: 95px">
             <div class="dropdown">
@@ -108,7 +108,7 @@
             formatter: "{a} <br/>{b} : {c} ({d}%)"
         },
         legend: {
-            orient: 'vertical',
+            bottom: 10,
             left: 'left',
             data: [${nameData}]
         },
@@ -117,7 +117,7 @@
                 name: '资产占比',
                 type: 'pie',
                 radius : '55%',
-                center: ['50%', '60%'],
+                center: ['20%', '20%'],
                 data:[
                     <c:forEach items="${infoList}" varStatus="status">
                     <c:set var="info" value="${status.current}"/>
