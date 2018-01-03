@@ -43,7 +43,7 @@
                                             <td>${userInfo.name}</td>
                                             <td>
                                                 <a href="${editUrl}?id=${userInfo.uid}" rel="tooltip" title="Edit symbol" class="btn btn-primary btn-simple btn-xs">
-                                                    <i class="material-icons">edit</i>
+                                                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                                                 </a>
                                             </td>
                                         </tr>

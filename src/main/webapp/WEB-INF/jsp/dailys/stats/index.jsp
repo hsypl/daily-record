@@ -70,7 +70,7 @@
                                             <td>${coinMarketCap.formatCreateTime}</td>
                                             <td>
                                                 <a href="${detailUrl}?id=${coinMarketCap.id}" rel="tooltip" title="detail" class="btn btn-danger btn-simple btn-xs">
-                                                    <i class="material-icons">inbox</i>
+                                                    <i class="fa fa-bar-chart" aria-hidden="true"></i>
                                                 </a>
                                             </td>
                                         </tr>

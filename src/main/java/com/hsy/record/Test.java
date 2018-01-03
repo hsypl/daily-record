@@ -17,6 +17,7 @@ import com.sungness.core.util.DateUtil;
 import com.sungness.core.util.GsonUtils;
 import com.sungness.core.util.tools.DoubleTools;
 import com.sungness.core.util.tools.IntegerTools;
+import com.sungness.core.util.tools.LongTools;
 import org.apache.commons.lang3.time.DateUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -81,7 +82,12 @@ public class Test {
         return binary;
     }
 
-    public static void main(String[] args) throws HttpClientException, IOException, ParseException {
-        CoinMarketCapService coinMarketCapService = new CoinMarketCapService();
+    public static void main(String[] args){
+        Map<String,Object> params = new LinkedHashMap<>();
+        params.put("adsf",123);
+        params.put("cadsf","asdf");
+        params.put("badf","23g");
+        System.out.print(params);
     }
+
 }

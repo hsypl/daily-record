@@ -48,6 +48,7 @@
                                     <th>总额</th>
                                     <th>收益</th>
                                     <th>备注</th>
+                                    <th>操作</th>
                                     </thead>
                                     <tfoot>
                                     <tr>
@@ -71,10 +72,10 @@
                                             <td>${icoProjectInfo.remark}</td>
                                             <td>
                                                 <a href="${editUrl}?id=${icoProjectInfo.id}" rel="tooltip" title="Edit symbol" class="btn btn-primary btn-simple btn-xs">
-                                                    <i class="material-icons">edit</i>
+                                                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                                                 </a>
                                                 <a href="${deleteUrl}?id=${icoProjectInfo.id}" rel="tooltip" title="Remove" class="btn btn-danger btn-simple btn-xs">
-                                                    <i class="material-icons">close</i>
+                                                    <i class="fa fa-times" aria-hidden="true"></i>
                                                 </a>
                                             </td>
                                         </tr>

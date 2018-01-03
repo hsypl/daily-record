@@ -17,7 +17,7 @@
             <ul class="nav navbar-nav navbar-right">
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        <i class="material-icons" style="font-size: 24px">notifications</i>
+                        <i class="fa fa-bell" aria-hidden="true"></i>
                         <span class="notification">5</span>
                         <p class="hidden-lg hidden-md">Notifications</p>
                     </a>
@@ -41,13 +41,13 @@
                 </li>
                 <li>
                     <a href="#pablo" class="dropdown-toggle" data-toggle="dropdown">
-                        <i class="material-icons" style="font-size: 24px">person</i>
+                        <i class="fa fa-user" aria-hidden="true"></i>
                         ${userInfo.username}
                     </a>
                 </li>
                 <li>
                     <a href="/logout">
-                        <i class="material-icons" style="font-size: 24px">exit_to_app</i>
+                        <i class="fa fa-sign-in" aria-hidden="true"></i>
                         <p class="hidden-lg hidden-md">exit</p>
                     </a>
                 </li>

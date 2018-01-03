@@ -52,6 +52,13 @@
         <include refid="dynamicWhere"/>
     </select>
 
+    <select id="getCountByUidAndTime" resultType="int">
+        SELECT sum(a.number*b.price*6.5308)
+        FROM ico_project_info a,coin_history b
+        WHERE a.symbol=b.symbol AND a.uid = #{uid}
+        AND b.create_time = #{createTime}
+    </select>
+
     <select id="getList" resultType="AssetsHistory">
         SELECT <include refid="columns_join"/>
         FROM <include refid="tableName"/> a

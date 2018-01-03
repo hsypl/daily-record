@@ -256,7 +256,7 @@ public class DateUtilExt {
      * @return LocalDate
      */
     public static LocalDate parseLocalDate (String time) {
-        return parseLocalDate(time, "yyyy-MM-dd");
+        return parseLocalDate(time, "yyyy年-MM-dd");
     }
 
     /**

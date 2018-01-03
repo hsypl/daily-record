@@ -79,6 +79,7 @@ public class CoinMarketCapService
     public List<CoinMarketCap> getListByStatus(Integer status){
         Map<String,Object> params = new HashMap<>();
         params.put("status",status);
+        params.put("fullordering","a.percent_change_24h DESC");
         return getList(params);
     }
 

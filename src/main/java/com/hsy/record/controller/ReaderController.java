@@ -22,7 +22,7 @@ public class ReaderController {
 
     @RequestMapping("/index")
     public String index(Model model){
-        Map<String,Long> assetsMap = assetsHistoryService.getMonthMap(null);
+        Map<String,Long> assetsMap = assetsHistoryService.getMonthMap("123",null);
         model.addAttribute("assetsMap",assetsMap);
         model.addAttribute("days",assetsMap.size());
         return "/dailys/assets/index";

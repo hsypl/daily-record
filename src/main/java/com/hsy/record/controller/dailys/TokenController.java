@@ -52,10 +52,10 @@ public class TokenController {
                       @ModelAttribute("queryFilter") QueryFilter queryFilter,
                       Model model,
                       HttpServletRequest request){
-        log.debug(GsonUtils.toJson(userInfo));
         queryFilter.init(request);
-        List<IcoProjectInfo> icoProjectInfoList = icoProjectInfoService.getListLeftJoinByUid(queryFilter.getPagination(),userInfo.getUid());
-        log.debug(GsonUtils.toJson(icoProjectInfoList));
+        List<IcoProjectInfo> icoProjectInfoList
+                = icoProjectInfoService.getListLeftJoinByUid(
+                        queryFilter.getPagination(),userInfo.getUid());
         model.addAttribute("count",icoProjectInfoService.getSum(userInfo.getUid()));
         model.addAttribute("inSum",icoProjectInfoService.getInSum(userInfo.getUid()));
         model.addAttribute("icoProjectInfoList",icoProjectInfoList);

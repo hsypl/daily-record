@@ -1,14 +1,21 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ page isELIgnored="false" %>
 <s:url value="/dailys/assets/update" var="updateUrl"/>
+<s:url value="/dailys/assets/history" var="historyUrl"/>
 <html>
 
 <head>
     <title>Material Dashboard by Creative Tim</title>
     <%@include file="/WEB-INF/jsp/includes/linkOfHead.jsp" %>
     <meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <style>
+        a{
+            color: #9A9A9A;
+        }
+    </style>
 </head>
 
 <body>
@@ -22,7 +29,7 @@
                     <div class="col-lg-3 col-md-6 col-sm-6">
                         <div class="card card-stats">
                             <div class="card-header" data-background-color="orange">
-                                <i class="material-icons">monetization_on</i>
+                                <i class="fa fa-jpy" aria-hidden="true"></i>
                             </div>
                             <div class="card-content">
                                 <p class="category">total assets</p>
@@ -30,7 +37,7 @@
                             </div>
                             <div class="card-footer">
                                 <div class="stats">
-                                    <i class="material-icons">cached</i>
+                                    <i class="fa fa-refresh fa-2x" aria-hidden="true"></i>
                                     <a href="${updateUrl}" style="font-size: 20px">refresh</a>
                                 </div>
                             </div>
@@ -39,7 +46,7 @@
                     <div class="col-lg-3 col-md-6 col-sm-6">
                         <div class="card card-stats">
                             <div class="card-header" data-background-color="green">
-                                <i class="material-icons">reorder</i>
+                                <i class="fa fa-btc" aria-hidden="true"></i>
                             </div>
                             <div class="card-content">
                                 <p class="category">ico</p>
@@ -47,7 +54,14 @@
                             </div>
                             <div class="card-footer">
                                 <div class="stats">
-                                    <i class="material-icons">date_range</i> Last 24 Hours
+                                    <c:if test="${rise >=0}">
+                                        <i class="fa fa-level-up fa-2x" style="color: green" aria-hidden="true"></i>
+                                        <span style="font-size: 20px;color: green"><fmt:formatNumber value="${rise}" pattern="#,#0.0#"/>%</span>
+                                    </c:if>
+                                    <c:if test="${rise <0}">
+                                        <i class="fa fa-level-down fa-2x" style="color: red" aria-hidden="true"></i>
+                                        <span style="font-size: 20px;color: red"><fmt:formatNumber value="${rise}" pattern="#,#0.0#"/>%</span>
+                                    </c:if>
                                 </div>
                             </div>
                         </div>
@@ -55,7 +69,7 @@
                     <div class="col-lg-3 col-md-6 col-sm-6">
                         <div class="card card-stats">
                             <div class="card-header" data-background-color="red">
-                                <i class="material-icons">reorder</i>
+                                <i class="fa fa-btc" aria-hidden="true"></i>
                             </div>
                             <div class="card-content">
                                 <p class="category">currency</p>
@@ -63,7 +77,7 @@
                             </div>
                             <div class="card-footer">
                                 <div class="stats">
-                                    <i class="material-icons">local_offer</i> Tracked from Github
+                                    <i class="fa fa-clock-o fa-2x" aria-hidden="true"></i> Last 24 Hours
                                 </div>
                             </div>
                         </div>
@@ -73,14 +87,16 @@
                     <div class="col-md-8">
                         <div class="card">
                             <div class="card-header card-chart" data-background-color="green">
-                                <div class="ec-chart" style="width: 100%;height: 400px" id="dailyAssets"></div>
+                                <div class="ec-chart" style="width: auto;height: 400px;"
+                                     id="dailyAssets"></div>
                             </div>
                             <div class="card-content">
                                 <h4 class="title">资产统计</h4>
                             </div>
                             <div class="card-footer">
                                 <div class="stats">
-                                    <i class="material-icons">access_time</i> 24小时之前
+                                    <i class="fa fa-history fa-2x" aria-hidden="true"></i>
+                                    <a href="${historyUrl}">查看历史</a>
                                 </div>
                             </div>
                         </div>
@@ -95,7 +111,7 @@
                             </div>
                             <div class="card-footer">
                                 <div class="stats">
-                                    <i class="material-icons">access_time</i> 24小时之前
+                                    <i class="fa fa-clock-o fa-2x" aria-hidden="true"></i> 24小时之前
                                 </div>
                             </div>
                         </div>
@@ -126,6 +142,13 @@
         legend: {
             bottom: '10',
             data: [${nameData}]
+        },
+        grid: {
+            left: '3%',
+            right: '15%',
+            bottom : '20',
+            top : '40',
+            containLabel: true
         },
         series : [
             {
@@ -167,6 +190,13 @@
             axisPointer: {
                 type: 'cross'
             }
+        },
+        grid: {
+            left: '3%',
+            right: '15%',
+            bottom : '20',
+            top : '40',
+            containLabel: true
         },
         toolbox: {
             feature: {

@@ -52,7 +52,7 @@ public class CurrencyController {
             String nameData = icoProjectInfoService.getNameData(icoProjectInfoList);
             model.addAttribute("nameData",nameData);
         }
-        Map<String,Long> assetsMap = assetsHistoryService.getMonthMap(month);
+        Map<String,Long> assetsMap = assetsHistoryService.getMonthMap(userInfo.getUid(),month);
         model.addAttribute("assetsMap",assetsMap);
         model.addAttribute("days",assetsMap.size());
         model.addAttribute("infoList",icoProjectInfoList);
@@ -61,7 +61,7 @@ public class CurrencyController {
     @ResponseBody
     @RequestMapping("/update")
     public Map<String, Object>  update(@RequestParam String month){
-        Map<String,Long> result = assetsHistoryService.getMonthMap(month);
+        Map<String,Long> result = assetsHistoryService.getMonthMap("123",month);
         Map<String,Object> resultData = new HashMap<>();
         if( result != null && !result.isEmpty()){
             List<String> monthList = new ArrayList<>();

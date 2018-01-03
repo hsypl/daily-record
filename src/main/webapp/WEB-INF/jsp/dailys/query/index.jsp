@@ -19,7 +19,7 @@
             font-size: large;
         }
         .js-example-basic-single {
-            width: 160px;
+            width: 130px;
         }
         .price{
             float: left;

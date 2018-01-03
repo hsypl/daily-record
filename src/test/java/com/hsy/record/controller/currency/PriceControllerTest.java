@@ -67,6 +67,11 @@ public class PriceControllerTest {
     }
 
     @Test
+    public void test4() throws ServiceProcessException, HttpClientException {
+        assetsHistoryService.getCountByUidAndTime(1514304000L);
+    }
+
+    @Test
     public void test3() throws HttpClientException, ServiceProcessException, ParseException {
         Long endTime = DateUtilExt.getLongOfToday();
         List<IcoProjectInfo> list = icoProjectInfoService.getList();

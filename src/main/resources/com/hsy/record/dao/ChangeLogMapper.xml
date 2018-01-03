@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hsy.record.dao.ChangeLogMapper">
+
+    <sql id="tableName">change_log</sql>
+
+    <sql id="columns_no_id">
+        uid, symbol, price, number, amount, 
+        type, remark, create_time
+    </sql>
+
+    <sql id="columns">
+        id, <include refid="columns_no_id"/>
+    </sql>
+
+    <sql id="columns_join">
+        a.id, a.uid, a.symbol, a.price, a.number, 
+        a.amount, a.type, a.remark, a.create_time
+    </sql>
+
+    <sql id="likeWhere" databaseId="mysql">
+    </sql>
+
+    <sql id="dynamicWhere">
+        <where>
+            <if test="uid not in {null, ''}">a.uid = #{uid}</if>
+            <if test="symbol not in {null, ''}">AND a.symbol = #{symbol}</if>
+            <if test="price not in {null, ''}">AND a.price = #{price}</if>
+            <if test="number not in {null, ''}">AND a.number = #{number}</if>
+            <if test="amount not in {null, ''}">AND a.amount = #{amount}</if>
+            <if test="type not in {null, ''}">AND a.type = #{type}</if>
+            <if test="remark not in {null, ''}">AND a.remark = #{remark}</if>
+            <if test="createTime not in {null, ''}">AND a.create_time = #{createTime}</if>
+            <include refid="likeWhere"/>
+        </where>
+    </sql>
+
+    <select id="get" resultType="ChangeLog" parameterType="long">
+        SELECT <include refid="columns_join"/>
+        FROM <include refid="tableName"/> a
+        WHERE a.id = #{id}
+    </select>
+
+    <select id="getByDynamicWhere" resultType="ChangeLog">
+        SELECT <include refid="columns_join"/>
+        FROM <include refid="tableName"/> a
+        <include refid="dynamicWhere"/>
+    </select>
+
+    <select id="getCount" resultType="int">
+        SELECT COUNT(1)
+        FROM <include refid="tableName"/> a
+        <include refid="dynamicWhere"/>
+    </select>
+
+    <select id="getList" resultType="ChangeLog">
+        SELECT <include refid="columns_join"/>
+        FROM <include refid="tableName"/> a
+        <include refid="dynamicWhere"/>
+        <if test="fullordering not in {null, ''}">
+            ORDER BY ${fullordering}
+        </if>
+    </select>
+
+    <insert id="insert" parameterType="ChangeLog" useGeneratedKeys="true"
+            keyProperty="id" >
+        INSERT IGNORE INTO <include refid="tableName"/>
+        (<include refid="columns_no_id"/>)
+        VALUES
+        (
+        #{uid}, #{symbol}, #{price}, #{number}, #{amount}, 
+        #{type}, #{remark}, #{createTime}
+        )
+    </insert>
+
+    <update id="update" parameterType="ChangeLog">
+        UPDATE <include refid="tableName"/>
+        <set>
+            <if test="uid not in {null, ''}">uid=#{uid}, </if>
+            <if test="symbol not in {null, ''}">symbol=#{symbol}, </if>
+            <if test="price not in {null, ''}">price=#{price}, </if>
+            <if test="number not in {null, ''}">number=#{number}, </if>
+            <if test="amount not in {null, ''}">amount=#{amount}, </if>
+            <if test="type not in {null, ''}">type=#{type}, </if>
+            <if test="remark not in {null, ''}">remark=#{remark}, </if>
+            <if test="createTime not in {null, ''}">create_time=#{createTime}</if>
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <delete id="delete" parameterType="long">
+        DELETE FROM <include refid="tableName"/> WHERE id = #{id}
+    </delete>
+
+    <delete id="batchDelete">
+        DELETE FROM <include refid="tableName"/>
+        WHERE id IN
+        <foreach item="item" index="index" collection="list"
+                 open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </delete>
+</mapper>

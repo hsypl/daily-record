@@ -7,6 +7,7 @@
 <s:url value="/dailys/stats/index" var="statsUrl"/>
 <s:url value="/dailys/query/index" var="queryUrl"/>
 <s:url value="/dailys/user/index" var="userUrl"/>
+<s:url value="/dailys/change/index" var="changeUrl"/>
 <div class="sidebar" data-color="blue" data-image="/media/assets/img/sidebar-1.jpg">
     <div class="logo">
         <a href="http://www.creative-tim.com" class="simple-text">
@@ -14,55 +15,43 @@
         </a>
     </div>
     <div class="sidebar-wrapper">
-        <ul class="nav">
+        <div class="nav">
             <li id="assets">
                 <a href="${assetsUrl}">
-                    <i class="material-icons">dashboard</i>
+                    <i class="fa fa-home" aria-hidden="true"></i>
                     <p>Assets</p>
                 </a>
             </li>
             <li id="user">
                 <a href="${userUrl}">
-                    <i class="material-icons">person</i>
+                    <i class="fa fa-user-o" aria-hidden="true"></i>
                     <p>User Profile</p>
                 </a>
             </li>
             <li  id="token">
                 <a href="${tokenUrl}">
-                    <i class="material-icons">content_paste</i>
+                    <i class="fa fa-file-text" aria-hidden="true"></i>
                     <p>ico token</p>
                 </a>
             </li>
             <li id="stats">
                 <a href="${statsUrl}">
-                    <i class="material-icons">library_books</i>
+                    <i class="fa fa-line-chart" aria-hidden="true"></i>
                     <p>stats</p>
                 </a>
             </li>
             <li id="query">
                 <a href="${queryUrl}">
-                    <i class="material-icons">bubble_chart</i>
+                    <i class="fa fa-usd" aria-hidden="true"></i>
                     <p>Icons</p>
                 </a>
             </li>
-            <li >
-                <a href="${userUrl}">
-                    <i class="material-icons">location_on</i>
-                    <p>Maps</p>
+            <li id="changeUrl">
+                <a href="${changeUrl}">
+                    <i class="fa fa-exchange" aria-hidden="true"></i>
+                    <p>exchange</p>
                 </a>
             </li>
-            <li>
-                <a href="./notifications.html">
-                    <i class="material-icons text-gray">notifications</i>
-                    <p>Notifications</p>
-                </a>
-            </li>
-            <li class="active-pro">
-                <a href="upgrade.html">
-                    <i class="material-icons">unarchive</i>
-                    <p>Upgrade to PRO</p>
-                </a>
-            </li>
-        </ul>
+        </div>
     </div>
 </div>

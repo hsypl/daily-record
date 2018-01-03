@@ -120,6 +120,22 @@ CREATE TABLE IF NOT EXISTS user_coin_relation(
   UNIQUE (uid,symbol)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin COMMENT '资产历史记录';
 
+-- 1.0 change_log
+-- 创建时间：2017年7月11日
+-- -----------------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS change_log(
+  id   BIGINT NOT NULL AUTO_INCREMENT COMMENT 'id',
+  uid  VARCHAR (24) NOT NULL COMMENT '用户id',
+  symbol VARCHAR (64) NOT NULL COMMENT '代币符号',
+  price DOUBLE  NOT NULL COMMENT '金额',
+  number DOUBLE NOT NULL COMMENT '数量',
+  amount INT NOT NULL COMMENT '总量',
+  type INT NOT NULL COMMENT '类型',
+  remark VARCHAR (128)NOT NULL COMMENT '备注',
+  create_time BIGINT NOT NULL COMMENT '交易日期',
+  PRIMARY KEY(id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin COMMENT '交易记录';
+
 
 
 

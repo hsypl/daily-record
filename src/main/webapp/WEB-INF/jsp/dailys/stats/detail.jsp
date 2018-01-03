@@ -23,7 +23,7 @@
                 <div class="row">
                     <div class="col-md-8">
                         <div class="card">
-                                <div class="ec-chart" style="width: 100%;height: 400px" id="historyStats"></div>
+                            <div class="ec-chart" style="width: 100%;height: 400px" id="historyStats"></div>
                             <div class="card-content">
                                 <h4 class="title">交易量</h4>
                             </div>
