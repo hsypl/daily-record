@@ -1,93 +1,128 @@
 package com.hsy.record;
 
-import com.google.gson.FieldNamingPolicy;
-import com.google.gson.reflect.TypeToken;
-import com.hsy.core.util.DateUtilExt;
-import com.hsy.record.model.IcoProjectInfo;
-import com.hsy.record.model.UserInfo;
-import com.hsy.record.model.currency.CoinHistory;
-import com.hsy.record.model.currency.CoinMarketCap;
-import com.hsy.record.model.enu.WeekEnum;
-import com.hsy.record.service.IcoProjectInfoService;
-import com.hsy.record.service.currency.CoinMarketCapService;
-import com.sungness.core.crawler.ClientUserAgent;
-import com.sungness.core.httpclient.HttpClientException;
-import com.sungness.core.httpclient.HttpClientUtils;
-import com.sungness.core.util.DateUtil;
+import com.hsy.record.model.currency.CurrencyInfo;
 import com.sungness.core.util.GsonUtils;
-import com.sungness.core.util.tools.DoubleTools;
-import com.sungness.core.util.tools.IntegerTools;
-import com.sungness.core.util.tools.LongTools;
-import org.apache.commons.lang3.time.DateUtils;
-import org.apache.http.HttpEntity;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
-import org.jsoup.Connection;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
-import org.omg.PortableServer.LIFESPAN_POLICY_ID;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.apache.commons.lang3.StringUtils;
 
-import java.io.IOException;
-import java.lang.reflect.MalformedParameterizedTypeException;
-import java.lang.reflect.Type;
-import java.text.ParseException;
+import javax.crypto.Mac;
+import javax.crypto.spec.SecretKeySpec;
+import javax.net.ssl.HttpsURLConnection;
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.net.URLConnection;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
 import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 /**
  * Created by developer2 on 2017/11/6.
  */
 public class Test {
 
-    public static final int MONDAY = 1<<0;
-    public static final int TUESDAY = 1<<1;
-    public static final int WEDNESDAY = 1<<2;
-    public static final int THURSDAY = 1<<3;
-    public static final int FRIDAY = 1<<4;
-    public static final int SATURDAY = 1<<5;
-    public static final int SUNDAY = 1<<6;
+    public String privateUrl = "https://www.cryptopia.co.nz/Api/";
+    public String publicKey = "148b658687c54d13892a527ece8c32d4";
+    public String privateKey = "9aa5AMjwFP16oaQtnKY09zd7oe67X4asgdE/rbgv2DY=";
 
+    public Test(String method,String jSonPostParam) throws Exception {
+        String urlMethod = privateUrl + method;
+        String nonce     = String.valueOf(System.currentTimeMillis());
 
-    public static List<String> parseList(String params){
-        List<String> idList = new ArrayList<>();
-        String idArray[] = params.split(" ");
-        Collections.addAll(idList, idArray);
-        return idList;
+        String reqSignature =
+                publicKey
+                        + "POST"
+                        + URLEncoder.encode(urlMethod, StandardCharsets.UTF_8.toString()).toLowerCase()
+                        + nonce
+                        + getMD5_B64(jSonPostParam);
+
+        String AUTH = "amx "
+                + publicKey
+                +":"
+                + this.sha256_B64(reqSignature)
+                +":"
+                + nonce;
+
+        String response = this.continueForHttp(urlMethod, jSonPostParam,AUTH);
+
+        System.out.println("API RESPONSE : " + response);
     }
 
-    public static List<Map<String,Object>> getListByJson(String result){
-        Type topicType1 = new TypeToken<List<Map<String,Object>>>() {
-        }.getType();
-        List<Map<String,Object>> resultList =
-                GsonUtils.fromJson(result, topicType1, FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES);
-        System.out.print(GsonUtils.toJson(resultList));
-        return resultList;
-    }
+    private String continueForHttp(String urlMethod, String postParam,String AUTH) throws Exception {
+        URLConnection con = new URL(urlMethod).openConnection(); // CREATE POST CONNECTION
+        con.setDoOutput(true);
 
-    public static Date parseDate(String dateStr) throws ParseException {
-        return DateUtils.parseDate(dateStr, "yyyy年MM月dd日");
-    }
+        HttpsURLConnection httpsConn = (HttpsURLConnection) con;
+        httpsConn.setRequestMethod("POST");
+        httpsConn.setInstanceFollowRedirects(true);
 
-    public static Integer getBinary(String whatDay){
-        Integer binary = 0;
-        for (int i = 0;i<whatDay.length();i++) {
-            Integer day = IntegerTools.parse(whatDay.substring(i, i + 1));
-            binary = binary | WeekEnum.valueOfCode(day).getBinary();
+        con.setRequestProperty("Authorization", AUTH);
+        con.setRequestProperty("Content-Type", "application/json");
+
+        // WRITE POST PARAMS
+        DataOutputStream wr = new DataOutputStream(con.getOutputStream());
+        wr.writeBytes(postParam);
+        wr.flush();
+        wr.close();
+
+        // READ THE RESPONSE
+        BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+        String inputLine;
+        StringBuilder response = new StringBuilder();
+        while ((inputLine = in.readLine()) != null) {
+            response.append(inputLine);
         }
-        return binary;
+        in.close();
+
+        return response.toString();
     }
 
-    public static void main(String[] args){
-        Map<String,Object> params = new LinkedHashMap<>();
-        params.put("adsf",123);
-        params.put("cadsf","asdf");
-        params.put("badf","23g");
-        System.out.print(params);
+    private String getMD5_B64(String postParameter) throws Exception {
+        return Base64.getEncoder().encodeToString(MessageDigest.getInstance("MD5").digest(postParameter.getBytes("UTF-8")));
+    }
+
+    private String sha256_B64(String msg) throws Exception {
+        Mac sha256_HMAC = Mac.getInstance("HmacSHA256");
+        SecretKeySpec secret_key = new SecretKeySpec(Base64.getDecoder().decode(privateKey), "HmacSHA256");
+        sha256_HMAC.init(secret_key);
+        return Base64.getEncoder().encodeToString(sha256_HMAC.doFinal(msg.getBytes("UTF-8")));
+    }
+
+
+    public static void main(String[] args) {
+        CurrencyInfo currencyInfo1 = new CurrencyInfo();
+        CurrencyInfo currencyInfo2 = new CurrencyInfo();
+        CurrencyInfo currencyInfo3 = new CurrencyInfo();
+        CurrencyInfo currencyInfo4 = new CurrencyInfo();
+        CurrencyInfo currencyInfo5 = new CurrencyInfo();
+        currencyInfo1.setId(1L);
+        currencyInfo2.setId(2L);
+        currencyInfo3.setId(3L);
+        currencyInfo4.setId(4L);
+        currencyInfo5.setId(1L);
+        currencyInfo1.setStatus(1);
+        currencyInfo2.setStatus(2);
+        currencyInfo3.setStatus(1);
+        currencyInfo4.setStatus(2);
+        currencyInfo5.setStatus(3);
+        currencyInfo1.setName("a");
+        currencyInfo2.setName("b");
+        currencyInfo3.setName("c");
+        currencyInfo4.setName("d");
+        currencyInfo5.setName("e");
+        List<CurrencyInfo> currencyInfoList = Arrays.asList(currencyInfo1,currencyInfo2,currencyInfo3,currencyInfo4,currencyInfo5);
+//        Map<Long,List<CurrencyInfo>> longListMap
+//                = currencyInfoList.stream().collect(Collectors.groupingBy(c->c.getId()));
+//        Map<Integer,Map<Long,List<CurrencyInfo>>> test
+//                = currencyInfoList.stream().collect(
+//                        Collectors.groupingBy(CurrencyInfo::getStatus,
+//                                Collectors.groupingBy(CurrencyInfo::getId)));
+//        System.out.print(GsonUtils.toJson(test));
+        System.out.print(GsonUtils.toJson(currencyInfoList.stream().map(c->c.getId()).collect(Collectors.toSet())));
     }
 
 }

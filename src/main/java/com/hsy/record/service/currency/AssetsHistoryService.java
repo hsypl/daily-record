@@ -19,6 +19,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 
@@ -112,6 +113,7 @@ public class AssetsHistoryService
         return valueByDay;
     }
 
+    @Transactional(timeout = 1000)
     public void count() throws HttpClientException, ServiceProcessException {
         coinMarketCapService.update();
         List<UserInfo> userInfoList = userInfoService.getList();
@@ -123,7 +125,7 @@ public class AssetsHistoryService
             AssetsHistory history = new AssetsHistory();
             history.setUid(userInfo.getUid());
             history.setAmount(LongTools.parse(sum.toString()));
-            history.setCreateTime(DateUtilExt.getLongOfToday());
+            history.setCreateTime(DateUtilExt.getLongPlusDays(DateUtilExt.getLongOfToday(),-1L));
             insert(history);
         }
     }

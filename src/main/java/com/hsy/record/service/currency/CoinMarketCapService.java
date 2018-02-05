@@ -88,16 +88,19 @@ public class CoinMarketCapService
         }.getType();
         List<Map<String,String>> resultList =
                 GsonUtils.fromJson(result, topicType1);
-        System.out.print(GsonUtils.toJson(resultList));
         return resultList;
     }
 
     @Transactional(timeout = 1000)
-    public void update() throws HttpClientException, ServiceProcessException {
-        String result = HttpClientUtils.getString(GET_URL);
-        List<Map<String,String>> resultList = getListByJson(result);
-        for(Map<String,String> data : resultList){
-           parseData(data);
+    public void update() throws ServiceProcessException {
+        try {
+            String result = HttpClientUtils.getString(GET_URL);
+            List<Map<String,String>> resultList = getListByJson(result);
+            for(Map<String,String> data : resultList){
+                parseData(data);
+            }
+        } catch (HttpClientException e) {
+            update();
         }
     }
 

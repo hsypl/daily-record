@@ -62,13 +62,17 @@ public class PriceControllerTest {
     }
 
     @Test
-    public void test2() throws ServiceProcessException, HttpClientException {
-        coinMarketCapService.update();
+    public void test2() throws ServiceProcessException, HttpClientException, ParseException {
+        Long endTime = DateUtilExt.getLongOfToday();
+        List<IcoProjectInfo> list = icoProjectInfoService.getList();
+        for (IcoProjectInfo icoProjectInfo : list) {
+            coinHistoryService.updateData(icoProjectInfo.getSymbol(),DateUtilExt.getLongPlusDays(endTime,-2L), endTime);
+        }
     }
 
     @Test
     public void test4() throws ServiceProcessException, HttpClientException {
-        assetsHistoryService.getCountByUidAndTime(1514304000L);
+        assetsHistoryService.count();
     }
 
     @Test

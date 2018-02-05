@@ -8,6 +8,7 @@
 <s:url value="/dailys/query/index" var="queryUrl"/>
 <s:url value="/dailys/user/index" var="userUrl"/>
 <s:url value="/dailys/change/index" var="changeUrl"/>
+<s:url value="/dailys/util/index" var="utilUrl"/>
 <div class="sidebar" data-color="blue" data-image="/media/assets/img/sidebar-1.jpg">
     <div class="logo">
         <a href="http://www.creative-tim.com" class="simple-text">
@@ -50,6 +51,12 @@
                 <a href="${changeUrl}">
                     <i class="fa fa-exchange" aria-hidden="true"></i>
                     <p>exchange</p>
+                </a>
+            </li>
+            <li id="utilUrl">
+                <a href="${utilUrl}">
+                    <i class="fa fa-exchange" aria-hidden="true"></i>
+                    <p>util</p>
                 </a>
             </li>
         </div>

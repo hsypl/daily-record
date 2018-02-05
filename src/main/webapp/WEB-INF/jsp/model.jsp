@@ -143,4 +143,10 @@
 </div>
 </body>
 <%@include file="/WEB-INF/jsp/includes/scriptOfBase.jsp" %>
+<script>
+    $(function () {
+        var active = $("#user");
+        active.addClass("active");
+    });
+</script>
 </html>
