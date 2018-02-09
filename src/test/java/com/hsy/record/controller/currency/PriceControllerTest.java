@@ -10,7 +10,10 @@ import com.hsy.record.service.IcoProjectInfoService;
 import com.hsy.record.service.currency.AssetsHistoryService;
 import com.hsy.record.service.currency.CoinHistoryService;
 import com.hsy.record.service.currency.CoinMarketCapService;
+import com.hsy.record.service.exchangeApi.ContrastService;
+import com.hsy.record.service.exchangeApi.huobi.HuobiService;
 import com.sungness.core.httpclient.HttpClientException;
+import com.sungness.core.util.GsonUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +21,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
+import java.io.IOException;
 import java.text.ParseException;
 import java.util.List;
 
@@ -37,6 +41,10 @@ public class PriceControllerTest {
     private CoinMarketCapService coinMarketCapService;
     @Autowired
     private CoinHistoryService coinHistoryService;
+    @Autowired
+    private ContrastService contrastService;
+    @Autowired
+    private HuobiService huobiService;
 
     @Test
     public void test() throws ServiceProcessException {
@@ -82,6 +90,11 @@ public class PriceControllerTest {
         for (IcoProjectInfo icoProjectInfo : list) {
             coinHistoryService.updateData(icoProjectInfo.getSymbol(),DateUtilExt.getLongPlusDays(endTime,-1L), endTime);
         }
+    }
+
+    @Test
+    public void test5() throws HttpClientException, ServiceProcessException, IOException {
+        System.out.print(GsonUtils.toJson(huobiService.getDepth("snc")));
     }
 
 }

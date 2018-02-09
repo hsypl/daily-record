@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 public class TestJava8 {
 
     public static void main(String args[]) throws HttpClientException {
-//        String reuslt = HttpClientUtils.getString("https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=wxcc21e4c4b82e0696&secret=a56a487fab0515912861e8052617cc87");
+        String reuslt = HttpClientUtils.getString("https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=wxcc21e4c4b82e0696&secret=a56a487fab0515912861e8052617cc87");
         String token = "6_Ts009DHCqjUQtS3Uq2Zfso5HgnrzaIQf11IoZWABD5FuSjcijfEsjY43v9sJvcWW9rZ-97lfkrPQIAV8xnNedOLXM4vpL9gmJPSGsL8oqeP6QLqk7aMJNH5LS_t3SD8x_QY7ndfOAyeZEEmFQNRhAIATQU";
         String content = "{\n" +
                 "   \"touser\":[\n" +
