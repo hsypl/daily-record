@@ -1,5 +1,7 @@
 package com.hsy.record.model;
 
+import java.text.DecimalFormat;
+
 /**
  * Created by developer2 on 2018/2/8.
  */
@@ -24,4 +26,5 @@ public class DepthDetail {
     public void setTotal(double total) {
         this.total = total;
     }
+
 }

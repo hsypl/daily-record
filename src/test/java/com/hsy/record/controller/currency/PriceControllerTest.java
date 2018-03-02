@@ -1,5 +1,6 @@
 package com.hsy.record.controller.currency;
 
+import com.hsy.core.redis.RedisUtil;
 import com.hsy.core.service.ServiceProcessException;
 import com.hsy.core.util.DateUtilExt;
 import com.hsy.record.model.IcoProjectInfo;
@@ -7,6 +8,7 @@ import com.hsy.record.model.currency.AssetsHistory;
 import com.hsy.record.model.currency.CoinHistory;
 import com.hsy.record.model.currency.CoinMarketCap;
 import com.hsy.record.service.IcoProjectInfoService;
+import com.hsy.record.service.WechatService;
 import com.hsy.record.service.currency.AssetsHistoryService;
 import com.hsy.record.service.currency.CoinHistoryService;
 import com.hsy.record.service.currency.CoinMarketCapService;
@@ -45,6 +47,10 @@ public class PriceControllerTest {
     private ContrastService contrastService;
     @Autowired
     private HuobiService huobiService;
+    @Autowired
+    private WechatService wechatService;
+    @Autowired
+    private RedisUtil redisUtil;
 
     @Test
     public void test() throws ServiceProcessException {
@@ -93,8 +99,9 @@ public class PriceControllerTest {
     }
 
     @Test
-    public void test5() throws HttpClientException, ServiceProcessException, IOException {
-        System.out.print(GsonUtils.toJson(huobiService.getDepth("snc")));
+    public void test5(){
+//        redisUtil.redisSet("hsy","xu".getBytes());
+        System.out.println("shuoyinggege"+redisUtil.redisGet("xuzhi"));
     }
 
 }

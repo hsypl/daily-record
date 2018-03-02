@@ -29,6 +29,6 @@
         <!--<task:scheduled ref="authorizerTokenService" method="initTokenFacade"
                         fixed-delay="600000" initial-delay="10000"/>-->
         <task:scheduled ref="monitorSchedule" method="start"
-                        fixed-delay="180000" initial-delay="10000"/>
+                        fixed-delay="60000" initial-delay="10000"/>
     </task:scheduled-tasks>
 </beans>

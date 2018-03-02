@@ -26,6 +26,9 @@
     <context:component-scan base-package="com.hsy.core.cache">
         <context:include-filter type="regex" expression="..*.service"/>
     </context:component-scan>
+    <context:component-scan base-package="com.hsy.core.redis">
+        <context:include-filter type="regex" expression="..*.service"/>
+    </context:component-scan>
 
     <bean id="currencyCacheInitializeListener" class="com.hsy.core.listener.CurrencyInitializeListener"/>
 
@@ -46,4 +49,7 @@
             <tx:method name="*"/>
         </tx:attributes>
     </tx:advice>
+
+    <!-- redis缓存 service层配置 -->
+    <import resource="redis/redis-resources.xml"/>
 </beans>

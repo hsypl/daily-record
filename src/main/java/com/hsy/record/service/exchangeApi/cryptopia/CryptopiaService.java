@@ -56,7 +56,7 @@ public class CryptopiaService extends ExchangeAbstract {
         for (Map<String,Object> child : detailList){
             DepthDetail depthDetail = new DepthDetail();
             depthDetail.setPrice((Double) child.get("Price"));
-            depthDetail.setTotal((Double) child.get("Total"));
+            depthDetail.setTotal((Double) child.get("Volume"));
             depthDetailList.add(depthDetail);
         }
         return depthDetailList;

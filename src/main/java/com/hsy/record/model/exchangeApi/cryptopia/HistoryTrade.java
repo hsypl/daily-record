@@ -7,9 +7,11 @@ public class HistoryTrade {
 
     private double price;
 
-    private double volume;
+    private double amount;
 
     private double total;
+
+    private String type;
 
     public double getPrice() {
         return price;
@@ -19,12 +21,12 @@ public class HistoryTrade {
         this.price = price;
     }
 
-    public double getVolume() {
-        return volume;
+    public double getAmount() {
+        return amount;
     }
 
-    public void setVolume(double volume) {
-        this.volume = volume;
+    public void setAmount(double amount) {
+        this.amount = amount;
     }
 
     public double getTotal() {
@@ -33,5 +35,13 @@ public class HistoryTrade {
 
     public void setTotal(double total) {
         this.total = total;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 }

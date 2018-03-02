@@ -13,11 +13,15 @@ public class Depth {
 
     private List<DepthDetail> buyList;
 
-    private double firstBuyPrice ;
+    private String exchangeName;
 
-    private double firstSellPrice;
+    public String getExchangeName() {
+        return exchangeName;
+    }
 
-    private List<String> exchangeList;
+    public void setExchangeName(String exchangeName) {
+        this.exchangeName = exchangeName;
+    }
 
     public Depth(String name){
         this.name = name;
@@ -51,11 +55,4 @@ public class Depth {
         return sellList.get(0).getPrice();
     }
 
-    public List<String> getExchangeList() {
-        return exchangeList;
-    }
-
-    public void setExchangeList(List<String> exchangeList) {
-        this.exchangeList = exchangeList;
-    }
 }

@@ -26,20 +26,7 @@ public class MonitorSchedule {
      */
     public void start(){
         log.debug("价格监控");
-        try {
-            log.debug("价格监控---dna");
-            contrastService.dna();
-            log.debug("价格监控---snc");
-            contrastService.snc();
-            log.debug("价格监控---smt");
-            contrastService.smt();
-            log.debug("价格监控---powr");
-            contrastService.powr();
-        } catch (HttpClientException | ServiceProcessException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        contrastService.monitor();
     }
 
 }

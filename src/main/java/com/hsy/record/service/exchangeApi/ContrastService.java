@@ -2,21 +2,20 @@ package com.hsy.record.service.exchangeApi;
 
 import com.hsy.core.service.ServiceProcessException;
 import com.hsy.record.model.Depth;
+import com.hsy.record.service.MobileInfoService;
 import com.hsy.record.service.MonitorRecordService;
 import com.hsy.record.service.WechatService;
-import com.hsy.record.service.exchangeApi.cryptopia.CryptopiaService;
-import com.hsy.record.service.exchangeApi.huobi.HuobiService;
-import com.hsy.record.service.exchangeApi.okex.OkexService;
 import com.sungness.core.httpclient.HttpClientException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Created by developer2 on 2018/2/8.
@@ -32,11 +31,11 @@ public class ContrastService {
 
     private final static double SMT_DIS_PRICE = 0.0000003;
 
-    @Autowired
-    private OkexService okexService;
+    private final static double POWR_DIS_PRICE = 0.000003;
 
-    @Autowired
-    private CryptopiaService cryptopiaService;
+    private static Map<String,List<String>> symbolExchangeList = new ConcurrentHashMap<>();
+
+    private static Map<String,Double> disPrice = new ConcurrentHashMap<>();
 
     @Autowired
     private WechatService wechatService;
@@ -45,7 +44,94 @@ public class ContrastService {
     private MonitorRecordService monitorRecordService;
 
     @Autowired
-    private HuobiService huobiService;
+    private MobileInfoService mobileInfoService;
+
+    @Autowired
+    private Map<String,ExchangeApiInterface> exchangeMap;
+
+    public ContrastService(){
+        List<String> dnaExchange = new ArrayList<>();
+        dnaExchange.add("cryptopiaService");
+        dnaExchange.add("okexService");
+        List<String> powrExchange = new ArrayList<>();
+        powrExchange.add("cryptopiaService");
+        powrExchange.add("huobiService");
+        List<String> sncExchange = new ArrayList<>();
+        sncExchange.add("okexService");
+        sncExchange.add("huobiService");
+        List<String> smtExchange = new ArrayList<>();
+        smtExchange.add("okexService");
+        smtExchange.add("huobiService");
+        symbolExchangeList.put("dna",dnaExchange);
+        symbolExchangeList.put("powr",powrExchange);
+        symbolExchangeList.put("snc",sncExchange);
+        symbolExchangeList.put("smt",smtExchange);
+        disPrice.put("dna",DNA_DIS_PRICE);
+        disPrice.put("snc",SNC_DIS_PRICE);
+        disPrice.put("smt",SMT_DIS_PRICE);
+        disPrice.put("powr",POWR_DIS_PRICE);
+    }
+
+    public void monitor(){
+        for (String name : symbolExchangeList.keySet()){
+            Thread thread = new Thread(){
+                public void run(){
+                    try {
+                        monitor(name);
+                    } catch (IOException e) {
+                        log.debug(name+"---IOException");
+                        e.printStackTrace();
+                    } catch (HttpClientException e) {
+                        log.debug(name+"---HttpClientException");
+                        e.printStackTrace();
+                    } catch (ServiceProcessException e) {
+                        log.debug(name+"---ServiceProcessException");
+                        e.printStackTrace();
+                    }
+                }
+            };
+            thread.start();
+        }
+    }
+
+    public List<Depth> getDepthList(String name) throws IOException, HttpClientException {
+        List<String> exchangeList = symbolExchangeList.get(name);
+        List<Depth> depthList = new ArrayList<>();
+        for (String exchange : exchangeList){
+            Depth depth = exchangeMap.get(exchange).getDepth(name);
+            depth.setExchangeName(exchange.substring(0,3));
+            depthList.add(depth);
+        }
+        return depthList;
+    }
+
+    public void monitor(String name) throws IOException, HttpClientException, ServiceProcessException {
+        List<Depth> depthList = getDepthList(name);
+        if((depthList.get(0).getFirstBuyPrice() - depthList.get(1).getFirstSellPrice()) > disPrice.get(name)
+                || (depthList.get(1).getFirstBuyPrice() - depthList.get(0).getFirstSellPrice()) > disPrice.get(name)){
+            mobileInfoService.sendMsg(name);
+            String stringBuilder =depthList.get(0).getExchangeName()+"Buy:"
+                    + formatFloatNumber(depthList.get(0).getFirstBuyPrice())
+                    +"btc------------"
+                    +depthList.get(0).getExchangeName()+"Sell:"
+                    +formatFloatNumber(depthList.get(0).getFirstSellPrice())
+                    +"btc------------"+depthList.get(1).getExchangeName()+"Buy:"
+                    + formatFloatNumber(depthList.get(1).getFirstBuyPrice())
+                    +"btc------------"+depthList.get(1).getExchangeName()+"Sell:"
+                    +formatFloatNumber(depthList.get(1).getFirstSellPrice())+"btc------"+name;
+            int re = monitorRecordService.sendSave(name,1);
+            if (re > 0){
+                wechatService.sendMessage(stringBuilder);
+            }
+        }
+
+    }
+
+    public Map<String,Double> getDisPrice(){
+        return disPrice;
+    }
+
+
 
     public static String formatFloatNumber(double value) {
         if(value != 0.00){
@@ -56,72 +142,4 @@ public class ContrastService {
         }
     }
 
-    public void powr() throws HttpClientException, ServiceProcessException, IOException {
-        Depth hbDepth = huobiService.getDepth("powr");
-        Depth cptDepth = cryptopiaService.getDepth("powr");
-        if((hbDepth.getFirstBuyPrice() - cptDepth.getFirstSellPrice()) > DNA_DIS_PRICE
-                || (cptDepth.getFirstBuyPrice() - hbDepth.getFirstSellPrice()) > DNA_DIS_PRICE){
-            String stringBuilder ="hbFirstBuy:"+ formatFloatNumber(hbDepth.getFirstBuyPrice())+"btc------------hbFirstSell:"
-                    +formatFloatNumber(hbDepth.getFirstSellPrice())+"btc------------cpFirstBuy:"+ formatFloatNumber(cptDepth.getFirstBuyPrice())
-                    +"btc------------cpFirstSell:" +formatFloatNumber(cptDepth.getFirstSellPrice())+"btc------powr";
-            int re = monitorRecordService.sendSave("powr",1);
-            if (re > 0){
-                wechatService.sendMessage(stringBuilder);
-            }
-        }
-    }
-
-    public void dna() throws HttpClientException, ServiceProcessException {
-        Depth okDepth = okexService.getDepth("dna");
-        Depth cptDepth = cryptopiaService.getDepth("dna");
-        if((okDepth.getFirstBuyPrice() - cptDepth.getFirstSellPrice()) > DNA_DIS_PRICE
-                || (cptDepth.getFirstBuyPrice() - okDepth.getFirstSellPrice()) > DNA_DIS_PRICE){
-            String stringBuilder ="okFirstBuy:"+ formatFloatNumber(okDepth.getFirstBuyPrice())+"btc------------okFirstSell:"
-                    +formatFloatNumber(okDepth.getFirstSellPrice())+"btc------------cpFirstBuy:"+ formatFloatNumber(cptDepth.getFirstBuyPrice())
-                    +"btc------------cpFirstSell:" +formatFloatNumber(cptDepth.getFirstSellPrice())+"btc------dna";
-            int re = monitorRecordService.sendSave("dna",1);
-            if (re > 0){
-                wechatService.sendMessage(stringBuilder);
-            }
-        }
-    }
-
-    public void snc() throws HttpClientException, IOException, ServiceProcessException {
-        Depth okDepth = okexService.getDepth("snc");
-        Depth huobiDepth = huobiService.getDepth("snc");
-        if((okDepth.getFirstBuyPrice() - huobiDepth.getFirstSellPrice()) > SNC_DIS_PRICE
-                || (huobiDepth.getFirstBuyPrice() - okDepth.getFirstSellPrice()) > SNC_DIS_PRICE){
-            String stringBuilder ="okFirstBuy:"+ formatFloatNumber(okDepth.getFirstBuyPrice())+"btc------------okFirstSell:"
-                    +formatFloatNumber(okDepth.getFirstSellPrice())+"btc------------hbFirstBuy:"+ formatFloatNumber(huobiDepth.getFirstBuyPrice())
-                    +"btc------------hbFirstSell:" +formatFloatNumber(huobiDepth.getFirstSellPrice())+"btc------SNC";
-            int re = monitorRecordService.sendSave("snc",1);
-            if (re > 0){
-                wechatService.sendMessage(stringBuilder);
-            }
-        }
-    }
-
-    public void smt() throws HttpClientException, IOException, ServiceProcessException {
-        Depth okDepth = okexService.getDepth("smt");
-        Depth huobiDepth = huobiService.getDepth("smt");
-        if((okDepth.getFirstBuyPrice() - huobiDepth.getFirstSellPrice()) > SMT_DIS_PRICE
-                || (huobiDepth.getFirstBuyPrice() - okDepth.getFirstSellPrice()) > SMT_DIS_PRICE){
-            String stringBuilder ="okFirstBuy:"+ formatFloatNumber(okDepth.getFirstBuyPrice())+"btc------------okFirstSell:"
-                    +formatFloatNumber(okDepth.getFirstSellPrice())+"btc------------hbFirstBuy:"+ formatFloatNumber(huobiDepth.getFirstBuyPrice())
-                    +"btc------------hbFirstSell:" +formatFloatNumber(huobiDepth.getFirstSellPrice())+"btc------smt";
-            int re = monitorRecordService.sendSave("smt",1);
-            if (re > 0){
-                wechatService.sendMessage(stringBuilder);
-            }
-        }
-    }
-
-    public static void main(String[] args) throws HttpClientException {
-        List<Integer> a = new ArrayList<>();
-        a.add(1);
-        a.add(2);
-        a.add(4);
-        a.add(5);
-        System.out.print(a.subList(0,3));
-    }
 }
