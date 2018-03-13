@@ -17,7 +17,6 @@
     <task:scheduled-tasks scheduler="annotationScheduler">
         <task:scheduled ref="dailyCountSchedule" method="start"
                         cron="0 0 1 * * ?"/>
-
         <task:scheduled ref="dailyHistorySchedule" method="start"
                         cron="0 0 7 * * ?"/>
         <!--<task:scheduled ref="authorizerTokenRefresh" method="run"
@@ -25,10 +24,11 @@
         <task:scheduled ref="componentTokenRefresh" method="run"
                         fixed-delay="7200" initial-delay="10"/>-->
         <!-- 定时从数据库里取tonken到内存 -->
-
         <!--<task:scheduled ref="authorizerTokenService" method="initTokenFacade"
                         fixed-delay="600000" initial-delay="10000"/>-->
-        <task:scheduled ref="monitorSchedule" method="start"
-                        fixed-delay="60000" initial-delay="10000"/>
+        <!--<task:scheduled ref="monitorSchedule" method="start"-->
+                        <!--fixed-delay="60000" initial-delay="10000"/>-->
+        <task:scheduled ref="symbolSchedule" method="start"
+                        fixed-delay="60000" initial-delay="7200"/>
     </task:scheduled-tasks>
 </beans>

@@ -129,34 +129,6 @@
                         </div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="card">
-                            <div class="card-header" data-background-color="blue">
-                                <h4 class="title">卖单</h4>
-                            </div>
-                            <div class="card-content table-responsive">
-                                <table class="table">
-                                    <thead class="text-primary">
-                                    <th>价格</th>
-                                    <th>数量</th>
-                                    <th>总额</th>
-                                    </thead>
-                                    <tbody>
-                                    <c:forEach items="${sellList}" varStatus="stauts">
-                                        <c:set var="buy" value="${stauts.current}"/>
-                                        <tr>
-                                            <td><fmt:formatNumber type="number" value="${buy['Price']} " maxFractionDigits="8"/></td>
-                                            <td>${buy['Volume']}</td>
-                                            <td>${buy['Total']} Btc</td>
-                                        </tr>
-                                    </c:forEach>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
     </div>

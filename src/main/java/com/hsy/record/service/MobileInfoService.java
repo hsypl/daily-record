@@ -30,12 +30,12 @@ public class MobileInfoService {
      * 发送参数到url
      * @return String , 解析发送接口返回的json  status为success表示成功，error表示失败
      */
-    private void sendToUrl(String name) throws HttpClientException,
+    private void sendToUrl(String name,String project) throws HttpClientException,
             UnsupportedEncodingException, ServiceProcessException {
         Map<String, String> map = new LinkedHashMap<>();
         map.put("appid", APP_ID);
         map.put("to", "13750450369");
-        map.put("project", "dm8ce4");
+        map.put("project", project);
         map.put("vars", "{\"name\":\"" + name + "\"}");
         map.put("signature", SECRET);
         StringBuilder stringBuilder = new StringBuilder();
@@ -49,15 +49,14 @@ public class MobileInfoService {
         System.out.print(response);
     }
 
-    public void sendMsg(String name) throws ServiceProcessException, UnsupportedEncodingException, HttpClientException {
-        int re = monitorRecordService.sendSave(name,2);
+    public void sendMsg(String name,String project,Integer type) throws ServiceProcessException, UnsupportedEncodingException, HttpClientException {
+        int re = monitorRecordService.sendSave(name,type);
         if(re > 0){
-            sendToUrl(name);
+            sendToUrl(name,project);
         }
     }
 
     public static void main(String[] args) throws HttpClientException, UnsupportedEncodingException, ServiceProcessException {
         MobileInfoService mobileInfoService = new MobileInfoService();
-        mobileInfoService.sendToUrl("dna");
     }
 }

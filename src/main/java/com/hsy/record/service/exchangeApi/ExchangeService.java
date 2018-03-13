@@ -16,12 +16,7 @@ public class ExchangeService {
     @Autowired
     private ContrastService contrastService;
 
-    public void exchange() throws IOException, HttpClientException {
-        double disPrice = contrastService.getDisPrice().get("dna");
-        List<Depth> depthList = contrastService.getDepthList("dna");
-        if((depthList.get(0).getFirstBuyPrice() - depthList.get(1).getFirstSellPrice()) > disPrice){
+    public void getBalance(){
 
-        }else if ((depthList.get(1).getFirstBuyPrice() - depthList.get(0).getFirstSellPrice()) > disPrice){
-        }
     }
 }

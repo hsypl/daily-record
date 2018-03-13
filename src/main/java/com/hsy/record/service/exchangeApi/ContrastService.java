@@ -2,6 +2,9 @@ package com.hsy.record.service.exchangeApi;
 
 import com.hsy.core.service.ServiceProcessException;
 import com.hsy.record.model.Depth;
+import com.hsy.record.model.MonitorSymbol;
+import com.hsy.record.model.Ticket;
+import com.hsy.record.model.enu.ExchangeTypeEnum;
 import com.hsy.record.service.MobileInfoService;
 import com.hsy.record.service.MonitorRecordService;
 import com.hsy.record.service.WechatService;
@@ -94,6 +97,12 @@ public class ContrastService {
         }
     }
 
+    public Ticket getTicket(MonitorSymbol monitorSymbol)
+            throws IOException, HttpClientException {
+        return exchangeMap.get(monitorSymbol.getExchange()).getTicket(monitorSymbol.getSymbol(),
+                ExchangeTypeEnum.getDescription(monitorSymbol.getType()));
+    }
+
     public List<Depth> getDepthList(String name) throws IOException, HttpClientException {
         List<String> exchangeList = symbolExchangeList.get(name);
         List<Depth> depthList = new ArrayList<>();
@@ -109,7 +118,7 @@ public class ContrastService {
         List<Depth> depthList = getDepthList(name);
         if((depthList.get(0).getFirstBuyPrice() - depthList.get(1).getFirstSellPrice()) > disPrice.get(name)
                 || (depthList.get(1).getFirstBuyPrice() - depthList.get(0).getFirstSellPrice()) > disPrice.get(name)){
-            mobileInfoService.sendMsg(name);
+            mobileInfoService.sendMsg(name,"dm8ce4",2);
             String stringBuilder =depthList.get(0).getExchangeName()+"Buy:"
                     + formatFloatNumber(depthList.get(0).getFirstBuyPrice())
                     +"btc------------"
@@ -140,6 +149,10 @@ public class ContrastService {
         }else{
             return "0.00";
         }
+    }
+
+    public void getBalance(){
+
     }
 
 }
