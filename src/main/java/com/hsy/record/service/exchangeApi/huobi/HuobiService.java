@@ -84,7 +84,7 @@ public class HuobiService extends ExchangeAbstract{
 
     public static void main(String[] args) throws IOException, HttpClientException {
         HuobiService huobiService = new HuobiService();
-        System.out.println(GsonUtils.toJson(huobiService.getTicket("btc","usdt")));
+        System.out.println(GsonUtils.toJson(huobiService.getTradeInfo("powr")));
 
     }
 

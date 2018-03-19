@@ -12,6 +12,7 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 
+import java.net.InetAddress;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -22,6 +23,10 @@ import java.util.stream.Stream;
  */
 public class TestJava8 {
 
-    public static void main(String[] args) throws Exception {
+
+
+    public static void main(String[] args) throws HttpClientException {
+       System.out.print(HttpClientUtils.getString("http://localhost:8080/test/hello"));
     }
+
 }
