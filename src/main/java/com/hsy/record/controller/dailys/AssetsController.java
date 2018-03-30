@@ -1,5 +1,7 @@
 package com.hsy.record.controller.dailys;
 
+import com.hsy.core.annotation.Command;
+import com.hsy.core.annotation.Module;
 import com.hsy.core.service.ServiceProcessException;
 import com.hsy.core.util.DateUtilExt;
 import com.hsy.record.model.IcoProjectInfo;
@@ -28,11 +30,14 @@ import java.util.Map;
  */
 @Controller
 @RequestMapping(AssetsController.URL_PREFIX)
+@Module(value = AssetsController.MODULE_NAME , order = 1, icon = "fa fa-home")
 public class AssetsController {
 
     public final static String URL_PREFIX = "/dailys/assets";
 
     public final static String URL_INDEX = "/dailys/assets/index";
+
+    public final static String MODULE_NAME = "Assets";
 
     @Autowired
     private AssetsHistoryService assetsHistoryService;
@@ -44,6 +49,7 @@ public class AssetsController {
     private CoinMarketCapService coinMarketCapService;
 
     @RequestMapping("/index")
+    @Command(value = MODULE_NAME + "-Index", isInlet = true, order = 1)
     public void index(@RequestAttribute UserInfo userInfo, Model model){
         List<IcoProjectInfo> icoProjectInfoList
                 = icoProjectInfoService.getListLeftJoinByUid(userInfo.getUid());
@@ -62,18 +68,21 @@ public class AssetsController {
         model.addAttribute("infoList",icoProjectInfoList);
     }
 
+    @Command(value = "更新" + MODULE_NAME, order = 2)
     @RequestMapping("/update")
     public String update() throws IOException, ServiceProcessException, HttpClientException {
         coinMarketCapService.update();
         return "redirect:"+URL_INDEX;
     }
 
+    @Command(value = "查看历史" + MODULE_NAME, order = 3)
     @RequestMapping("/history")
     public void history(@RequestAttribute UserInfo userInfo, Model model){
         Map<String,Long> assetsMap = assetsHistoryService.getMonthMap(userInfo.getUid(),null);
         model.addAttribute("assetsMap",assetsMap);
     }
 
+    @Command(value = "历史（月份）" + MODULE_NAME, order = 4)
     @ResponseBody
     @RequestMapping("/history/month")
     public Map<String, Object>  update(@RequestAttribute UserInfo userInfo,@RequestParam String month){

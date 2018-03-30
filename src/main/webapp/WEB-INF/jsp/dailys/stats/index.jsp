@@ -89,7 +89,7 @@
 <%@include file="/WEB-INF/jsp/includes/scriptOfBase.jsp" %>
 <script>
     $(function () {
-        var active = $("#stats");
+        var active = $("#Stats");
         active.addClass("active");
     });
 </script>

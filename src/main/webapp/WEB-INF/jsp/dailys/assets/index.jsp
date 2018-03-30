@@ -127,7 +127,7 @@
 <script src="/media/js/echat/ecStat.min.js"></script>
 <script type="text/javascript">
     $(function () {
-        var active = $("#assets");
+        var active = $("#Assets");
         active.addClass("active");
     });
 

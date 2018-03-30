@@ -76,4 +76,5 @@ public class MonitorRecordService
         monitorRecord.setType(type);
         return insert(monitorRecord);
     }
+
 }

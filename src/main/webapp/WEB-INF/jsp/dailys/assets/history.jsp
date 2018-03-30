@@ -88,7 +88,7 @@
 <script src="/media/js/echat/ecStat.min.js"></script>
 <script>
     $(function () {
-        var active = $("#assets");
+        var active = $("#Assets");
         active.addClass("active");
         $("a[name='month']").bind("click",function () {
             var year = $("#yearMenu").text();

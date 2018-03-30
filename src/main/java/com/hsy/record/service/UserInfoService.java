@@ -1,18 +1,25 @@
 package com.hsy.record.service;
 
 import com.hsy.core.dao.GenericMapper;
+import com.hsy.core.service.ServiceProcessException;
 import com.hsy.core.service.StringPKBaseService;
 import com.hsy.record.dao.UserInfoMapper;
 import com.hsy.record.model.UserInfo;
+import com.hsy.record.model.enu.JudgeEnum;
+import com.hsy.record.model.system.ItemTypeEnum;
+import com.hsy.record.model.system.UserPrivilege;
+import com.hsy.record.service.system.UserPrivilegeService;
+import com.sungness.core.util.UuidGenerator;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
 * 用户信息 业务处理类
@@ -26,6 +33,9 @@ public class UserInfoService
 
     @Autowired
     private UserInfoMapper userInfoMapper;
+
+    @Autowired
+    private UserPrivilegeService userPrivilegeService;
 
     /**
     * 获取数据层mapper接口对象，子类必须实现该方法
@@ -50,6 +60,16 @@ public class UserInfoService
         return userInfo;
     }
 
+    public UserInfo getWithPrivilege(String id){
+        UserInfo userInfo = getSafety(id);
+        if(StringUtils.isNotBlank(userInfo.getUid())){
+            List<Long> moduleIdList
+                    = userPrivilegeService.getItemIdListByUserIdAndType(id, ItemTypeEnum.MODULE.getValue());
+            userInfo.setModuleIdList(moduleIdList);
+        }
+        return userInfo;
+    }
+
     public UserInfo getByUsername(String username){
         if(StringUtils.isBlank(username)){
             return null;
@@ -59,22 +79,31 @@ public class UserInfoService
         return getByDynamicWhere(params);
     }
 
-    private static String produceCode(){
-        Random random = new Random();
-        String letter = "ABCDEFGHJKMNPQRSTUVWXYZ";
-        String number = "123456789";
-        int randomLetter = random.nextInt(letter.length());
-        String code = letter.substring(randomLetter,randomLetter+1);
-        for (int i = 0; i < 6; i++) {
-            int n = random.nextInt(number.length());
-            code += number.substring(n, n + 1);
+    public void save(UserInfo userInfo) throws ServiceProcessException {
+        BCryptPasswordEncoder encode = new BCryptPasswordEncoder();
+        String hashPass = encode.encode(userInfo.getPassword());
+        userInfo.setPassword(hashPass);
+        if(StringUtils.isBlank(userInfo.getUid())){
+            userInfo.setUid(UuidGenerator.nextUid());
+            insert(userInfo);
         }
-        System.out.println(code);
-        return code;
+        update(userInfo);
+        userPrivilegeService.save(userInfo);
     }
 
-    public static void main(String[] args){
-        String a = "A123456";
-        System.out.println(a.toUpperCase());
-    }
+//    /**
+//     * 根据用户id获取权限key集合,包括其角色的权限
+//     * @param id Long 用户id
+//     * @return Set<String> 权限 key 集合
+//     */
+//    public Set<String> getPrivilegeSet(UserInfo userInfo) {
+//        Set<String> privilegeSet = new HashSet<>();
+//        if (JudgeEnum.valueOf(userInfo.getAdmin()) == JudgeEnum.YES) {
+//            List<UserPrivilege> userPrivilegeList =
+//        }
+//        List<UserPrivilege> userPrivilegeList =
+//                userPrivilegeService.getListByUserId(id);
+//        privilegeSet.addAll(userPrivilegeList.stream().map(UserPrivilege::getPrivilegeKey).collect(Collectors.toList()));
+//        return privilegeSet;
+//    }
 }

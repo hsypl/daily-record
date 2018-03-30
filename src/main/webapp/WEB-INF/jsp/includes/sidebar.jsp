@@ -18,54 +18,66 @@
     </div>
     <div class="sidebar-wrapper">
         <div class="nav">
-            <li id="assets">
-                <a href="${assetsUrl}">
-                    <i class="fa fa-home" aria-hidden="true"></i>
-                    <p>Assets</p>
-                </a>
-            </li>
-            <li id="user">
-                <a href="${userUrl}">
-                    <i class="fa fa-user-o" aria-hidden="true"></i>
-                    <p>User Profile</p>
-                </a>
-            </li>
-            <li  id="token">
-                <a href="${tokenUrl}">
-                    <i class="fa fa-file-text" aria-hidden="true"></i>
-                    <p>ico token</p>
-                </a>
-            </li>
-            <li id="stats">
-                <a href="${statsUrl}">
-                    <i class="fa fa-line-chart" aria-hidden="true"></i>
-                    <p>stats</p>
-                </a>
-            </li>
-            <li id="query">
-                <a href="${queryUrl}">
-                    <i class="fa fa-usd" aria-hidden="true"></i>
-                    <p>Icons</p>
-                </a>
-            </li>
-            <li id="changeUrl">
-                <a href="${changeUrl}">
-                    <i class="fa fa-exchange" aria-hidden="true"></i>
-                    <p>exchange</p>
-                </a>
-            </li>
-            <li id="utilUrl">
-                <a href="${utilUrl}">
-                    <i class="fa fa-exchange" aria-hidden="true"></i>
-                    <p>util</p>
-                </a>
-            </li>
-            <li id="monitorUrl">
-                <a href="${monitorUrl}">
-                    <i class="fa fa-exchange" aria-hidden="true"></i>
-                    <p>monitor</p>
-                </a>
-            </li>
+            <c:forEach items="${moduleTree.rootMenuList}" varStatus="menuStatus">
+                <c:set var="menuInfo" value="${menuStatus.current}"/>
+                <c:forEach items="${menuInfo.moduleList}" varStatus="moduleList">
+                    <c:set var="module" value="${moduleList.current}"/>
+                    <li id="${module.value}">
+                        <a href="${module.inletUri}">
+                            <i class="${module.icon}" aria-hidden="true"></i>
+                            <p>${module.value}</p>
+                        </a>
+                    </li>
+                </c:forEach>
+            </c:forEach>
+            <%--<li id="assets">--%>
+                <%--<a href="${assetsUrl}">--%>
+                    <%--<i class="fa fa-home" aria-hidden="true"></i>--%>
+                    <%--<p>Assets</p>--%>
+                <%--</a>--%>
+            <%--</li>--%>
+            <%--<li id="user">--%>
+                <%--<a href="${userUrl}">--%>
+                    <%--<i class="fa fa-user-o" aria-hidden="true"></i>--%>
+                    <%--<p>User Profile</p>--%>
+                <%--</a>--%>
+            <%--</li>--%>
+            <%--<li  id="token">--%>
+                <%--<a href="${tokenUrl}">--%>
+                    <%--<i class="fa fa-file-text" aria-hidden="true"></i>--%>
+                    <%--<p>ico token</p>--%>
+                <%--</a>--%>
+            <%--</li>--%>
+            <%--<li id="stats">--%>
+                <%--<a href="${statsUrl}">--%>
+                    <%--<i class="fa fa-line-chart" aria-hidden="true"></i>--%>
+                    <%--<p>stats</p>--%>
+                <%--</a>--%>
+            <%--</li>--%>
+            <%--<li id="query">--%>
+                <%--<a href="${queryUrl}">--%>
+                    <%--<i class="fa fa-usd" aria-hidden="true"></i>--%>
+                    <%--<p>Icons</p>--%>
+                <%--</a>--%>
+            <%--</li>--%>
+            <%--<li id="changeUrl">--%>
+                <%--<a href="${changeUrl}">--%>
+                    <%--<i class="fa fa-exchange" aria-hidden="true"></i>--%>
+                    <%--<p>exchange</p>--%>
+                <%--</a>--%>
+            <%--</li>--%>
+            <%--<li id="utilUrl">--%>
+                <%--<a href="${utilUrl}">--%>
+                    <%--<i class="fa fa-exchange" aria-hidden="true"></i>--%>
+                    <%--<p>util</p>--%>
+                <%--</a>--%>
+            <%--</li>--%>
+            <%--<li id="monitorUrl">--%>
+                <%--<a href="${monitorUrl}">--%>
+                    <%--<i class="fa fa-exchange" aria-hidden="true"></i>--%>
+                    <%--<p>monitor</p>--%>
+                <%--</a>--%>
+            <%--</li>--%>
         </div>
     </div>
 </div>

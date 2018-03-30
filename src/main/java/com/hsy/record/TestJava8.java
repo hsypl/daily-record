@@ -1,9 +1,11 @@
 package com.hsy.record;
 
+import com.hsy.core.util.DateUtilExt;
 import com.hsy.core.util.XmlUtils;
 import com.hsy.record.model.exchangeApi.cryptopia.HistoryTrade;
 import com.sungness.core.httpclient.HttpClientException;
 import com.sungness.core.httpclient.HttpClientUtils;
+import com.sungness.core.util.DateUtil;
 import com.sungness.core.util.GsonUtils;
 import org.apache.commons.httpclient.HttpHost;
 import org.apache.commons.httpclient.protocol.Protocol;
@@ -25,8 +27,8 @@ public class TestJava8 {
 
 
 
-    public static void main(String[] args) throws HttpClientException {
-       System.out.print(HttpClientUtils.getString("http://localhost:8080/test/hello"));
+    public static void main(String[] args){
+        System.out.print(DateUtil.getTimestamp()-1522053901);
     }
 
 }

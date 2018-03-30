@@ -1,5 +1,7 @@
 package com.hsy.record.controller.dailys;
 
+import com.hsy.core.annotation.Command;
+import com.hsy.core.annotation.Module;
 import com.hsy.core.service.ServiceProcessException;
 import com.hsy.core.util.DateUtilExt;
 import com.hsy.record.model.UserInfo;
@@ -31,6 +33,7 @@ import java.util.List;
  */
 @Controller
 @RequestMapping(QueryController.URL_PREFIX)
+@Module(value = QueryController.MODULE_NAME , order = 1, icon = "fa fa-usd")
 public class QueryController {
 
     private static final Logger log = LoggerFactory.getLogger(QueryController.class);
@@ -38,6 +41,9 @@ public class QueryController {
     public final static String URL_PREFIX = "/dailys/query";
 
     public final static String URL_INDEX = "/dailys/query/index";
+
+    public final static String MODULE_NAME = "Query";
+
 
     @Autowired
     private CoinMarketCapService coinMarketCapService;
@@ -48,7 +54,7 @@ public class QueryController {
     @Autowired
     private CoinHistoryService coinHistoryService;
 
-
+    @Command(value = MODULE_NAME + "-Index", isInlet = true, order = 1)
     @RequestMapping("/index")
     public void index(@RequestAttribute UserInfo userInfo,
                       @RequestParam(required = false) String coinNames, Model model,
@@ -64,12 +70,14 @@ public class QueryController {
         model.addAttribute("idList",coinMarketCapService.getIdList());
     }
 
+    @Command(value = "添加" + MODULE_NAME, order = 2)
     @RequestMapping("/add")
     public String add(@RequestAttribute UserInfo userInfo,@RequestParam String symbol) throws ServiceProcessException {
         userCoinRelationService.save(userInfo.getUid(),symbol);
         return "redirect:"+URL_INDEX;
     }
 
+    @Command(value = "更新" + MODULE_NAME, order = 2)
     @RequestMapping("/update")
     public String update(@RequestAttribute UserInfo userInfo) throws HttpClientException, ServiceProcessException {
         List<UserCoinRelation> userCoinRelationList = userCoinRelationService.getListByUid(userInfo.getUid());
@@ -77,12 +85,14 @@ public class QueryController {
         return "redirect:"+URL_INDEX;
     }
 
+    @Command(value = "移除" + MODULE_NAME, order = 2)
     @RequestMapping("/remove")
     public String remove(@RequestParam Long relationId) throws ServiceProcessException {
         userCoinRelationService.delete(relationId);
         return "redirect:"+URL_INDEX;
     }
 
+    @Command(value = "升序" + MODULE_NAME, order = 2)
     @RequestMapping("/rise")
     public String rise(@RequestAttribute UserInfo userInfo,
                        @RequestParam String symbol) throws ServiceProcessException {
@@ -90,6 +100,7 @@ public class QueryController {
         return "redirect:"+URL_INDEX;
     }
 
+    @Command(value = "详情" + MODULE_NAME, order = 2)
     @RequestMapping("/detail")
     public void index(Model model,
                       @RequestParam(required = true) String id){

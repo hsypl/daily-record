@@ -1,5 +1,7 @@
 package com.hsy.record.controller.dailys;
 
+import com.hsy.core.annotation.Command;
+import com.hsy.core.annotation.Module;
 import com.hsy.core.service.ServiceProcessException;
 import com.hsy.record.model.MonitorSymbol;
 import com.hsy.record.model.enu.ExchangeTypeEnum;
@@ -22,23 +24,28 @@ import java.util.List;
  */
 @Controller
 @RequestMapping(MonitorController.URL_PREFIX)
+@Module(value = MonitorController.MODULE_NAME , order = 5, icon = "fa fa-file-text")
 public class MonitorController {
 
     public final static String URL_PREFIX = "/dailys/monitor";
 
     public final static String INDEX_URL = "/dailys/monitor/index";
 
+    public final static String MODULE_NAME = "Monitor";
+
     private static final Logger log = LoggerFactory.getLogger(UtilController.class);
 
     @Autowired
     private MonitorSymbolService monitorSymbolService;
 
+    @Command(value = MODULE_NAME + "-Index", isInlet = true, order = 1)
     @RequestMapping("/index")
     public void index(Model model){
         List<MonitorSymbol> monitorSymbolList = monitorSymbolService.getList();
         model.addAttribute("monitorSymbolList",monitorSymbolList);
     }
 
+    @Command(value = "编辑" + MODULE_NAME, order = 2)
     @RequestMapping("/edit")
     public void edit(@RequestParam(required = false) Long id, Model model){
         MonitorSymbol monitorSymbol = monitorSymbolService.getSafety(id);
@@ -46,7 +53,7 @@ public class MonitorController {
         model.addAttribute("exchangeTypeEnumList", ExchangeTypeEnum.getEnumList());
     }
 
-
+    @Command(value = "保存" + MODULE_NAME, order = 3)
     @RequestMapping("/save")
     public String save(MonitorSymbol monitorSymbol) throws ServiceProcessException {
         if(LongTools.lessEqualZero(monitorSymbol.getId())){

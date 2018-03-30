@@ -183,7 +183,7 @@
 <script src="/media/js/select2.min.js"></script>
 <script>
     $(function () {
-        var active = $("#query");
+        var active = $("#Query");
         active.addClass("active");
 
         $('.js-example-basic-single').select2({

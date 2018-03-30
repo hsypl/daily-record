@@ -1,8 +1,11 @@
 package com.hsy.core.security;
 
+import com.hsy.record.model.UserInfo;
+import com.hsy.record.service.UserInfoService;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
@@ -12,6 +15,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Set;
 
 /**
  * 登录成功处理器
@@ -24,15 +28,21 @@ public class AuthenticationSuccessHandler
 
     private RequestCache requestCache = new HttpSessionRequestCache();
 
+    @Autowired
+    private UserInfoService userInfoService;
+
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request,
                                         HttpServletResponse response,
                                         Authentication authentication) throws IOException, ServletException {
         MyUserDetail clientUserDetails =
                 (MyUserDetail) authentication.getPrincipal();
+        UserInfo userInfo = clientUserDetails.getUserInfo();
+
         String targetUrl = "/loginIndex";
         if(clientUserDetails != null){
             targetUrl = "/dailys/assets/index";
+//            Set<String> privilegeSet = userInfoService.getPrivilegeSet(userInfo);
         }
 //        SavedRequest savedRequest = requestCache.getRequest(request, response);
 //        String saveUrl = savedRequest.getRedirectUrl();

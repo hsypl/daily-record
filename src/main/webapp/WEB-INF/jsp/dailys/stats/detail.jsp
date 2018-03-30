@@ -45,7 +45,7 @@
 <script src="/media/js/echat/ecStat.min.js"></script>
 <script>
     $(function () {
-        var active = $("#stats");
+        var active = $("#Stats");
         active.addClass("active");
 
         option = {

@@ -19,6 +19,10 @@
     </param-value>
   </context-param>
 
+  <session-config>
+    <session-timeout>120000</session-timeout>
+  </session-config>
+
   <context-param>
     <param-name>webAppRootKey</param-name>
     <param-value>pay-platform-webapp</param-value>

@@ -1,5 +1,7 @@
 package com.hsy.record.controller.dailys;
 
+import com.hsy.core.annotation.Command;
+import com.hsy.core.annotation.Module;
 import com.hsy.core.util.DateUtilExt;
 import com.hsy.record.model.currency.CoinHistory;
 import com.hsy.record.model.currency.CoinMarketCap;
@@ -22,9 +24,12 @@ import java.util.Map;
  */
 @Controller
 @RequestMapping(StatsController.URL_PREFIX)
+@Module(value = StatsController.MODULE_NAME , order = 4, icon = "fa fa-usd")
 public class StatsController {
 
     public final static String URL_PREFIX = "/dailys/stats";
+
+    public final static String MODULE_NAME = "Stats";
 
     @Autowired
     private CoinMarketCapService coinMarketCapService;
@@ -32,6 +37,7 @@ public class StatsController {
     @Autowired
     private CoinHistoryService coinHistoryService;
 
+    @Command(value = MODULE_NAME + "-Index", isInlet = true, order = 1)
     @RequestMapping("/index")
     public void index(Model model){
         List<CoinMarketCap> coinMarketCapList
@@ -39,6 +45,7 @@ public class StatsController {
         model.addAttribute("coinMarketCapList",coinMarketCapList);
     }
 
+    @Command(value = "详情" + MODULE_NAME, order = 2)
     @RequestMapping("/detail")
     public void index(Model model,
                         @RequestParam(required = true) String id){

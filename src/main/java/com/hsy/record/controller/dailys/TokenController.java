@@ -1,5 +1,7 @@
 package com.hsy.record.controller.dailys;
 
+import com.hsy.core.annotation.Command;
+import com.hsy.core.annotation.Module;
 import com.hsy.core.service.ServiceProcessException;
 import com.hsy.core.web.QueryFilter;
 import com.hsy.record.model.IcoProjectInfo;
@@ -32,6 +34,7 @@ import java.util.List;
  */
 @Controller
 @RequestMapping(TokenController.URL_PREFIX)
+@Module(value = TokenController.MODULE_NAME , order = 3, icon = "fa fa-file-text")
 public class TokenController {
 
     private static final Logger log = LoggerFactory.getLogger(TokenController.class);
@@ -40,13 +43,15 @@ public class TokenController {
 
     public final static String INDEX_URL = "/dailys/token/index";
 
+    public final static String MODULE_NAME = "Token";
+
     @Autowired
     private IcoProjectInfoService icoProjectInfoService;
 
     @Autowired
     private CoinMarketCapService coinMarketCapService;
 
-
+    @Command(value = MODULE_NAME + "-Index", isInlet = true, order = 1)
     @RequestMapping("/index")
     public void index(@RequestAttribute UserInfo userInfo,
                       @ModelAttribute("queryFilter") QueryFilter queryFilter,
@@ -66,13 +71,14 @@ public class TokenController {
 //
 //    }
 
+    @Command(value = "编辑" + MODULE_NAME, order = 2)
     @RequestMapping("/edit")
     public void edit(@RequestParam(required = false) Long id, Model model){
         IcoProjectInfo icoProjectInfo = icoProjectInfoService.getSafe(id);
         model.addAttribute("icoProjectInfo",icoProjectInfo);
     }
 
-
+    @Command(value = "保存" + MODULE_NAME, order = 2)
     @RequestMapping("/save")
     public String save(@RequestAttribute UserInfo userInfo,
                        IcoProjectInfo icoProjectInfo) throws ServiceProcessException {
@@ -86,12 +92,14 @@ public class TokenController {
         return "redirect:"+INDEX_URL;
     }
 
+    @Command(value = "删除" + MODULE_NAME, order = 2)
     @RequestMapping("/delete")
     public String delete(Long id) throws ServiceProcessException {
         icoProjectInfoService.delete(id);
         return "redirect:"+INDEX_URL;
     }
 
+    @Command(value = "同步" + MODULE_NAME, order = 2)
     @RequestMapping("/sync")
     public String sync(@RequestAttribute UserInfo userInfo) throws ServiceProcessException {
         List<IcoProjectInfo> icoProjectInfoList
@@ -100,6 +108,7 @@ public class TokenController {
         return "redirect:"+INDEX_URL;
     }
 
+    @Command(value = "查看" + MODULE_NAME, order = 2)
     @RequestMapping("/detail")
     public String detail(Model model){
         List<CoinMarketCap> coinMarketCapList

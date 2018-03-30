@@ -28,32 +28,50 @@
                                 <p class="category">修改数据</p>
                             </div>
                             <div class="card-content">
-                                    <div class="row">
-                                        <form:hidden path="uid"/>
-                                        <div class="col-md-5">
-                                            <div class="form-group label-floating">
-                                                <label class="control-label">用户名</label>
-                                                <form:input path="username" class="form-control"  />
-                                                <%--<input type="text" class="form-control" disabled>--%>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <div class="form-group label-floating">
-                                                <label class="control-label">姓名</label>
-                                                <form:input path="name" class="form-control" />
-                                            </div>
+                                <div class="row">
+                                    <form:hidden path="uid"/>
+                                    <div class="col-md-5">
+                                        <div class="form-group label-floating">
+                                            <label class="control-label">用户名</label>
+                                            <form:input path="username" class="form-control"  />
+                                            <%--<input type="text" class="form-control" disabled>--%>
                                         </div>
                                     </div>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <div class="form-group label-floating">
-                                                <label class="control-label">密码</label>
-                                                <form:input type="password" path="password" class="form-control"  />
-                                            </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group label-floating">
+                                            <label class="control-label">姓名</label>
+                                            <form:input path="name" class="form-control" />
                                         </div>
                                     </div>
-                                    <button type="submit" class="btn btn-primary pull-right">Update</button>
-                                    <div class="clearfix"></div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group label-floating">
+                                            <label class="control-label">密码</label>
+                                            <form:input type="password" path="password" class="form-control"  />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <form:select path="admin"  class="required" required="required">
+                                            <form:option value="" label="- 是否管理员 -"/>
+                                            <form:options items="${judgeEnumList}" itemValue="value" itemLabel="description"/>
+                                        </form:select>
+                                    </div>
+                                </div>
+                                <div class="row" >
+                                    <c:forEach items="${moduleList}" var="module">
+                                        <div class="class_top">
+                                            <span class="inside">
+                                                <form:checkbox path="moduleIdList" value="${module.id}"/>
+                                                ${module.value}
+                                            </span>
+                                        </div>
+                                    </c:forEach>
+                                </div>
+                                <button type="submit" class="btn btn-primary pull-right">Update</button>
+                                <div class="clearfix"></div>
                                 </form:form>
                             </div>
                         </div>
@@ -67,7 +85,7 @@
 <%@include file="/WEB-INF/jsp/includes/scriptOfBase.jsp" %>
 <script>
     $(function () {
-        var active = $("#user");
+        var active = $("#User");
         active.addClass("active");
     });
 </script>

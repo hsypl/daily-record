@@ -73,7 +73,7 @@ public class OkexService extends ExchangeAbstract{
 
     @Override
     public Ticket getTicket(String name, String type) throws HttpClientException {
-        String result = exchangeApiResultService.getByParams(name,1,"OkexService").getResult();
+        String result = exchangeApiResultService.getByParams(name,2,"OkexService").getResult();
         Map<String,Object> resultMap = GsonUtils.toStrObjMap(result);
         Map<String,Object> ticker = (Map<String, Object>) resultMap.get("ticker");
         Ticket ticket = new Ticket();
@@ -160,7 +160,7 @@ public class OkexService extends ExchangeAbstract{
 
     public static void main(String[] args) throws HttpClientException, IOException {
         OkexService okexService = new OkexService();
-        String result = "{\"date\":\"1521443938\",\"ticker\":{\"high\":\"0.00002895\",\"vol\":\"143095.46879750\",\"last\":\"0.00002369\",\"low\":\"0.00002001\",\"buy\":\"0.00002387\",\"sell\":\"0.00002551\"}}";
+        String result = "{\"date\":\"1521613256\",\"ticker\":{\"high\":\"0.00002773\",\"vol\":\"75840.92800000\",\"last\":\"0.00002773\",\"low\":\"0.00002467\",\"buy\":\"0.00002524\",\"sell\":\"0.00002820\"}}";
         Map<String,Object> resultMap = GsonUtils.toStrObjMap(result);
         Map<String,Object> ticker = (Map<String, Object>) resultMap.get("ticker");
         Ticket ticket = new Ticket();

@@ -1,8 +1,13 @@
 package com.hsy.record.controller.dailys;
 
+import com.hsy.core.annotation.Command;
+import com.hsy.core.annotation.Module;
 import com.hsy.core.service.ServiceProcessException;
 import com.hsy.record.model.UserInfo;
+import com.hsy.record.model.enu.JudgeEnum;
+import com.hsy.record.model.system.ModuleInfo;
 import com.hsy.record.service.UserInfoService;
+import com.hsy.record.service.system.ModuleInfoService;
 import com.sungness.core.httpclient.HttpClientException;
 import com.sungness.core.httpclient.HttpClientUtils;
 import com.sungness.core.util.UuidGenerator;
@@ -29,49 +34,40 @@ import java.util.List;
  */
 @Controller
 @RequestMapping(UserController.URL_PREFIX)
+@Module(value = UserController.MODULE_NAME , order = 2, icon = "fa fa-user-o")
 public class UserController {
 
     public final static String URL_PREFIX = "/dailys/user";
+
+    public final static String MODULE_NAME = "User";
 
     private static final Logger log = LoggerFactory.getLogger(UserController.class);
 
     @Autowired
     private UserInfoService userInfoService;
 
+    @Autowired
+    private ModuleInfoService moduleInfoService;
+
+    @Command(value = MODULE_NAME + "-Index", isInlet = true, order = 1)
     @RequestMapping("/index")
     public void index (Model model) throws HttpClientException, IOException {
         List<UserInfo> userInfoList = userInfoService.getList();
         model.addAttribute("userInfoList",userInfoList);
-        HttpGet httpGet = new HttpGet("https://www.okex.com/api/v1/depth.do?symbol=dna_btc");
-        CloseableHttpClient closeableHttpClient = HttpClients.createDefault();
-        CloseableHttpResponse closeableHttpResponse = closeableHttpClient.execute(httpGet);
-        HttpEntity httpEntity = HttpClientUtils.parseEntity(closeableHttpResponse);
-        log.debug(HttpClientUtils.parseContent(httpEntity));
     }
 
+    @Command(value = "编辑" + MODULE_NAME, order = 2)
     @RequestMapping("/edit")
     public void edit(Model model,@RequestParam(required = false) String id){
-            model.addAttribute("userInfo",userInfoService.getSafety(id));
+        model.addAttribute("userInfo",userInfoService.getWithPrivilege(id));
+        model.addAttribute("moduleList",moduleInfoService.getVailMenuInfoList());
+        model.addAttribute("judgeEnumList", JudgeEnum.getEnumList());
     }
 
+    @Command(value = "添加" + MODULE_NAME, order = 2)
     @RequestMapping("/add")
     public String add(UserInfo userInfo) throws ServiceProcessException {
-        if(StringUtils.isNotBlank(userInfo.getUid())){
-            BCryptPasswordEncoder encode = new BCryptPasswordEncoder();
-            String hashPass = encode.encode(userInfo.getPassword());
-            userInfo.setPassword(hashPass);
-            userInfo.setName(userInfo.getName());
-            userInfo.setUsername(userInfo.getUsername());
-            userInfoService.update(userInfo);
-        }else {
-            BCryptPasswordEncoder encode = new BCryptPasswordEncoder();
-            String hashPass = encode.encode(userInfo.getPassword());
-            userInfo.setUid(UuidGenerator.nextUid());
-            userInfo.setPassword(hashPass);
-            userInfo.setName(userInfo.getName());
-            userInfo.setUsername(userInfo.getUsername());
-            userInfoService.insert(userInfo);
-        }
+        userInfoService.save(userInfo);
         return "redirect:"+URL_PREFIX+"/index";
     }
 }

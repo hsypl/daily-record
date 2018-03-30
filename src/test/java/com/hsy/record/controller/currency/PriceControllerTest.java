@@ -7,13 +7,17 @@ import com.hsy.record.model.IcoProjectInfo;
 import com.hsy.record.model.currency.AssetsHistory;
 import com.hsy.record.model.currency.CoinHistory;
 import com.hsy.record.model.currency.CoinMarketCap;
+import com.hsy.record.model.system.ModuleInfo;
 import com.hsy.record.service.IcoProjectInfoService;
+import com.hsy.record.service.MobileInfoService;
 import com.hsy.record.service.WechatService;
 import com.hsy.record.service.currency.AssetsHistoryService;
 import com.hsy.record.service.currency.CoinHistoryService;
 import com.hsy.record.service.currency.CoinMarketCapService;
 import com.hsy.record.service.exchangeApi.ContrastService;
 import com.hsy.record.service.exchangeApi.huobi.HuobiService;
+import com.hsy.record.service.exchangeApi.okex.OkexService;
+import com.hsy.record.service.system.ModuleInfoService;
 import com.sungness.core.httpclient.HttpClientException;
 import com.sungness.core.util.GsonUtils;
 import org.junit.Test;
@@ -51,6 +55,10 @@ public class PriceControllerTest {
     private WechatService wechatService;
     @Autowired
     private RedisUtil redisUtil;
+    @Autowired
+    private OkexService okexService;
+    @Autowired
+    private ModuleInfoService moduleInfoService;
 
     @Test
     public void test() throws ServiceProcessException {
@@ -99,9 +107,11 @@ public class PriceControllerTest {
     }
 
     @Test
-    public void test5(){
-//        redisUtil.redisSet("hsy","xu".getBytes());
-        System.out.println("shuoyinggege"+redisUtil.redisGet("xuzhi"));
+    public void test5() throws HttpClientException, ServiceProcessException {
+
+        ModuleInfo moduleInfo = moduleInfoService.get(1L);
+        moduleInfo.setValue("test");
+        moduleInfoService.update(moduleInfo);
     }
 
 }

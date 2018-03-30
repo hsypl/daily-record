@@ -71,7 +71,7 @@
 <%@include file="/WEB-INF/jsp/includes/scriptOfBase.jsp" %>
 <script>
     $(function () {
-        var active = $("#user");
+        var active = $("#Monitor");
         active.addClass("active");
     });
 </script>

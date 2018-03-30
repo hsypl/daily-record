@@ -31,18 +31,16 @@
                             <div class="card-content">
                                     <form:hidden path="id" />
                                     <div class="row">
-                                        <div class="col-md-3">
+                                        <div class="col-md-6">
                                             <div class="form-group label-floating">
                                                 <label class="control-label">代币符号</label>
                                                 <form:input path="symbol" class="form-control" />
                                             </div>
                                         </div>
-                                        <div class="row">
-                                            <div class="col-md-5">
-                                                <div class="form-group label-floating">
-                                                    <label class="control-label">交易所</label>
-                                                    <form:input path="exchange" class="form-control" />
-                                                </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group label-floating">
+                                                <label class="control-label">交易所</label>
+                                                <form:input path="exchange" class="form-control" />
                                             </div>
                                         </div>
                                     </div>
@@ -83,7 +81,7 @@
 <%@include file="/WEB-INF/jsp/includes/scriptOfBase.jsp" %>
 <script>
     $(function () {
-        var active = $("#token");
+        var active = $("#Monitor");
         active.addClass("active");
     });
 </script>

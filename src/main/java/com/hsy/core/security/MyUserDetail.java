@@ -1,23 +1,28 @@
 package com.hsy.core.security;
 
 import com.hsy.record.model.UserInfo;
+import com.hsy.record.model.system.CommandInfo;
+import com.hsy.record.model.system.MenuInfo;
+import com.hsy.record.model.system.ModuleInfo;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by developer2 on 2017/9/13.
  */
 public class MyUserDetail implements UserDetails {
 
+    /** 模块权限key集合 */
+    private Set<String> privilegeKeySet;
+
     private UserInfo userInfo;
 
     public MyUserDetail(UserInfo userInfo){
         this.userInfo = userInfo;
+        privilegeKeySet = new HashSet<>();
     }
 
     @Override
@@ -60,6 +65,44 @@ public class MyUserDetail implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    /**
+     * 判断用户是否有命令的使用权限,如果为超级管理员或模块信息为空可使用,
+     * 否则需要根据用户的权限集合判断是否可用。
+     * @param commandInfo CommandInfo 命令信息对象
+     * @return 如果允许使用返回 true, 否则返回 false
+     */
+    public boolean hasPermission(CommandInfo commandInfo) {
+        return (commandInfo == null || privilegeKeySet.contains(commandInfo.getCommandKey()));
+    }
+
+    /**
+     * 判断用户是否有模块的使用权限,如果为超级管理员可使用,
+     * 否则需要根据用户的权限集合判断是否可用。
+     * @param moduleInfo ModuleInfo 模块信息对象
+     * @return 如果允许使用返回 true, 否则返回 false
+     */
+    public boolean hasPermission(ModuleInfo moduleInfo) {
+        return moduleInfo != null && privilegeKeySet.contains(moduleInfo.getModuleKey());
+    }
+
+    /**
+     * 判断用户是否有菜单的使用权限,如果为超级管理员可使用,
+     * 否则需要根据用户的权限集合判断是否可用。
+     * @param menuInfo MenuInfo 菜单信息对象
+     * @return 如果允许使用返回 true, 否则返回 false
+     */
+    public boolean hasPermission(MenuInfo menuInfo) {
+        return menuInfo != null && privilegeKeySet.contains(menuInfo.getMenuKey());
+    }
+
+    /**
+     * 添加用户的权限集合, 用户成功登录时会触发调用该方法
+     * @param keySet Set<String>
+     */
+    public void addPrivilegeKeys(Set<String> keySet) {
+        privilegeKeySet.addAll(keySet);
     }
 
 }

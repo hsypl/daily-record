@@ -1,5 +1,7 @@
 package com.hsy.record.model;
 
+import java.util.List;
+
 /**
  * Created by developer2 on 2017/9/13.
  */
@@ -12,6 +14,18 @@ public class UserInfo {
     private String password;
 
     private String name;
+
+    private Integer admin;
+
+    private List<Long> moduleIdList;
+
+    public List<Long> getModuleIdList() {
+        return moduleIdList;
+    }
+
+    public void setModuleIdList(List<Long> moduleIdList) {
+        this.moduleIdList = moduleIdList;
+    }
 
     public String getUid() {
         return uid;
@@ -43,5 +57,13 @@ public class UserInfo {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Integer getAdmin() {
+        return admin;
+    }
+
+    public void setAdmin(Integer admin) {
+        this.admin = admin;
     }
 }

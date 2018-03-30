@@ -6,7 +6,7 @@
 
     <sql id="columns_no_id">
         uid, 
-        username, password, name
+        username, password, name,admin
     </sql>
 
     <sql id="columns">
@@ -14,7 +14,7 @@
     </sql>
 
     <sql id="columns_join">
-        a.uid, a.username, a.password, a.name
+        a.uid, a.username, a.password, a.name,a.admin
     </sql>
 
     <sql id="likeWhere" databaseId="mysql">
@@ -26,6 +26,7 @@
             <if test="username not in {null, ''}">AND a.username = #{username}</if>
             <if test="password not in {null, ''}">AND a.password = #{password}</if>
             <if test="name not in {null, ''}">AND a.name = #{name}</if>
+            <if test="admin not in {null, ''}">AND a.admin = #{admin}</if>
             <include refid="likeWhere"/>
         </where>
     </sql>
@@ -64,7 +65,7 @@
         VALUES
         (
         #{uid}, 
-        #{username}, #{password}, #{name}
+        #{username}, #{password}, #{name}, #{admin}
         )
     </insert>
 
@@ -74,7 +75,8 @@
             <if test="uid not in {null, ''}">uid=#{uid}, </if>
             <if test="username not in {null, ''}">username=#{username}, </if>
             <if test="password not in {null, ''}">password=#{password}, </if>
-            <if test="name not in {null, ''}">name=#{name}</if>
+            <if test="name not in {null, ''}">name=#{name},</if>
+            <if test="admin not in {null, ''}">admin=#{admin}</if>
         </set>
         WHERE uid = #{uid}
     </update>

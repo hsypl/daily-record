@@ -16,6 +16,7 @@ CREATE TABLE IF NOT EXISTS user_info (
   username VARCHAR(128) NOT NULL COMMENT '系统用户名（邮箱）',
   password VARCHAR(128) NOT NULL COMMENT '登录密码',
   name VARCHAR(128) NOT NULL COMMENT '姓名',
+  admin INT NOT NULL COMMENT '是否管理员 1是 2否' ,
   PRIMARY KEY (uid),
   UNIQUE(username),
   INDEX(name)

@@ -95,7 +95,7 @@
 <%@include file="/WEB-INF/jsp/includes/scriptOfBase.jsp" %>
 <script>
     $(function () {
-        var active = $("#token");
+        var active = $("#Token");
         active.addClass("active");
 
         $("[id^='pagination-']").bind("click", (function () {
