@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -64,6 +65,9 @@ public class ModuleInfoService extends LongPKBaseService<ModuleInfo> {
     }
 
     public List<ModuleInfo> getListByModuleIdList(List<Long> moduleIdList){
+        if(moduleIdList.isEmpty()){
+            return new ArrayList<>();
+        }
         Map<String,Object> params = new HashMap<>();
         params.put("moduleIdList",moduleIdList);
         return getList(params);

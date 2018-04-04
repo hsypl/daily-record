@@ -31,9 +31,7 @@ public class HttpClient {
 
     // 依次是代理地址，代理端口号，用户密码
     private static String proxyHost="18.219.133.168";
-    private static int proxyPort=1080;
-    private static String proxyName="user";
-    private static String proxyPwd="123456";
+    private static int proxyPort=10080;
 
     public static void main(String[] args) throws HttpClientException {
         System.out.print(HttpClient.getWithProxy("https://www.okex.com/api/v1/ticker.do?symbol=dna_btc",null,"UTF-8"));

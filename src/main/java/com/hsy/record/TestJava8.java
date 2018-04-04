@@ -28,7 +28,7 @@ public class TestJava8 {
 
 
     public static void main(String[] args){
-        System.out.print(DateUtil.getTimestamp()-1522053901);
+
     }
 
 }

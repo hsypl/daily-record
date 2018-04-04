@@ -130,7 +130,12 @@ public class UserPrivilegeService
         }
         if(!moduleInfoList.isEmpty()){
             saveByModuleInfoList(moduleInfoList,userInfo);
+        }else {
+            for (UserPrivilege userPrivilege : getListByUserId(userInfo.getUid())){
+                delete(userPrivilege.getId());
+            }
         }
+
     }
 
     public void saveByModuleInfoList(List<ModuleInfo> moduleInfoList,UserInfo userInfo) throws ServiceProcessException {
@@ -149,9 +154,12 @@ public class UserPrivilegeService
                     }
                     oldCommandIdList.remove(commandInfo.getId());
                 }
-
             }
             oldModuleIdList.remove(moduleInfo.getId());
+            List<CommandInfo> commandInfoList = commandInfoService.getListByModuleId(moduleInfo.getId());
+            for (CommandInfo commandInfo : commandInfoList){
+                oldCommandIdList.remove(commandInfo.getId());
+            }
         }
         for (Long deleteModuleId : oldModuleIdList){
             deleteByItemIdAndUserIdAndType(userInfo.getUid(),deleteModuleId,ItemTypeEnum.MODULE.getValue());

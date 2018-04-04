@@ -1,5 +1,6 @@
 package com.hsy.record.service.exchangeApi.huobi;
 
+import com.hsy.core.util.HttpClient;
 import com.hsy.record.model.Balance;
 import com.hsy.record.model.DepthDetail;
 import com.hsy.record.model.Ticket;
@@ -64,13 +65,14 @@ public class HuobiService extends ExchangeAbstract{
     }
 
     public Map<String,Object> getResult(String url) throws IOException, HttpClientException {
-        HttpGet httpGet = new HttpGet(url);
-        httpGet.setHeader("User-Agent","Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.71 Safari/537.36");
-        httpGet.setHeader("Content-Type","Accept-Language:zh-cn");
-        CloseableHttpClient closeableHttpClient = HttpClients.createDefault();
-        CloseableHttpResponse closeableHttpResponse = closeableHttpClient.execute(httpGet);
-        HttpEntity httpEntity = HttpClientUtils.parseEntity(closeableHttpResponse);
-        return GsonUtils.toStrObjMap(HttpClientUtils.parseContent(httpEntity));
+        return GsonUtils.toStrObjMap(HttpClient.getWithProxy(url,null,"UTF-8"));
+//        HttpGet httpGet = new HttpGet(url);
+//        httpGet.setHeader("User-Agent","Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.71 Safari/537.36");
+//        httpGet.setHeader("Content-Type","Accept-Language:zh-cn");
+//        CloseableHttpClient closeableHttpClient = HttpClients.createDefault();
+//        CloseableHttpResponse closeableHttpResponse = closeableHttpClient.execute(httpGet);
+//        HttpEntity httpEntity = HttpClientUtils.parseEntity(closeableHttpResponse);
+//        return GsonUtils.toStrObjMap(HttpClientUtils.parseContent(httpEntity));
     }
 
     public static String formatFloatNumber(double value) {
@@ -84,8 +86,7 @@ public class HuobiService extends ExchangeAbstract{
 
     public static void main(String[] args) throws IOException, HttpClientException {
         HuobiService huobiService = new HuobiService();
-        System.out.println(GsonUtils.toJson(huobiService.getTicket("powr","btc")));
-
+        System.out.println(GsonUtils.toJson(huobiService.getTradeInfo("smt")));
     }
 
 }
