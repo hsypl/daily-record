@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ page isELIgnored="false" %>
 <s:url value="/dailys/assets/index" var="assetsUrl"/>
 <s:url value="/dailys/token/index" var="tokenUrl"/>
@@ -22,12 +23,14 @@
                 <c:set var="menuInfo" value="${menuStatus.current}"/>
                 <c:forEach items="${menuInfo.moduleList}" varStatus="moduleList">
                     <c:set var="module" value="${moduleList.current}"/>
+                    <sec:authorize access="hasPermission(#module, '')">
                     <li id="${module.value}">
                         <a href="${module.inletUri}">
                             <i class="${module.icon}" aria-hidden="true"></i>
                             <p>${module.value}</p>
                         </a>
                     </li>
+                    </sec:authorize>
                 </c:forEach>
             </c:forEach>
             <%--<li id="assets">--%>

@@ -38,17 +38,9 @@ public class AuthenticationSuccessHandler
         MyUserDetail clientUserDetails =
                 (MyUserDetail) authentication.getPrincipal();
         UserInfo userInfo = clientUserDetails.getUserInfo();
-
-        String targetUrl = "/loginIndex";
-        if(clientUserDetails != null){
-            targetUrl = "/dailys/assets/index";
-//            Set<String> privilegeSet = userInfoService.getPrivilegeSet(userInfo);
-        }
-//        SavedRequest savedRequest = requestCache.getRequest(request, response);
-//        String saveUrl = savedRequest.getRedirectUrl();
-//        if(StringUtils.isNotBlank(saveUrl) && !saveUrl.contentEquals("loginIndex")) {
-//            targetUrl = saveUrl;
-//        }
+        String targetUrl = "/dailys/assets/index";
+        Set<String> privilegeSet = userInfoService.getPrivilegeSet(userInfo);
+        clientUserDetails.addPrivilegeKeys(privilegeSet);
         getRedirectStrategy().sendRedirect(request, response, targetUrl);
 
     }

@@ -91,19 +91,15 @@ public class UserInfoService
         userPrivilegeService.save(userInfo);
     }
 
-//    /**
-//     * 根据用户id获取权限key集合,包括其角色的权限
-//     * @param id Long 用户id
-//     * @return Set<String> 权限 key 集合
-//     */
-//    public Set<String> getPrivilegeSet(UserInfo userInfo) {
-//        Set<String> privilegeSet = new HashSet<>();
-//        if (JudgeEnum.valueOf(userInfo.getAdmin()) == JudgeEnum.YES) {
-//            List<UserPrivilege> userPrivilegeList =
-//        }
-//        List<UserPrivilege> userPrivilegeList =
-//                userPrivilegeService.getListByUserId(id);
-//        privilegeSet.addAll(userPrivilegeList.stream().map(UserPrivilege::getPrivilegeKey).collect(Collectors.toList()));
-//        return privilegeSet;
-//    }
+    /**
+     * 根据用户id获取权限key集合,包括其角色的权限
+     * @return Set<String> 权限 key 集合
+     */
+    public Set<String> getPrivilegeSet(UserInfo userInfo) {
+        Set<String> privilegeSet = new HashSet<>();
+        List<UserPrivilege> userPrivilegeList =
+                userPrivilegeService.getListByUserId(userInfo.getUid());
+        privilegeSet.addAll(userPrivilegeList.stream().map(UserPrivilege::getPrivilegeKey).collect(Collectors.toList()));
+        return privilegeSet;
+    }
 }

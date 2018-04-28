@@ -1,0 +1,5 @@
+2018-03-28 18:14:39,212 WARN  [com.atomikos.logging.Slf4jLogger-24] - AtomikosDataSoureBean 'db_record': testQuery set - pool may be slower / you might want to consider setting maxLifetime instead...
+2018-03-28 18:14:39,989 WARN  [com.atomikos.logging.Slf4jLogger-24] - atomikos connection proxy for com.mysql.jdbc.jdbc2.optional.JDBC4ConnectionWrapper@f9b7332: WARNING: transaction manager not running?
+2018-03-28 18:14:39,991 WARN  [com.atomikos.logging.Slf4jLogger-24] - atomikos connection proxy for com.mysql.jdbc.jdbc2.optional.JDBC4ConnectionWrapper@f9b7332: WARNING: transaction manager not running?
+2018-03-28 18:14:41,787 WARN  [com.atomikos.logging.Slf4jLogger-24] - Thanks for using Atomikos! Evaluate http://www.atomikos.com/Main/ExtremeTransactions for advanced features and professional support
+or register at http://www.atomikos.com/Main/RegisterYourDownload to disable this message and receive FREE tips & advice

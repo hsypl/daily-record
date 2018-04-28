@@ -30,7 +30,7 @@ import java.util.Map;
 public class HttpClient {
 
     // 依次是代理地址，代理端口号，用户密码
-    private static String proxyHost="18.219.133.168";
+    private static String proxyHost="18.188.90.27";
     private static int proxyPort=10080;
 
     public static void main(String[] args) throws HttpClientException {

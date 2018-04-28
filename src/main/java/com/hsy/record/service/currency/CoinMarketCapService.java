@@ -96,6 +96,7 @@ public class CoinMarketCapService
         try {
             String result = HttpClientUtils.getString(GET_URL);
             List<Map<String,String>> resultList = getListByJson(result);
+            log.warn(GsonUtils.toJson(resultList));
             for(Map<String,String> data : resultList){
                 parseData(data);
             }
@@ -112,7 +113,6 @@ public class CoinMarketCapService
 
     public CoinMarketCap parseData(Map<String,String> data) throws ServiceProcessException {
         CoinMarketCap coinMarketCap = getSafety(data.get("id"));
-        coinMarketCap.setId(data.get("id"));
         coinMarketCap.setName(data.get("name"));
         coinMarketCap.setSymbol(data.get("symbol"));
         coinMarketCap.setRank(Integer.parseInt(data.get("rank")));
@@ -127,6 +127,7 @@ public class CoinMarketCapService
         coinMarketCap.setVolumeCny24H(DoubleTools.parseDouble(data.get("24h_volume_cny")));
         coinMarketCap.setMarketCapCny(DoubleTools.parseDouble(data.get("market_cap_cny")));
         if(StringUtils.isBlank(coinMarketCap.getId())){
+            coinMarketCap.setId(data.get("id"));
             insert(coinMarketCap);
         }else {
             update(coinMarketCap);

@@ -50,6 +50,14 @@
         </tx:attributes>
     </tx:advice>
 
+    <bean id="moduleTree"
+          class="com.hsy.record.model.system.ModuleTree" />
+
+    <!-- 文件服务器引擎 -->
+    <bean id="fastDFSEngine" class="com.hsy.core.fastdfs.FastDFSEngine">
+        <constructor-arg name="clientConfigFileName" value="conf/config-properties/fdfs_client.conf"/>
+    </bean>
+
     <!-- redis缓存 service层配置 -->
-    <import resource="redis/redis-resources.xml"/>
+    <!--<import resource="redis/redis-resources.xml"/>-->
 </beans>

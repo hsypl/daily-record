@@ -78,10 +78,6 @@ public class Test {
 
 
     public static void main(String[] args) throws Exception {
-        Map<String,String> params = new HashMap<>();
-//        Test test = new Test("GetBalance",GsonUtils.toJson(params));
-        System.out.println(URLDecoder.decode("https://openapi.alipay.com/gateway.do?charset\\u003dUTF-8\\u0026method\\u003dalipay.trade.wap.pay\\u0026sign\\u003dLm70GQBvhP5fPNLnCs%2FXh%2BMtGuwoBVXXqAMrIMstjnXB80K2Hz%2Flcgau0K%2FEb7Zh2MAgLVcwlmqlQeqDN5hHt%2BDsX8lI%2FLQIXGU1CWti8xCvPnlXHdHx%2FVJHjM%2BLxGAjDxn73Mt%2BWhZbfoqADdUIkv0LnBM%2BXcgqf%2FUoHkkdL9GwMn7aJFNbyLR9itgX9UruXq1p3qVL2GfSKuzKs0H5rG3%2BerLieAvnTgO07%2Fxw%2BbCnt2qGGtd2PJhqCUxgoShehc%2FXsNkDRVGQUD%2FUeHVV2X9fbL1vE%2F53uu2xLtVlZvXxM0ywmIKldzWwe8o9HzH12Y6%2Bnqx6eI4w6S%2FlxF4bcA%3D%3D\\u0026notify_url\\u003dhttps%3A%2F%2Fatest1.bafangtang.com%2Fv1.0%2Fstore%2Falipay%2Fnotify\\u0026version\\u003d1.0\\u0026app_id\\u003d2016072201652629\\u0026sign_type\\u003dRSA2\\u0026timestamp\\u003d2018-03-12+11%3A08%3A50\\u0026alipay_sdk\\u003dalipay-sdk-java-dynamicVersionNo\\u0026format\\u003djson\\u0026biz_content\\u003d%7B%22out_trade_no%22%3A%225aa5ef420093e25400000005%22%2C%22total_amount%22%3A%22128%22%2C%22subject%22%3A%22180%E5%A4%A9vip%E4%BC%9A%E5%91%98%22%2C%22product_code%22%3A%22QUICK_WAP_PAY%22%7D","UTF-8"));
-
     }
 
 }

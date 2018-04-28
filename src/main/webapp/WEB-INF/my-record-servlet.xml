@@ -93,8 +93,6 @@
     <!-- 定义公共控制器 -->
     <bean id="defaultHandlerMapping" class="org.springframework.web.servlet.handler.BeanNameUrlHandlerMapping"/>
 
-    <!-- 管理模块注解初始化监听器(moduleTree在security-service.xml中声明) -->
-    <bean id="moduleTree" class="com.hsy.record.model.system.ModuleTree"/>
     <bean id="moduleInitializeListener"
           class="com.hsy.core.listener.ModuleInitializeListener">
         <property name="moduleTree" ref="moduleTree" />

@@ -1,6 +1,5 @@
 package com.hsy.record.controller.currency;
 
-import com.hsy.core.redis.RedisUtil;
 import com.hsy.core.service.ServiceProcessException;
 import com.hsy.core.util.DateUtilExt;
 import com.hsy.record.model.IcoProjectInfo;
@@ -10,6 +9,7 @@ import com.hsy.record.model.currency.CoinMarketCap;
 import com.hsy.record.model.system.ModuleInfo;
 import com.hsy.record.service.IcoProjectInfoService;
 import com.hsy.record.service.MobileInfoService;
+import com.hsy.record.service.TestService;
 import com.hsy.record.service.WechatService;
 import com.hsy.record.service.currency.AssetsHistoryService;
 import com.hsy.record.service.currency.CoinHistoryService;
@@ -20,6 +20,7 @@ import com.hsy.record.service.exchangeApi.okex.OkexService;
 import com.hsy.record.service.system.ModuleInfoService;
 import com.sungness.core.httpclient.HttpClientException;
 import com.sungness.core.util.GsonUtils;
+import org.csource.common.MyException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,11 +55,11 @@ public class PriceControllerTest {
     @Autowired
     private WechatService wechatService;
     @Autowired
-    private RedisUtil redisUtil;
-    @Autowired
     private OkexService okexService;
     @Autowired
     private ModuleInfoService moduleInfoService;
+    @Autowired
+    private TestService testService;
 
     @Test
     public void test() throws ServiceProcessException {
@@ -94,7 +95,7 @@ public class PriceControllerTest {
 
     @Test
     public void test4() throws ServiceProcessException, HttpClientException {
-        assetsHistoryService.count();
+        coinMarketCapService.update();
     }
 
     @Test
@@ -112,6 +113,11 @@ public class PriceControllerTest {
         ModuleInfo moduleInfo = moduleInfoService.get(1L);
         moduleInfo.setValue("test");
         moduleInfoService.update(moduleInfo);
+    }
+
+    @Test
+    public void hsy() throws IOException, MyException {
+        testService.test();
     }
 
 }
