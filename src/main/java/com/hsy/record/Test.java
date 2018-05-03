@@ -10,6 +10,7 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
@@ -78,6 +79,8 @@ public class Test {
 
 
     public static void main(String[] args) throws Exception {
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        System.out.print(encoder.encode("lottery-platform"));
     }
 
 }

@@ -81,14 +81,7 @@ public class ContrastService {
                 public void run(){
                     try {
                         monitor(name);
-                    } catch (IOException e) {
-                        log.debug(name+"---IOException");
-                        e.printStackTrace();
-                    } catch (HttpClientException e) {
-                        log.debug(name+"---HttpClientException");
-                        e.printStackTrace();
-                    } catch (ServiceProcessException e) {
-                        log.debug(name+"---ServiceProcessException");
+                    } catch (IOException | HttpClientException | ServiceProcessException e) {
                         e.printStackTrace();
                     }
                 }

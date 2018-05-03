@@ -4,6 +4,8 @@ import com.hsy.core.annotation.Command;
 import com.hsy.core.annotation.Module;
 import com.hsy.core.service.ServiceProcessException;
 import com.hsy.record.model.MonitorSymbol;
+import com.hsy.record.model.enu.ChangeTypeEnum;
+import com.hsy.record.model.enu.ExchangeEnum;
 import com.hsy.record.model.enu.ExchangeTypeEnum;
 import com.hsy.record.service.exchangeApi.MonitorSymbolService;
 import com.sungness.core.util.tools.LongTools;
@@ -49,6 +51,8 @@ public class MonitorController {
     @RequestMapping("/edit")
     public void edit(@RequestParam(required = false) Long id, Model model){
         MonitorSymbol monitorSymbol = monitorSymbolService.getSafety(id);
+        model.addAttribute("exchangeList", ExchangeEnum.getEnumList());
+        model.addAttribute("changeType", ExchangeTypeEnum.getEnumList());
         model.addAttribute("monitorSymbol",monitorSymbol);
         model.addAttribute("exchangeTypeEnumList", ExchangeTypeEnum.getEnumList());
     }

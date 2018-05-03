@@ -7,10 +7,18 @@
 <s:url value="/dailys/monitor/save" var="saveURL"/>
 <s:url value="/dailys/monitor/delete" var="deleteURL"/>
 <html>
-
 <head>
     <title>Material Dashboard by Creative Tim</title>
     <%@include file="/WEB-INF/jsp/includes/linkOfHead.jsp" %>
+    <link rel="stylesheet" href="/media/css/select2.min.css">
+    <style>
+        .select2-container--default .select2-selection--single {
+            height: 34px;
+        }
+        .js-example-basic-single {
+            width: 200px;
+        }
+    </style>
 </head>
 
 <body>
@@ -40,7 +48,10 @@
                                         <div class="col-md-6">
                                             <div class="form-group label-floating">
                                                 <label class="control-label">交易所</label>
-                                                <form:input path="exchange" class="form-control" />
+                                                <form:select path="exchange"  class="js-example-basic-single"  id="selectExchange">
+                                                    <form:option value="" label="- 交易所 -"/>
+                                                    <form:options items="${exchangeList}" itemValue="description" itemLabel="value" />
+                                                </form:select>
                                             </div>
                                         </div>
                                     </div>
@@ -62,7 +73,10 @@
                                         <div class="col-md-6">
                                             <div class="form-group label-floating">
                                                 <label class="control-label">交易类型</label>
-                                                <form:input path="type" class="form-control" />
+                                                <form:select path="type"  class="js-example-basic-single"  id="selectType">
+                                                    <form:option value="" label="- 交易类型 -"/>
+                                                    <form:options items="${changeType}" itemValue="value" itemLabel="description" />
+                                                </form:select>
                                             </div>
                                         </div>
                                     </div>
@@ -79,10 +93,19 @@
 </div>
 </body>
 <%@include file="/WEB-INF/jsp/includes/scriptOfBase.jsp" %>
+<script src="/media/js/select2.min.js"></script>
 <script>
     $(function () {
         var active = $("#Monitor");
         active.addClass("active");
+
+        $('#selectExchange').select2({
+            placeholder: '选择交易所'
+        });
+
+        $('#selectType').select2({
+            placeholder: '交易类型'
+        });
     });
 </script>
 </html>

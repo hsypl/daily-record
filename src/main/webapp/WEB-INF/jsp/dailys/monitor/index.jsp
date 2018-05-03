@@ -2,6 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
 <%@ page isELIgnored="false" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <s:url value="/dailys/monitor/edit" var="editUrl"/>
 <s:url value="/dailys/monitor/delete" var="deleteUrl"/>
 <s:url value="/dailys/monitor/save" var="saveURL"/>
@@ -44,8 +45,8 @@
                                         <tr>
                                             <td>${monitor.symbol}</td>
                                             <td>${monitor.exchange}</td>
-                                            <td>${monitor.sellPrice}</td>
-                                            <td>${monitor.buyPrice}</td>
+                                            <td><fmt:formatNumber type="number" value="${monitor.sellPrice} " maxFractionDigits="8"/></td>
+                                            <td><fmt:formatNumber type="number" value="${monitor.buyPrice} " maxFractionDigits="8"/></td>
                                             <td>${monitor.type}</td>
                                             <td>
                                                 <a href="${editUrl}?id=${monitor.id}" rel="tooltip" title="Edit symbol" class="btn btn-primary btn-simple btn-xs">
