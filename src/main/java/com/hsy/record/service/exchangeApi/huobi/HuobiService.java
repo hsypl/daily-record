@@ -65,7 +65,7 @@ public class HuobiService extends ExchangeAbstract{
     }
 
     public Map<String,Object> getResult(String url) throws IOException, HttpClientException {
-        return GsonUtils.toStrObjMap(HttpClient.getWithProxy(url,null,"UTF-8"));
+        return GsonUtils.toStrObjMap(HttpClientUtils.getString(url));
 //        HttpGet httpGet = new HttpGet(url);
 //        httpGet.setHeader("User-Agent","Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.71 Safari/537.36");
 //        httpGet.setHeader("Content-Type","Accept-Language:zh-cn");

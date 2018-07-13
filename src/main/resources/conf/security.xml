@@ -11,6 +11,7 @@
 
     <http pattern="/loginIndex" security="none"/>
     <http pattern="/dailys/wechat/receive" security="none"/>
+    <http pattern="/dailys/twitter/callback" security="none"/>
     <http pattern="/media/**" security="none"/>
 
     <http authentication-manager-ref="manageAuthenticationManager" >

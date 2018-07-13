@@ -16,7 +16,6 @@
         <project.build.sourceVersion>1.8</project.build.sourceVersion>
         <project.build.targetVersion>1.8</project.build.targetVersion>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-
         <atomikos.version>4.0.4</atomikos.version>
     </properties>
 
@@ -196,6 +195,12 @@
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-taglibs</artifactId>
             <version>${spring.security.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.twitter4j</groupId>
+            <artifactId>twitter4j-core</artifactId>
+            <version>[4.0,)</version>
         </dependency>
     </dependencies>
     <build>

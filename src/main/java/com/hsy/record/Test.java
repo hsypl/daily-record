@@ -1,5 +1,6 @@
 package com.hsy.record;
 
+import com.google.gson.FieldNamingPolicy;
 import com.hsy.record.model.currency.CurrencyInfo;
 import com.sungness.core.httpclient.HttpClientUtils;
 import com.sungness.core.util.GsonUtils;
@@ -79,8 +80,9 @@ public class Test {
 
 
     public static void main(String[] args) throws Exception {
-        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-        System.out.print(encoder.encode("lottery-platform"));
+        for (int i = 0; i < 10; i++) {
+            System.out.println((Integer) i);
+        }
     }
 
 }

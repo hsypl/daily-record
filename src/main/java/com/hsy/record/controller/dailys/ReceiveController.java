@@ -34,6 +34,7 @@ public class ReceiveController {
     public String index(@RequestParam(required = false) String echostr,
                         HttpServletRequest request) throws Exception {
         if (StringUtils.isNotBlank(echostr)){
+            log.debug("============"+echostr);
             return echostr;
         }else {
             String result = wechatService.reply(request);

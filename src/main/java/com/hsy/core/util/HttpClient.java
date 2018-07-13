@@ -30,11 +30,11 @@ import java.util.Map;
 public class HttpClient {
 
     // 依次是代理地址，代理端口号，用户密码
-    private static String proxyHost="18.188.90.27";
-    private static int proxyPort=10080;
+    private static String proxyHost="127.0.0.1";
+    private static int proxyPort=56020;
 
     public static void main(String[] args) throws HttpClientException {
-        System.out.print(HttpClient.getWithProxy("https://www.okex.com/api/v1/ticker.do?symbol=dna_btc",null,"UTF-8"));
+        System.out.print(HttpClient.getWithProxy("https://twitter.com",null,"UTF-8"));
 //        System.out.print(HttpClientUtils.getString("https://www.okex.com/api/v1/ticker.do?symbol=dna_btc"));
 
     }

@@ -58,6 +58,15 @@
         <constructor-arg name="clientConfigFileName" value="conf/config-properties/fdfs_client.conf"/>
     </bean>
 
+    <bean id="twitterProperties" class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+        <property name="location" value="classpath:conf/twitter4j.properties"/>
+        <property name="fileEncoding" value="UTF-8"/>
+    </bean>
+
+    <bean id="twitterConfig" class="com.hsy.record.twitter.TwitterConfig">
+        <property name="properties" ref="twitterProperties" />
+    </bean>
+
     <!-- redis缓存 service层配置 -->
     <!--<import resource="redis/redis-resources.xml"/>-->
 </beans>

@@ -8,6 +8,7 @@ import com.hsy.record.service.ExchangeApiResultService;
 import com.hsy.record.service.exchangeApi.ExchangeAbstract;
 import com.hsy.record.service.exchangeApi.huobi.HuobiService;
 import com.sungness.core.httpclient.HttpClientException;
+import com.sungness.core.httpclient.HttpClientUtils;
 import com.sungness.core.util.GsonUtils;
 import org.apache.http.*;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
@@ -56,15 +57,15 @@ public class OkexService extends ExchangeAbstract{
     @SuppressWarnings("unchecked")
     @Override
     public Map<String,Object> getTradeInfo(String name) throws HttpClientException {
-        String result = HttpClient.getWithProxy(
-                "https://www.okex.com/api/v1/depth.do?symbol="+name+"_btc&size=3",null,"UTF-8");
+        String result = HttpClientUtils.getString(
+                "https://www.okex.com/api/v1/depth.do?symbol="+name+"_btc&size=3");
         return GsonUtils.toStrObjMap(result);
     }
 
     @Override
     public Ticket getTicket(String name, String type) throws HttpClientException {
-        String result = HttpClient.getWithProxy(
-                "https://www.okex.com/api/v1/ticker.do?symbol="+name+"_"+type+"",null,"UTF-8");
+        String result = HttpClientUtils.getString(
+                "https://www.okex.com/api/v1/ticker.do?symbol="+name+"_"+type);
         Map<String,Object> resultMap = GsonUtils.toStrObjMap(result);
         Map<String,Object> ticker = (Map<String, Object>) resultMap.get("ticker");
         Ticket ticket = new Ticket();
@@ -135,10 +136,10 @@ public class OkexService extends ExchangeAbstract{
 
     public static void main(String[] args) throws HttpClientException, IOException {
         OkexService okexService = new OkexService();
-        System.out.println(GsonUtils.toJson(okexService.getDepth("snc")));
-        System.out.println("aaaaaaaaaaaaaa");
-        HuobiService huobiService = new HuobiService();
-        System.out.println(GsonUtils.toJson(huobiService.getTicket("snc","btc")));
+        System.out.println(GsonUtils.toJson(okexService.getTicket("snc","btc")));
+//        System.out.println("aaaaaaaaaaaaaa");
+//        HuobiService huobiService = new HuobiService();
+//        System.out.println(GsonUtils.toJson(huobiService.getTicket("snc","btc")));
     }
 
 

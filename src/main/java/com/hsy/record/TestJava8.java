@@ -3,6 +3,8 @@ package com.hsy.record;
 import com.hsy.core.util.DateUtilExt;
 import com.hsy.core.util.XmlUtils;
 import com.hsy.record.model.exchangeApi.cryptopia.HistoryTrade;
+import com.sungness.core.crawler.ClientConfigure;
+import com.sungness.core.crawler.ClientUserAgent;
 import com.sungness.core.httpclient.HttpClientException;
 import com.sungness.core.httpclient.HttpClientUtils;
 import com.sungness.core.util.DateUtil;
@@ -14,15 +16,18 @@ import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
+import org.jsoup.Connection;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.select.Elements;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.io.UnsupportedEncodingException;
+import java.io.*;
 import java.net.InetAddress;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
@@ -32,60 +37,65 @@ import java.util.stream.Stream;
  */
 public class TestJava8 {
 
-    public static String http(String url, Map<String, String> params) {
-        URL u = null;
-        HttpURLConnection con = null;
-        // 构建请求参数
-        StringBuffer sb = new StringBuffer();
-        if (params != null) {
-            for (Map.Entry<String, String> e : params.entrySet()) {
-                sb.append(e.getKey());
-                sb.append("=");
-                sb.append(e.getValue());
-                sb.append("&");
-            }
-            sb.substring(0, sb.length() - 1);
-        }
-        System.out.println("send_url:" + url);
-        System.out.println("send_data:" + sb.toString());
-        // 尝试发送请求
-        try {
-            u = new URL(url);
-            con = (HttpURLConnection) u.openConnection();
-            //// POST 只能为大写，严格限制，post会不识别
-            con.setRequestMethod("POST");
-            con.setDoOutput(true);
-            con.setDoInput(true);
-            con.setUseCaches(false);
-            con.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
-            OutputStreamWriter osw = new OutputStreamWriter(con.getOutputStream(), "UTF-8");
-            osw.write(sb.toString());
-            osw.flush();
-            osw.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            if (con != null) {
-                con.disconnect();
-            }
-        }
+    public static void main(String[] args) throws IOException {
+        System.getProperties().setProperty("http.proxyHost", "127.0.0.1");
+        System.getProperties().setProperty("http.proxyPort", "56016");
+        System.getProperties().setProperty("https.proxyHost", "127.0.0.1");
+        System.getProperties().setProperty("https.proxyPort", "56016");
 
-        // 读取返回内容
-        StringBuffer buffer = new StringBuffer();
-        try {
-            //一定要有返回值，否则无法把请求发送给server端。
-            BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream(), "UTF-8"));
-            String temp;
-            while ((temp = br.readLine()) != null) {
-                buffer.append(temp);
-                buffer.append("\n");
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        Connection conn = Jsoup.connect("https://t.co/Gpa2etffDz");
+        conn.userAgent(ClientUserAgent.getChromeUserAgent())
+                .timeout(ClientConfigure.TIMEOUT_FIVE_MINUTE)
+                .ignoreContentType(true)
+                .followRedirects(false);
+        Connection.Response response = conn.execute();
+        System.out.println("=======");
+        System.out.println("getComplianReportPage status:" + response.body());
+        Document doc = Jsoup.parse(response.body());
+        Elements elements = doc.select("title");
+//        String rgex = "abc(.*?)abc";
+//        System.out.println(getSubUtil(str,rgex));
+//        System.out.println(getSubUtilSimple(str, rgex));
 
-        return buffer.toString();
+//        Connection conn1 = Jsoup.connect("https://twitter.com/i/web/status/1017051899701485568");
+//        conn1.userAgent(ClientUserAgent.getChromeUserAgent())
+//                .timeout(ClientConfigure.TIMEOUT_FIVE_MINUTE)
+//                .ignoreContentType(true)
+//                .followRedirects(false);
+//        Connection.Response response1 = conn1.execute();
+//        System.out.print("getComplianReportPage status:" + response1.body());
     }
 
+    /**
+     * 正则表达式匹配两个指定字符串中间的内容
+     * @param soap
+     * @return
+     */
+    public static List<String> getSubUtil(String soap,String rgex){
+        List<String> list = new ArrayList<String>();
+        Pattern pattern = Pattern.compile(rgex);// 匹配的模式
+        Matcher m = pattern.matcher(soap);
+        while (m.find()) {
+            int i = 1;
+            list.add(m.group(i));
+            i++;
+        }
+        return list;
+    }
+
+    /**
+     * 返回单个字符串，若匹配到多个的话就返回第一个，方法与getSubUtil一样
+     * @param soap
+     * @param rgex
+     * @return
+     */
+    public static String getSubUtilSimple(String soap,String rgex){
+        Pattern pattern = Pattern.compile(rgex);// 匹配的模式
+        Matcher m = pattern.matcher(soap);
+        while(m.find()){
+            return m.group(1);
+        }
+        return "";
+    }
 
 }

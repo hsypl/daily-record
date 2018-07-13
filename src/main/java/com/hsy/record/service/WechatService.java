@@ -75,7 +75,6 @@ public class WechatService {
 
     public String reply(HttpServletRequest request) throws Exception {
         Map<String,String> result = XmlUtils.toMap(parseRequest(request).getBytes(),"UTF-8");
-        log.debug(GsonUtils.toJson(result));
         String fromUser = result.get("FromUserName");
         String toUser = result.get("ToUserName");
         result.remove("MsgId");
@@ -83,7 +82,6 @@ public class WechatService {
         result.put("Content",getContent(result.get("Content")));
         result.put("FromUserName",toUser);
         result.put("ToUserName",fromUser);
-        log.debug(GsonUtils.toJson(result));
         return XmlUtils.parseXML(result);
     }
 

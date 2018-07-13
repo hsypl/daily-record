@@ -34,7 +34,6 @@
                                         <div class="form-group label-floating">
                                             <label class="control-label">用户名</label>
                                             <form:input path="username" class="form-control"  />
-                                            <%--<input type="text" class="form-control" disabled>--%>
                                         </div>
                                     </div>
                                     <div class="col-md-3">

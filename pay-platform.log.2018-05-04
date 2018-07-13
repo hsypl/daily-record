@@ -1,0 +1,1 @@
+2018-05-04 11:29:12,821 WARN  [org.apache.http.client.protocol.ResponseProcessCookies-129] - Invalid cookie header: "Set-Cookie: visid_incap_1244263=otI1srjMS3KuNWQGpTglnHfT61oAAAAAQUIPAAAAAABXg+BXvVc8vZlzfSg+X4x1; expires=Fri, 03 May 2019 16:09:13 GMT; path=/; Domain=.cryptopia.co.nz". Invalid 'expires' attribute: Fri, 03 May 2019 16:09:13 GMT

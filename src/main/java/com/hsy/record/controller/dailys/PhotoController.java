@@ -11,6 +11,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Map;
 
@@ -30,7 +32,8 @@ public class PhotoController {
 
     @Command(value = MODULE_NAME + "-Index", isInlet = true, order = 1)
     @RequestMapping("/index")
-    public void index(Model model) throws HttpClientException {
+    public void index(Model model, HttpServletRequest request) throws HttpClientException {
+        log.debug(request.getSession().getServletContext().getRealPath("/file"));
     }
 
 }

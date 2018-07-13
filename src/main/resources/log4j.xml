@@ -19,19 +19,19 @@
 
 	<!-- specify the logging level for loggers from other libraries -->
 	<logger name="org.springframework">
-		<level value="WARN" />
+		<level value="DEBUG" />
 	</logger>
 	<logger name="org.springframework.transaction">
-		<level value="WARN" />
+		<level value="DEBUG" />
 	</logger>
 
 	<logger name="com.hsy.record">
-		<level value="WARN" />
+		<level value="DEBUG" />
 	</logger>
 
 	<!-- for all other loggers log only INFO and above log messages -->
 	<root>
-		<priority value="WARN" />
+		<priority value="DEBUG" />
 		<appender-ref ref="file" />
         <appender-ref ref="console" />
 	</root>

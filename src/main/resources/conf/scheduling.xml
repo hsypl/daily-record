@@ -28,7 +28,7 @@
                         fixed-delay="600000" initial-delay="10000"/>-->
         <!--<task:scheduled ref="monitorSchedule" method="start"-->
                         <!--fixed-delay="60000" initial-delay="10000"/>-->
-        <task:scheduled ref="symbolSchedule" method="start"
-                        fixed-delay="60000" initial-delay="7200"/>
+        <!--<task:scheduled ref="symbolSchedule" method="start"-->
+                        <!--fixed-delay="60000" initial-delay="7200"/>-->
     </task:scheduled-tasks>
 </beans>

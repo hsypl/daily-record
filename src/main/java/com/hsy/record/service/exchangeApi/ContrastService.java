@@ -28,9 +28,9 @@ public class ContrastService {
 
     private static final Logger log = LoggerFactory.getLogger(ContrastService.class);
 
-    private final static double DNA_DIS_PRICE = 0.000003;
+    private final static double DNA_DIS_PRICE = 0.0000015;
 
-    private final static double SNC_DIS_PRICE = 0.000003;
+    private final static double SNC_DIS_PRICE = 0.0000015;
 
     private final static double SMT_DIS_PRICE = 0.0000003;
 
@@ -66,9 +66,7 @@ public class ContrastService {
         smtExchange.add("okexService");
         smtExchange.add("huobiService");
         symbolExchangeList.put("dna",dnaExchange);
-        symbolExchangeList.put("powr",powrExchange);
         symbolExchangeList.put("snc",sncExchange);
-        symbolExchangeList.put("smt",smtExchange);
         disPrice.put("dna",DNA_DIS_PRICE);
         disPrice.put("snc",SNC_DIS_PRICE);
         disPrice.put("smt",SMT_DIS_PRICE);
